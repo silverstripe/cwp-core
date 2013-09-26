@@ -1,6 +1,88 @@
 <?php
 class CwpControllerExtension extends Extension implements PermissionProvider {
 
+	/**
+	 * This executes the passed callback with subsite filter disabled,
+	 * then enabled the filter again before returning the callback result
+	 * (or throwing the exception the callback raised)
+	 *
+	 * @param callback $callback - The callback to execute
+	 * @return mixed - The result of the callback
+	 * @throws Exception - Any exception the callback raised
+	 */
+	protected function callWithSubsitesDisabled($callback) {
+		$rv = null;
+
+		try {
+			if (class_exists('Subsite')) Subsite::disable_subsite_filter(true);
+			$rv = call_user_func($callback);
+		}
+		catch (Exception $e) {
+			if (class_exists('Subsite')) Subsite::disable_subsite_filter(false);
+			throw $e;
+		}
+
+		if (class_exists('Subsite')) Subsite::disable_subsite_filter(false);
+		return $rv;
+	}
+
+	/**
+	 * Trigger Basic Auth protection, except when there's a reason to bypass it
+	 *  - The source IP address is in the comma-seperated string in the constant CWP_IP_BYPASS_BASICAUTH
+	 *    (so Pingdom, etc, can access the site)
+	 *  - There is an identifiable member, that member has the ACCESS_UAT_SERVER permission, and they're trying
+	 *    to access a white-list of URLs (so people following a reset password link can reset their password)
+	 */
+	protected function triggerBasicAuthProtection() {
+		$allowWithoutAuth = false;
+
+		// Allow whitelisting IPs for bypassing the basic auth.
+		if (defined('CWP_IP_BYPASS_BASICAUTH')) {
+			$remote = $_SERVER['REMOTE_ADDR'];
+			$bypass = explode(',', CWP_IP_BYPASS_BASICAUTH);
+			if (in_array($remote, $bypass)) {
+				$allowWithoutAuth = true;
+			}
+		}
+
+		// First, see if we can get a member to act on, either from a changepassword token or the session
+		if (isset($_REQUEST['m']) && isset($_REQUEST['t'])) {
+			$member = Member::get()->filter('ID', (int)$_REQUEST['m'])->First();
+			if (!$member->validateAutoLoginToken($_REQUEST['t'])) $member = null;
+		}
+		else if (Session::get('AutoLoginHash')) {
+			$member = Member::member_from_autologinhash(Session::get('AutoLoginHash'));
+		}
+		else {
+			$member = Member::currentUser();
+		}
+
+		// Then, if they have the right permissions, check the allowed URLs
+		$existingMemberCanAccessUAT = $member && $this->callWithSubsitesDisabled(function() use ($member){
+			return Permission::checkMember($member, 'ACCESS_UAT_SERVER');
+		});
+
+		if ($existingMemberCanAccessUAT) {
+			$allowed = array(
+				'/^Security\/changepassword/',
+				'/^Security\/ChangePasswordForm/'
+			);
+
+			$relativeURL = Director::makeRelative(Director::absoluteURL($_SERVER['REQUEST_URI']));
+
+			foreach($allowed as $pattern) {
+				$allowWithoutAuth = $allowWithoutAuth || preg_match($pattern, $relativeURL);
+			}
+		}
+
+		// Finally if they weren't allowed to bypass Basic Auth, trigger it
+		if (!$allowWithoutAuth) {
+			$this->callWithSubsitesDisabled(function(){
+				BasicAuth::requireLogin("Please log in with your CMS credentials", 'ACCESS_UAT_SERVER', true);
+			});
+		}
+	}
+
 	public function onBeforeInit() {
 		// redirect some requests to the secure domain
 		if(defined('CWP_SECURE_DOMAIN') && !Director::is_https()) {
@@ -20,51 +102,8 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 			));
 		}
 
-		// We turn on Basic Auth in testing mode, _except_ that we allow access to the change password
-		// form for administrators
-		if(Director::isTest()) {
-			$allowWithoutAuth = false;
-
-			// Allow whitelisting IPs for bypassing the basic auth.
-			if (defined('CWP_IP_BYPASS_BASICAUTH')) {
-				$remote = $_SERVER['REMOTE_ADDR'];
-				$bypass = explode(',', CWP_IP_BYPASS_BASICAUTH);
-				if (in_array($remote, $bypass)) {
-					$allowWithoutAuth = true;
-				}
-			}
-
-			// First, see if we can get a member to act on, either from a changepassword token or the session
-			if (isset($_REQUEST['m']) && isset($_REQUEST['t'])) {
-				$member = Member::get()->filter('ID', (int)$_REQUEST['m'])->First();
-				if (!$member->validateAutoLoginToken($_REQUEST['t'])) $member = null;
-			}
-			else if (Session::get('AutoLoginHash')) {
-				$member = Member::member_from_autologinhash(Session::get('AutoLoginHash'));
-			}
-			else {
-				$member = Member::currentUser();
-			}
-
-			// Then, if they have the right permissions, check the allowed URLs
-			if ($member && Permission::checkMember($member, 'ACCESS_UAT_SERVER')) {
-				$allowed = array(
-					'/^Security\/changepassword/',
-					'/^Security\/ChangePasswordForm/'
-				);
-
-				$relativeURL = Director::makeRelative(Director::absoluteURL($_SERVER['REQUEST_URI']));
-
-				foreach($allowed as $pattern) {
-					$allowWithoutAuth = $allowWithoutAuth || preg_match($pattern, $relativeURL);
-				}
-			}
-
-			// Finally if they weren't allowed to bypass Basic Auth, trigger it
-			if (!$allowWithoutAuth) {
-				BasicAuth::requireLogin("Please log in with your CMS credentials", 'ACCESS_UAT_SERVER', true);
-			}
-		}
+		// Turn on Basic Auth in testing mode
+		if(Director::isTest()) $this->triggerBasicAuthProtection();
 	}
 
 	function providePermissions() {
