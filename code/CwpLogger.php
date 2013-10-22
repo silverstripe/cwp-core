@@ -159,8 +159,12 @@ class CwpLogger extends SiteTreeExtension {
 		}
 
 		$effectiveEditorGroups = '';
-		if($this->owner->CanEditType == 'OnlyTheseUsers') {
-			$effectiveEditorGroups = implode(array_values($original->EditorGroups()->map('ID', 'Title')->toArray()), ', ');
+		if($this->owner->CanEditType == 'OnlyTheseUsers' && $original->EditorGroups()->exists()) {
+			$groups = array();
+			foreach($original->EditorGroups() as $group) {
+				$groups[$group->ID] = $group->Title;
+			}
+			$effectiveEditorGroups = implode(array_values($groups), ', ');
 		}
 		if(!$effectiveEditorGroups) {
 			$effectiveEditorGroups = $this->owner->CanEditType;
