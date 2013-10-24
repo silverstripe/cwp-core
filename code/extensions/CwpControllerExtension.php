@@ -78,7 +78,11 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 		// Finally if they weren't allowed to bypass Basic Auth, trigger it
 		if (!$allowWithoutAuth) {
 			$this->callWithSubsitesDisabled(function(){
-				BasicAuth::requireLogin("Please log in with your CMS credentials", 'ACCESS_UAT_SERVER', true);
+				BasicAuth::requireLogin(
+					_t('Cwp.LoginPrompt', "Please log in with your CMS credentials"), 
+					'ACCESS_UAT_SERVER', 
+					true
+				);
 			});
 		}
 	}
@@ -108,7 +112,10 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 
 	function providePermissions() {
 		return array(
-			'ACCESS_UAT_SERVER' => 'Allow users to use their accounts to access the UAT server'
+			'ACCESS_UAT_SERVER' => _t(
+				'Cwp.UatServerPermission',
+				'Allow users to use their accounts to access the UAT server'
+			)
 		);
 	}
 
