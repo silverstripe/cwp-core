@@ -2,6 +2,29 @@
 class CwpControllerExtension extends Extension implements PermissionProvider {
 
 	/**
+	 * Enables SSL redirections - disabling not recommended as it will prevent forcing SSL on admin panel.
+	 */
+	static $ssl_redirection_enabled = true;
+
+	/**
+	 * Specify a domain to redirect the vulnerable areas to.
+	 *
+	 * If left as null, live instance will set this to <instance-id>.cwp.govt.nz via CWP_SECURE_DOMAIN in _config.php.
+	 * This allows us to automatically protect vulnerable areas on live even if the frontend cert is not installed.
+	 *
+	 * Set to false to redirect to https protocol on current domain (e.g. if you have frontend cert).
+	 *
+	 * Set to a domain string (e.g. 'example.com') to force that domain.
+	 */
+	static $ssl_redirection_force_domain = null;
+
+	/**
+	 * Enables the BasicAuth protection on all test environments. Disable with caution - it will open up
+	 * all your UAT and test environments to the world.
+	 */
+	static $test_basicauth_enabled = true;
+
+	/**
 	 * This executes the passed callback with subsite filter disabled,
 	 * then enabled the filter again before returning the callback result
 	 * (or throwing the exception the callback raised)
@@ -88,14 +111,18 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 	}
 
 	public function onBeforeInit() {
-		// redirect some requests to the secure domain
-		if(defined('CWP_SECURE_DOMAIN') && !Director::is_https()) {
-			Director::forceSSL(array('/^Security/', '/^api/'), CWP_SECURE_DOMAIN);
-			// Note 1: the platform always redirects "/admin" to CWP_SECURE_DOMAIN regardless of what you set here
-			// Note 2: if you have your own certificate installed, you can use your own domain, just omit the second parameter:
-			//   Director::forceSSL(array('/^Security/', '/^api/'));
-			//
-			// See Director::forceSSL for more information.
+
+		if (Config::inst()->get('CwpControllerExtension', 'ssl_redirection_enabled')) {
+			// redirect some vulnerable areas to the secure domain
+			if(!Director::is_https()) {
+				$forceDomain = Config::inst()->get('CwpControllerExtension', 'ssl_redirection_force_domain');
+
+				if ($forceDomain) {
+					Director::forceSSL(array('/^Security/', '/^api/'), $forceDomain);
+				} else {
+					Director::forceSSL(array('/^Security/', '/^api/'));
+				}
+			}
 		}
 
 		// if there's a proxy setting in the environment, configure RestfulService to use it
@@ -106,8 +133,10 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 			));
 		}
 
-		// Turn on Basic Auth in testing mode
-		if(Director::isTest()) $this->triggerBasicAuthProtection();
+		if (Config::inst()->get('CwpControllerExtension', 'test_basicauth_enabled')) {
+			// Turn on Basic Auth in testing mode
+			if(Director::isTest()) $this->triggerBasicAuthProtection();
+		}
 	}
 
 	function providePermissions() {
