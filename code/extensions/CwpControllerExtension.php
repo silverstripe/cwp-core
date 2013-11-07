@@ -111,16 +111,18 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 	}
 
 	public function onBeforeInit() {
+		// Grab global injectable service to allow testing.
+		$director = Injector::inst()->get('Director');
 
 		if (Config::inst()->get('CwpControllerExtension', 'ssl_redirection_enabled')) {
 			// redirect some vulnerable areas to the secure domain
-			if(!Director::is_https()) {
+			if(!$director::is_https()) {
 				$forceDomain = Config::inst()->get('CwpControllerExtension', 'ssl_redirection_force_domain');
 
 				if ($forceDomain) {
-					Director::forceSSL(array('/^Security/', '/^api/'), $forceDomain);
+					$director::forceSSL(array('/^Security/', '/^api/'), $forceDomain);
 				} else {
-					Director::forceSSL(array('/^Security/', '/^api/'));
+					$director::forceSSL(array('/^Security/', '/^api/'));
 				}
 			}
 		}
@@ -135,7 +137,7 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 
 		if (Config::inst()->get('CwpControllerExtension', 'test_basicauth_enabled')) {
 			// Turn on Basic Auth in testing mode
-			if(Director::isTest()) $this->triggerBasicAuthProtection();
+			if($director::isTest()) $this->triggerBasicAuthProtection();
 		}
 	}
 

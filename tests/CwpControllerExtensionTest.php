@@ -2,7 +2,7 @@
 
 class CwpControllerExtensionTest extends SapphireTest {
 
-	function testRequiresLogin() {
+	function testRedirectsSSLToDomain() {
 		Session::set("loggedInAs", null);
 
 		$ctrl = new Controller();
@@ -10,7 +10,62 @@ class CwpControllerExtensionTest extends SapphireTest {
 		$dataModel = new DataModel();
 
 		Config::inst()->nest();
-		Config::inst()->update('Director', 'environment_type', 'test');
+
+		$directorClass = $this->getMockClass('Director', array('forceSSL', 'is_https'));
+		Injector::inst()->registerNamedService('Director', new $directorClass);
+
+		// Expecting this to call forceSSL to forcedomain.org.
+		$directorClass::staticExpects($this->any())
+			->method('is_https')
+			->will($this->returnValue(false));
+		$directorClass::staticExpects($this->once())
+			->method('forceSSL')
+			->with($this->anything(), $this->equalTo('forcedomain.org'));
+
+		Config::inst()->update('CwpControllerExtension', 'ssl_redirection_force_domain', 'forcedomain.org');
+		$response = $ctrl->handleRequest($req, $dataModel);
+
+		Injector::inst()->unregisterAllObjects();
+		Config::inst()->unnest();
+	}
+
+	function testRedirectsSSLToCurrentDomain() {
+		Session::set("loggedInAs", null);
+
+		$ctrl = new Controller();
+		$req = new SS_HTTPRequest('GET', '/');
+		$dataModel = new DataModel();
+
+		$directorClass = $this->getMockClass('Director', array('forceSSL', 'is_https'));
+		Injector::inst()->registerNamedService('Director', new $directorClass);
+
+		// Expecting this to call forceSSL to current domain.
+		$directorClass::staticExpects($this->any())
+			->method('is_https')
+			->will($this->returnValue(false));
+		$directorClass::staticExpects($this->once())
+			->method('forceSSL')
+			->with($this->anything());
+
+		Config::inst()->update('CwpControllerExtension', 'ssl_redirection_force_domain', false);
+		$response = $ctrl->handleRequest($req, $dataModel);
+
+		Injector::inst()->unregisterAllObjects();
+	}
+
+	function testRequiresLoginForTest() {
+		Session::set("loggedInAs", null);
+
+		$ctrl = new Controller();
+		$req = new SS_HTTPRequest('GET', '/');
+		$dataModel = new DataModel();
+
+		$directorClass = $this->getMockClass('Director', array('isTest'));
+		Injector::inst()->registerNamedService('Director', new $directorClass);
+
+		$directorClass::staticExpects($this->any())
+			->method('isTest')
+			->will($this->returnValue(true));
 
 		try {
 			$response = $ctrl->handleRequest($req, $dataModel);
@@ -22,11 +77,25 @@ class CwpControllerExtensionTest extends SapphireTest {
 			$ctrl->popCurrent();
 		}
 
-		Config::inst()->update('Director', 'environment_type', 'live');
+	}
+
+	function testRequiresLoginForNonTest() {
+		Session::set("loggedInAs", null);
+
+		$ctrl = new Controller();
+		$req = new SS_HTTPRequest('GET', '/');
+		$dataModel = new DataModel();
+
+		$directorClass = $this->getMockClass('Director', array('isTest'));
+		Injector::inst()->registerNamedService('Director', new $directorClass);
+
+		$directorClass::staticExpects($this->any())
+			->method('isTest')
+			->will($this->returnValue(false));
+
 		$response = $ctrl->handleRequest($req, $dataModel);
 		$this->assertEquals($response->getStatusCode(), '200', 'Does not force BasicAuth on live');
 
-		Config::inst()->unnest();
 	}
 
 }
