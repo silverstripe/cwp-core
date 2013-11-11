@@ -1,0 +1,6 @@
+---
+Only:
+  environment: dev
+---
+CwpControllerExtension:
+  ssl_redirection_enabled: false
