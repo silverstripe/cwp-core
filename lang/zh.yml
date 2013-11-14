@@ -1,0 +1,6 @@
+zh:
+  Cwp:
+    LoginPrompt: '轻使用您的 CMS 证书登录'
+    UatServerPermission: '允许用户使用它们的帐户访问 UAT 服务器'
+  RichLinks:
+    OpenLinkTitle: '打开外部链接'
