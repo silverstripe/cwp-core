@@ -22,6 +22,7 @@ class CwpControllerExtensionTest extends SapphireTest {
 			->method('forceSSL')
 			->with($this->anything(), $this->equalTo('forcedomain.org'));
 
+		Config::inst()->update('CwpControllerExtension', 'ssl_redirection_enabled', true);
 		Config::inst()->update('CwpControllerExtension', 'ssl_redirection_force_domain', 'forcedomain.org');
 		$response = $ctrl->handleRequest($req, $dataModel);
 
@@ -47,6 +48,7 @@ class CwpControllerExtensionTest extends SapphireTest {
 			->method('forceSSL')
 			->with($this->anything());
 
+		Config::inst()->update('CwpControllerExtension', 'ssl_redirection_enabled', true);
 		Config::inst()->update('CwpControllerExtension', 'ssl_redirection_force_domain', false);
 		$response = $ctrl->handleRequest($req, $dataModel);
 
