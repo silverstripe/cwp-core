@@ -83,7 +83,7 @@ class CwpSolr {
 
 			'indexstore' => array(
 				'mode' => 'CwpSolrConfigStore',
-				'path' => ''
+				'path' => ($version === 'cwp-3') ? '/v3' : '/v4'
 			)
 		);
 	}
