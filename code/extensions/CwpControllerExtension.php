@@ -127,14 +127,6 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 			}
 		}
 
-		// if there's a proxy setting in the environment, configure RestfulService to use it
-		if(defined('SS_OUTBOUND_PROXY')) {
-			Config::inst()->update('RestfulService', 'default_curl_options', array(
-				CURLOPT_PROXY => SS_OUTBOUND_PROXY,
-				CURLOPT_PROXYPORT => SS_OUTBOUND_PROXY_PORT
-			));
-		}
-
 		if (Config::inst()->get('CwpControllerExtension', 'test_basicauth_enabled')) {
 			// Turn on Basic Auth in testing mode
 			if($director::isTest()) $this->triggerBasicAuthProtection();
