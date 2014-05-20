@@ -1,3 +1,3 @@
 {
-    "CWP.SPECIFYALTTEXT": "%s has no alt text which is required for non-decorative images.\n\nAre you sure you want to update?"
+    "CWP.SPECIFYALTTEXT": "Kohteella %s ei ole ALT-tekstiä, joka tulisi olla kaikilla ei kuvitukseksi tarkoitetuilla kuvilla.\n\nHaluatko varmasti päivittää?"
 }

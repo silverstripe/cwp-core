@@ -1,1 +1,6 @@
-fi: {}
+fi:
+  Cwp:
+    LoginPrompt: 'Ole hyvä ja kirjaudu CMS-tunnuksillasi'
+    UatServerPermission: 'Salli käyttäjien pääsy tilin avulla UAT-serverille'
+  RichLinks:
+    OpenLinkTitle: 'Avaa ulkoinen linkki'
