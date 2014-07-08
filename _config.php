@@ -150,3 +150,8 @@ if (is_null(Config::inst()->get('CwpControllerExtension', 'ssl_redirection_force
 		Config::inst()->update('CwpControllerExtension', 'ssl_redirection_force_domain', false);
 	}
 }
+
+// @todo session_keepalive_ping isn't set correctly if you define it in YAML. This is a workaround until the
+// framework gets upgraded to a newer version in composer.
+Config::inst()->update('LeftAndMain', 'session_keepalive_ping', false);
+
