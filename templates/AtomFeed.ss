@@ -4,7 +4,7 @@
 	<link href="$Link" rel="self" />
 	<link href="$BaseHref" />
 	<id>$Link.XML</id>
-	<updated><% loop Entries %><% if First %>$LastEdited.Rfc3339<% end_if %><% end_loop %></updated>
+	<updated><% if Entries %><% loop Entries %><% if First %>$LastEdited.Rfc3339<% end_if %><% end_loop %><% else %>$Now.Rfc3339<% end_if %></updated>
 	<author><name><% if Author %>$Author.XML<% end_if %></name></author>
 	<% loop $Entries %>
 		<entry>
