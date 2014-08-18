@@ -155,3 +155,9 @@ if (is_null(Config::inst()->get('CwpControllerExtension', 'ssl_redirection_force
 // framework gets upgraded to a newer version in composer.
 Config::inst()->update('LeftAndMain', 'session_keepalive_ping', false);
 
+// Automatically configure session key for activedr with hybridsessions module
+if(defined('CWP_INSTANCE_DR_TYPE') && CWP_INSTANCE_DR_TYPE === 'active'
+	&& defined('SS_SESSION_KEY') && class_exists('HybridSessionStore')
+) {
+	HybridSessionStore::init(SS_SESSION_KEY);
+}
