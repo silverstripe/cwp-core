@@ -64,7 +64,7 @@ $cwpEditor->setOptions(array(
 		. "-h4[id|dir|class|align|style],-h5[id|dir|class|align|style],-h6[id|dir|class|align|style],hr[class],"
 		. "dd[id|class|title|dir],dl[id|class|title|dir],dt[id|class|title|dir],@[id,style,class]",
 	'extended_valid_elements' =>
-		'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|usemap|data*],'
+		'img[class|src|alt|title|hspace|vspace|width|height|align|name|usemap|data*],'
 		. 'object[classid|codebase|width|height|data|type],'
 		. 'embed[width|height|name|flashvars|src|bgcolor|align|play|loop|quality|allowscriptaccess|type|pluginspage|autoplay],'
 		. 'param[name|value],'
