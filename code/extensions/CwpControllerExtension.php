@@ -132,13 +132,6 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 			if($director::isTest()) $this->triggerBasicAuthProtection();
 		}
 	}
-	
-	public function onAfterInit() {
-		if(class_exists('UserDefinedForm_Controller') && $this->owner instanceof UserDefinedForm_Controller) {
-			// Add extensions to jquery validate for userform
-			Requirements::javascript('cwp-core/javascript/CustomValidation.js');
-		}
-	}
 
 	function providePermissions() {
 		return array(
