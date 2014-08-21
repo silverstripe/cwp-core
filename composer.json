@@ -6,6 +6,6 @@
 		"composer/installers": "*",
 		"silverstripe/cms": "~3.1",
 		"silverstripe/framework": "~3.1",
-		"silverstripe/hybridsessions": "dev-master"
+		"silverstripe/hybridsessions": "1.0.3"
 	}
 }
