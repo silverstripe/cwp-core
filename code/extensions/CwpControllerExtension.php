@@ -25,6 +25,12 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 	static $test_basicauth_enabled = true;
 
 	/**
+	 * Enables the BasicAuth protection on all live environments.
+	 * Useful for securing sites prior to public launch.
+	 */
+	static $live_basicauth_enabled = false;
+
+	/**
 	 * This executes the passed callback with subsite filter disabled,
 	 * then enabled the filter again before returning the callback result
 	 * (or throwing the exception the callback raised)
@@ -130,6 +136,11 @@ class CwpControllerExtension extends Extension implements PermissionProvider {
 		if (Config::inst()->get('CwpControllerExtension', 'test_basicauth_enabled')) {
 			// Turn on Basic Auth in testing mode
 			if($director::isTest()) $this->triggerBasicAuthProtection();
+		}
+
+		if (Config::inst()->get('CwpControllerExtension', 'live_basicauth_enabled')) {
+			// Turn on Basic Auth in live mode
+			if($director::isLive()) $this->triggerBasicAuthProtection();
 		}
 	}
 

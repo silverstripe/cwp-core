@@ -100,5 +100,39 @@ class CwpControllerExtensionTest extends SapphireTest {
 
 	}
 
+	function testRequiresLoginForLiveWhenEnabled() {
+		Session::set("loggedInAs", null);
+
+		$ctrl = new Controller();
+		$req = new SS_HTTPRequest('GET', '/');
+		$dataModel = new DataModel();
+
+		Config::inst()->nest();
+
+		Config::inst()->update('CwpControllerExtension', 'live_basicauth_enabled', true);
+		$directorClass = $this->getMockClass('Director', array('isTest', 'isLive'));
+		Injector::inst()->registerNamedService('Director', new $directorClass);
+
+		$directorClass::staticExpects($this->any())
+			->method('isTest')
+			->will($this->returnValue(false));
+
+		$directorClass::staticExpects($this->any())
+			->method('isLive')
+			->will($this->returnValue(true));
+
+		try {
+			$response = $ctrl->handleRequest($req, $dataModel);
+		} catch (Exception $e) {
+			$this->assertEquals($e->getResponse()->getStatusCode(), '401', 'Forces BasicAuth on live (optionally)');
+
+			// We need to pop manually, since throwing an SS_HTTPResponse_Exception in onBeforeInit hijacks
+			// the normal Controller control flow and confuses TestRunner (as they share global controller stack).
+			$ctrl->popCurrent();
+		}
+
+		Config::inst()->unnest();
+	}
+
 }
 
