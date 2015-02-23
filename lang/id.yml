@@ -1,1 +1,8 @@
-id: {}
+id:
+  CwpStatsReport:
+    Count: Hitung
+    FileCount: 'Hitung Berkas'
+    Name: Nama
+    Title: 'Ringkasan statistik'
+  RichLinks:
+    OpenLinkTitle: 'Buka tautan luar'
