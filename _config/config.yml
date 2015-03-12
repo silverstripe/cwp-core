@@ -37,3 +37,15 @@ Member:
   lock_out_delay_mins: 15
 CwpInitialisationFilter:
   egress_proxy_default_enabled: true
+EnvironmentCheckSuite:
+  registered_checks:
+    db:
+      definition: 'DatabaseCheck()'
+      title: 'Is the database accessible?'
+    solr:
+      definition: 'SolrIndexCheck()'
+      title: 'Are all Solr indexes available?'
+  registered_suites:
+    health:
+      - db
+      - solr
