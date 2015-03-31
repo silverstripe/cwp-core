@@ -1,6 +1,8 @@
 ---
 Name: cwpcoreconfig
-After: 'framework/*','cms/*'
+After:
+  - 'framework/*'
+  - 'cms/*'
 ---
 Injector:
   RequestProcessor:
@@ -31,6 +33,8 @@ LeftAndMain:
 PasswordField:
   autocomplete: false
 Security:
+  extensions:
+    - CwpSecurity
   login_recording: false
 Member:
   lock_out_after_incorrect_logins: 5
