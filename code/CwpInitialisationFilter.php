@@ -15,8 +15,12 @@ class CwpInitialisationFilter implements RequestFilter {
 	/**
 	 * @var array Configure the list of domains to bypass proxy by setting the NO_PROXY environment variable.
 	 * 'services.cwp.govt.nz' needs to be present for Solr and Docvert internal CWP integration.
+	 * 'localhost' is necessary for accessing services on the same instance such as tika-server for text extraction.
 	 */
-	private static $egress_proxy_exclude_domains = array('services.cwp.govt.nz');
+	private static $egress_proxy_exclude_domains = array(
+		'services.cwp.govt.nz',
+		'localhost'
+	);
 
 	public function preRequest(SS_HTTPRequest $request, Session $session, DataModel $model) {
 
