@@ -1,0 +1,11 @@
+---
+Name: cwptextextraction
+After: '#textextraction'
+Only:
+  moduleexists: textextraction
+---
+Injector:
+  FileTextCache: FileTextCache_SSCache
+File:
+  extensions:
+    - FileTextExtractable
