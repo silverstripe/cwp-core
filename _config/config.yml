@@ -41,6 +41,8 @@ Member:
   lock_out_delay_mins: 15
 CwpInitialisationFilter:
   egress_proxy_default_enabled: true
+QueuedJobsService:
+  time_limit: 600
 EnvironmentCheckSuite:
   registered_checks:
     db:
