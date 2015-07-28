@@ -1,0 +1,7 @@
+---
+Name: cwpqueuedjobsconfig
+Only:
+  moduleexists: queuedjobs
+---
+ProcessJobQueueTask:
+  engine: 'doorman'
