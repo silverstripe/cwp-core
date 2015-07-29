@@ -1,7 +1,10 @@
 ---
 Name: cwpqueuedjobsconfig
 Only:
-  moduleexists: queuedjobs
+  ModuleExists: queuedjobs
+After: '#queuedjobsettings'
 ---
-ProcessJobQueueTask:
-  engine: 'doorman'
+Injector:
+  ProcessJobQueueTask:
+    properties:
+      TaskRunner: %$DoormanRunner
