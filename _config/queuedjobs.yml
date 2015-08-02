@@ -5,6 +5,6 @@ Only:
 After: '#queuedjobsettings'
 ---
 Injector:
-  ProcessJobQueueTask:
-    properties:
-      TaskRunner: %$DoormanRunner
+  QueuedJobService:
+    properties: 
+      queueRunner: %$DoormanRunner
