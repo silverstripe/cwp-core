@@ -16,10 +16,10 @@ class CwpSolr {
 	/**
 	 * Configure Solr.
 	 *
-	 * $cwpOptions - An array consisting of:
+	 * $options - An array consisting of:
 	 *
+	 * 'extraspath' - (String) Where to find Solr core configuartion files. Defaults to '<BASE_PATH>/mysite/conf/extras'.
 	 * 'version' - select the Solr configuration to use when in CWP. One of:
-	 *
 	 * * 'legacy': legacy mode for backwards-compatibility. Do not use unless strictly necessary, will be removed.
 	 * * 'cwp-4': preferred version, uses secured 4.x service available on CWP
 	 * * 'cwp-3': uses secured 3.x service available on CWP (buggy)
@@ -29,8 +29,10 @@ class CwpSolr {
 	static function configure() {
 		if(!class_exists('Solr')) return;
 
+		// get options from configuration
 		$options = Config::inst()->get('CwpSolr', 'options');
 
+		// get version specific options
 		switch($options['version']) {
 			case 'cwp-4':
 			case 'cwp-3':
@@ -46,7 +48,11 @@ class CwpSolr {
 				break;
 		}
 
-		if(file_exists(BASE_PATH.'/mysite/conf/extras')) {
+		// use extraspath user configuration
+		if (isset($options['extraspath']) && file_exists($options['extraspath'])) {
+			$solrOptions['extraspath'] = $options['extraspath'];
+		// else test and set default extraspath
+		} elseif (file_exists(BASE_PATH.'/mysite/conf/extras')) {
 			$solrOptions['extraspath'] = BASE_PATH.'/mysite/conf/extras';
 		}
 
