@@ -140,7 +140,7 @@ class CwpLogger extends SiteTreeExtension {
 	 */
 	public static function log($message) {
 		if(isset($_SERVER['HTTP_REFERER'])) $message .= sprintf(' (Referer: %s)', $_SERVER['HTTP_REFERER']);
-		SS_Log::log($message, self::PRIORITY);
+		SS_Log::log(CwpLoggerFormatter::sanitise($message), self::PRIORITY);
 	}
 
 	/**
