@@ -1,1 +1,10 @@
-de: {}
+de:
+  Cwp:
+    LoginPrompt: 'Bitte melden Sie sich mit Ihren CMS-Anmeldedaten an'
+  CwpStatsReport:
+    FileCount: 'Dateianzahl'
+    Name: Name
+    PagesForMainSite: '- auf der Hauptseite'
+    PagesForSubsite: '- auf der Unterseite ''{SubsiteTitle}'''
+  RichLinks:
+    OpenLinkTitle: 'Externen Link öffnen'
