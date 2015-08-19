@@ -139,6 +139,23 @@ class CwpLoggerTest extends SapphireTest {
 		$this->assertContains('My page', $message);
 	}
 
+	/**
+	 * Test log message sanitisation
+	 */
+	public function testSanitisation() {
+		$this->logInWithPermission('ADMIN');
+
+		$page = new Page();
+		$page->Title = "My\npage\r\nYour Page";
+		$page->Content = 'This is my page content';
+		$page->doPublish();
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('published page', $message);
+		$this->assertContains('My page Your Page', $message);
+	}
+
 	public function testUnpublishPage() {
 		$this->logInWithPermission('ADMIN');
 

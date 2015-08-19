@@ -14,7 +14,18 @@ class CwpLoggerFormatter extends SS_LogErrorFileFormatter {
 	}
 
 	public function format($event) {
-		return sprintf('%s %s', $this->getClientIP(), $event['message']['errstr']) . PHP_EOL;
+		$message = sprintf('%s %s', $this->getClientIP(), $event['message']['errstr']);
+		return self::sanitise($message) . PHP_EOL;
+	}
+
+	/**
+	 * Helper method to sanitise output text which may contain linebreaks
+	 *
+	 * @param string $message
+	 * @return string Sanitised message
+	 */
+	public static function sanitise($message) {
+		return preg_replace('~\s+~u', ' ', $message);
 	}
 
 }
