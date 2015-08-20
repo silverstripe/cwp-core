@@ -228,6 +228,10 @@ class CwpLogger extends SiteTreeExtension {
 	 * Log permission failures (where the status is set after init of page)
 	 */
 	public function onAfterInit() {
+		// Suppress errors if dev/build necessary
+		if(!Security::database_is_ready()) {
+			return false;
+		}
 		$currentMember = Member::currentUser();
 		if(!($currentMember && $currentMember->exists())) return false;
 
