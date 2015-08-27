@@ -33,7 +33,16 @@ class CwpLogger extends SiteTreeExtension {
 
 		require_once($file);
 
+		/** @var SS_Database $captured */
 		$captured = new $dbClass($databaseConfig);
+
+		// Framework 3.2+ ORM needs some dependencies set
+		if (method_exists($captured, "setConnector")) {
+			$captured->setConnector($current->getConnector());
+			$captured->setQueryBuilder($current->getQueryBuilder());
+			$captured->setSchemaManager($current->getSchemaManager());
+		}
+
 		// The connection might have had it's name changed (like if we're currently in a test)
 		$captured->selectDatabase($current->currentDatabase());
 
