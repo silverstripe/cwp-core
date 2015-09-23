@@ -220,6 +220,17 @@ class CwpLogger extends SiteTreeExtension {
 	}
 
 	/**
+	 * Log successfully restored sessions from "remember me" cookies ("auto login").
+	 */
+	public function memberAutoLoggedIn() {
+		self::log(sprintf(
+			'"%s" (ID: %s) successfully restored autologin session',
+			$this->owner->Email ?: $this->owner->Title,
+			$this->owner->ID
+		));
+	}	
+
+	/**
 	 * Log failed login attempts.
 	 */
 	public function authenticationFailed($data) {

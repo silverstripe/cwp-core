@@ -24,6 +24,18 @@ class CwpLoggerTest extends SapphireTest {
 		$this->assertContains('successfully logged in', $message);
 	}
 
+	public function testAutoLoggingIn() {
+		// Simulate an autologin by calling the extension hook directly.
+		// Member->autoLogin() relies on session and cookie state which we can't simulate here.
+		$this->logInWithPermission('ADMIN');
+		$member = Member::get()->filter(array('Email' => 'ADMIN@example.org'))->first();
+		$member->extend('memberAutoLoggedIn');
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('successfully restored autologin', $message);
+	}
+
 	public function testLoggingOut() {
 		$this->logInWithPermission('ADMIN');
 
