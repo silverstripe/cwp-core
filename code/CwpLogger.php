@@ -246,6 +246,40 @@ class CwpLogger extends SiteTreeExtension {
 	}
 
 	/**
+	 * Log a record being deleted.
+	 */
+	public function onAfterDelete() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) deleted %s "%s" (ID: %s)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID
+		));
+	}
+
+	/**
+	 * Log a record being restored to stage.
+	 */
+	public function onAfterRestoreToStage() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) restored %s "%s" to stage (ID: %s)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID
+		));
+	}
+
+	/**
 	 * Log successful login attempts.
 	 */
 	public function memberLoggedIn() {
