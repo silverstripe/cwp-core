@@ -147,7 +147,7 @@ class CwpLoggerTest extends SapphireTest {
 
 		$message = $this->writer->getLastMessage();
 		$this->assertContains('ADMIN@example.org', $message);
-		$this->assertContains('published page', $message);
+		$this->assertContains('published Page', $message);
 		$this->assertContains('My page', $message);
 	}
 
@@ -164,7 +164,7 @@ class CwpLoggerTest extends SapphireTest {
 
 		$message = $this->writer->getLastMessage();
 		$this->assertContains('ADMIN@example.org', $message);
-		$this->assertContains('published page', $message);
+		$this->assertContains('published Page', $message);
 		$this->assertContains('My page Your Page', $message);
 	}
 
@@ -180,7 +180,9 @@ class CwpLoggerTest extends SapphireTest {
 
 		$message = $this->writer->getLastMessage();
 		$this->assertContains('ADMIN@example.org', $message);
-		$this->assertContains('unpublished page', $message);
+		$this->assertContains('unpublished Page', $message);
+		$this->assertContains('My page', $message);
+	}
 		$this->assertContains('My page', $message);
 	}
 

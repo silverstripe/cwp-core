@@ -153,7 +153,7 @@ class CwpLogger extends SiteTreeExtension {
 	}
 
 	/**
-	 * Log a page being published.
+	 * Log a record being published.
 	 */
 	public function onAfterPublish(&$original) {
 		$member = Member::currentUser();
@@ -180,9 +180,10 @@ class CwpLogger extends SiteTreeExtension {
 		}
 
 		self::log(sprintf(
-			'"%s" (ID: %s) published page "%s" (ID: %s, Version: %s, ClassName: %s, Effective ViewerGroups: %s, Effective EditorGroups: %s)',
+			'"%s" (ID: %s) published %s "%s" (ID: %s, Version: %s, ClassName: %s, Effective ViewerGroups: %s, Effective EditorGroups: %s)',
 			$member->Email ?: $member->Title,
 			$member->ID,
+			$this->owner->singular_name(),
 			$this->owner->Title,
 			$this->owner->ID,
 			$this->owner->Version,
@@ -193,16 +194,21 @@ class CwpLogger extends SiteTreeExtension {
 	}
 
 	/**
-	 * Log a page being unpublished.
+	 * Log a record being unpublished.
 	 */
 	public function onAfterUnpublish() {
 		$member = Member::currentUser();
 		if(!($member && $member->exists())) return false;
 
 		self::log(sprintf(
-			'"%s" (ID: %s) unpublished page "%s" (ID: %s)',
+			'"%s" (ID: %s) unpublished %s "%s" (ID: %s)',
 			$member->Email ?: $member->Title,
 			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID
+		));
+	}
 			$this->owner->Title,
 			$this->owner->ID
 		));
