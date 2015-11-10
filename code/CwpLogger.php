@@ -209,6 +209,37 @@ class CwpLogger extends SiteTreeExtension {
 			$this->owner->ID
 		));
 	}
+
+	/**
+	 * Log a record being reverted to live.
+	 */
+	public function onAfterRevertToLive() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) reverted %s "%s" (ID: %s) to it\'s live version (#%d)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID,
+			$this->owner->Version
+		));
+	}
+
+	/**
+	 * Log a record being duplicated.
+	 */
+	public function onAfterDuplicate() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) duplicated %s "%s" (ID: %s)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
 			$this->owner->Title,
 			$this->owner->ID
 		));

@@ -183,6 +183,38 @@ class CwpLoggerTest extends SapphireTest {
 		$this->assertContains('unpublished Page', $message);
 		$this->assertContains('My page', $message);
 	}
+
+	public function testDuplicatePage() {
+		$this->logInWithPermission('ADMIN');
+
+		$page = new Page();
+		$page->Title = 'My page';
+		$page->Content = 'This is my page content';
+		$page->write();
+		$page->duplicate();
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('duplicated Page', $message);
+		$this->assertContains('My page', $message);
+	}
+
+	public function testRevertToLive() {
+		$this->logInWithPermission('ADMIN');
+
+		$page = new Page();
+		$page->Title = 'My page';
+		$page->Content = 'This is my page content';
+		$page->doPublish();
+
+		$page->Content = 'Changed';
+		$page->write();
+
+		$page->duplicate();
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('duplicated Page', $message);
 		$this->assertContains('My page', $message);
 	}
 
