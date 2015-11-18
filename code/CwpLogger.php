@@ -153,7 +153,7 @@ class CwpLogger extends SiteTreeExtension {
 	}
 
 	/**
-	 * Log a page being published.
+	 * Log a record being published.
 	 */
 	public function onAfterPublish(&$original) {
 		$member = Member::currentUser();
@@ -180,9 +180,10 @@ class CwpLogger extends SiteTreeExtension {
 		}
 
 		self::log(sprintf(
-			'"%s" (ID: %s) published page "%s" (ID: %s, Version: %s, ClassName: %s, Effective ViewerGroups: %s, Effective EditorGroups: %s)',
+			'"%s" (ID: %s) published %s "%s" (ID: %s, Version: %s, ClassName: %s, Effective ViewerGroups: %s, Effective EditorGroups: %s)',
 			$member->Email ?: $member->Title,
 			$member->ID,
+			$this->owner->singular_name(),
 			$this->owner->Title,
 			$this->owner->ID,
 			$this->owner->Version,
@@ -193,16 +194,86 @@ class CwpLogger extends SiteTreeExtension {
 	}
 
 	/**
-	 * Log a page being unpublished.
+	 * Log a record being unpublished.
 	 */
 	public function onAfterUnpublish() {
 		$member = Member::currentUser();
 		if(!($member && $member->exists())) return false;
 
 		self::log(sprintf(
-			'"%s" (ID: %s) unpublished page "%s" (ID: %s)',
+			'"%s" (ID: %s) unpublished %s "%s" (ID: %s)',
 			$member->Email ?: $member->Title,
 			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID
+		));
+	}
+
+	/**
+	 * Log a record being reverted to live.
+	 */
+	public function onAfterRevertToLive() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) reverted %s "%s" (ID: %s) to it\'s live version (#%d)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID,
+			$this->owner->Version
+		));
+	}
+
+	/**
+	 * Log a record being duplicated.
+	 */
+	public function onAfterDuplicate() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) duplicated %s "%s" (ID: %s)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID
+		));
+	}
+
+	/**
+	 * Log a record being deleted.
+	 */
+	public function onAfterDelete() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) deleted %s "%s" (ID: %s)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
+			$this->owner->Title,
+			$this->owner->ID
+		));
+	}
+
+	/**
+	 * Log a record being restored to stage.
+	 */
+	public function onAfterRestoreToStage() {
+		$member = Member::currentUser();
+		if(!($member && $member->exists())) return false;
+
+		self::log(sprintf(
+			'"%s" (ID: %s) restored %s "%s" to stage (ID: %s)',
+			$member->Email ?: $member->Title,
+			$member->ID,
+			$this->owner->singular_name(),
 			$this->owner->Title,
 			$this->owner->ID
 		));

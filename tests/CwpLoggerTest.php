@@ -147,7 +147,7 @@ class CwpLoggerTest extends SapphireTest {
 
 		$message = $this->writer->getLastMessage();
 		$this->assertContains('ADMIN@example.org', $message);
-		$this->assertContains('published page', $message);
+		$this->assertContains('published Page', $message);
 		$this->assertContains('My page', $message);
 	}
 
@@ -164,7 +164,7 @@ class CwpLoggerTest extends SapphireTest {
 
 		$message = $this->writer->getLastMessage();
 		$this->assertContains('ADMIN@example.org', $message);
-		$this->assertContains('published page', $message);
+		$this->assertContains('published Page', $message);
 		$this->assertContains('My page Your Page', $message);
 	}
 
@@ -175,12 +175,78 @@ class CwpLoggerTest extends SapphireTest {
 		$page->Title = 'My page';
 		$page->Content = 'This is my page content';
 		$page->doPublish();
-
 		$page->doUnpublish();
 
 		$message = $this->writer->getLastMessage();
 		$this->assertContains('ADMIN@example.org', $message);
-		$this->assertContains('unpublished page', $message);
+		$this->assertContains('unpublished Page', $message);
+		$this->assertContains('My page', $message);
+	}
+
+	public function testDuplicatePage() {
+		$this->logInWithPermission('ADMIN');
+
+		$page = new Page();
+		$page->Title = 'My page';
+		$page->Content = 'This is my page content';
+		$page->write();
+		$page->duplicate();
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('duplicated Page', $message);
+		$this->assertContains('My page', $message);
+	}
+
+	public function testRevertToLive() {
+		$this->logInWithPermission('ADMIN');
+
+		$page = new Page();
+		$page->Title = 'My page';
+		$page->Content = 'This is my page content';
+		$page->doPublish();
+
+		$page->Content = 'Changed';
+		$page->write();
+		$page->doRevertToLive();
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('reverted Page', $message);
+		$this->assertContains('My page', $message);
+	}
+
+	public function testDelete() {
+		$this->logInWithPermission('ADMIN');
+
+		$page = new Page();
+		$page->Title = 'My page';
+		$page->Content = 'This is my page content';
+		$page->doPublish();
+
+		$page->delete();
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('deleted Page', $message);
+		$this->assertContains('My page', $message);
+	}
+
+	public function testRestoreToStage() {
+		$this->logInWithPermission('ADMIN');
+
+		$page = new Page();
+		$page->Title = 'My page';
+		$page->Content = 'Published';
+		$page->doPublish();
+
+		$page->Content = 'This is my page content';
+		$page->doPublish();
+		$page->delete();
+
+		$message = $this->writer->getLastMessage();
+		$this->assertContains('ADMIN@example.org', $message);
+		$this->assertContains('deleted Page', $message);
 		$this->assertContains('My page', $message);
 	}
 
