@@ -39,6 +39,7 @@ Security:
 Member:
   lock_out_after_incorrect_logins: 5
   lock_out_delay_mins: 15
+  notify_password_change: true
 CwpInitialisationFilter:
   egress_proxy_default_enabled: true
 QueuedJobsService:
