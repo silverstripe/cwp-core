@@ -106,30 +106,6 @@ $cwpEditor->removeButtons('visualaid');
 $cwpEditor->removeButtons('tablecontrols');
 $cwpEditor->addButtonsToLine(3, 'cite', 'abbr', 'ins', 'del', 'separator', 'tablecontrols');
 
-// CwpLogger configuration for capturing administrative actions
-
-// don't set up auth log writing in the command line, since it fills the logs with output
-// from unit tests, etc. It's designed to log actions from web requests only.
-// See {@link CwpLoggerTest} to see how this is tested with a test log writer
-if(!Director::is_cli()) {
-	$logFileWriter = new SS_SysLogWriter('SilverStripe', null, LOG_AUTH);
-	$logFileWriter->setFormatter(new CwpLoggerFormatter());
-	SS_Log::add_writer($logFileWriter, CwpLogger::PRIORITY, '=');
-}
-
-// CwpLogger implements hooks in the core to capture events, such as
-// when a user logs in and out, publishes a page, add/remove member from group etc.
-MemberLoginForm::add_extension('CwpLogger');
-RequestHandler::add_extension('CwpLogger');
-Controller::add_extension('CwpLogger');
-Member::add_extension('CwpLogger');
-SiteTree::add_extension('CwpLogger');
-
-// override ManyManyList so that we can log particular relational changes
-// such as when a Member is added to a Group or removed from it.
-Object::useCustomClass('ManyManyList', 'CwpLoggerManyManyList', true);
-Object::useCustomClass('Member_GroupSet', 'CwpLoggerMemberGroupSet', true);
-
 // Configure password strength requirements
 $pwdValidator = new PasswordValidator();
 $pwdValidator->minLength(8);
