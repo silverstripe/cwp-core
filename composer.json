@@ -8,6 +8,7 @@
 		"silverstripe/cms": "~3.1",
 		"silverstripe/framework": "~3.1",
 		"silverstripe/hybridsessions": "~1.1",
-		"silverstripe/environmentcheck": "~1.2"
+		"silverstripe/environmentcheck": "~1.2",
+		"silverstripe/auditor": "~1.0"
 	}
 }
