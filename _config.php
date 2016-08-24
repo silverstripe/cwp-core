@@ -8,6 +8,9 @@
 ## NOTE: Put your custom site configuration into mysite/_config/config.yml
 ## and if absolutely necessary if you can't use the yml file, mysite/_config.php instead.
 
+// Tee logs to syslog to make sure we capture everything regardless of project-specific SS_Log configuration.
+SS_Log::add_writer(new \SilverStripe\Auditor\MonologSysLogWriter(), SS_Log::DEBUG, '<=');
+
 // configure document converter.
 if (class_exists('DocumentConverterDecorator') && defined('DOCVERT_USERNAME')) {
 	DocumentImportIFrameField_Importer::set_docvert_username(DOCVERT_USERNAME);
