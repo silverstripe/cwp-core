@@ -10,5 +10,10 @@
 		"silverstripe/hybridsessions": "~1.1",
 		"silverstripe/environmentcheck": "~1.2",
 		"silverstripe/auditor": "~1.0"
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.4.x-dev"
+		}
 	}
 }
