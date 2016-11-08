@@ -1,0 +1,21 @@
+---
+Name: solrconfig-prod
+After:
+  - 'mysite/*'
+Only:
+  constantdefined: CWP_ENVIRONMENT
+---
+CwpSolr:
+  options:
+    version: 'cwp-4'
+
+---
+Name: solrconfig-local
+After:
+  - 'mysite/*'
+Except:
+  constantdefined: CWP_ENVIRONMENT
+---
+CwpSolr:
+  options:
+    version: 'local-4'
