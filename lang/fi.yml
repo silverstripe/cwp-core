@@ -9,7 +9,7 @@ fi:
     Name: Nimi
     PagesForMainSite: '- pääsivustolla'
     PagesForSubsite: '- alasivustolla ''{SubsiteTitle}'''
-    Title: 'Yhteenvetotilasto'
+    Title: Yhteenvetotilasto
     TotalPageCount: 'Julkaistujen sivujen määrä, kaikki käännetyt ja alasivut huomioiden'
   RichLinks:
     OpenLinkTitle: 'Avaa ulkoinen linkki'

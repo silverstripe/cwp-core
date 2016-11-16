@@ -2,7 +2,7 @@ de:
   Cwp:
     LoginPrompt: 'Bitte melden Sie sich mit Ihren CMS-Anmeldedaten an'
   CwpStatsReport:
-    FileCount: 'Dateianzahl'
+    FileCount: Dateianzahl
     Name: Name
     PagesForMainSite: '- auf der Hauptseite'
     PagesForSubsite: '- auf der Unterseite ''{SubsiteTitle}'''
