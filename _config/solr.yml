@@ -1,7 +1,5 @@
 ---
 Name: solrconfig-prod
-After:
-  - 'mysite/*'
 Only:
   constantdefined: CWP_ENVIRONMENT
 ---
@@ -11,8 +9,6 @@ CwpSolr:
 
 ---
 Name: solrconfig-local
-After:
-  - 'mysite/*'
 Except:
   constantdefined: CWP_ENVIRONMENT
 ---
