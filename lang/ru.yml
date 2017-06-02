@@ -1,1 +1,13 @@
-ru: {  }
+ru:
+  Cwp:
+    LoginPrompt: 'Пожалуйста, авторизуйтесь'
+  CwpStatsReport:
+    Count: Количество
+    FileCount: 'Количество файлов'
+    Name: Название
+    PagesForMainSite: '- на главном сайте'
+    PagesForSubsite: '- на подсайте ''{SubsiteTitle}'''
+    Title: 'Общая статистика'
+    TotalPageCount: 'Общее количество страниц - на всех подсайтах и языках'
+  RichLinks:
+    OpenLinkTitle: 'Открыть внешнюю ссылку'
