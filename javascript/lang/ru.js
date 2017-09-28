@@ -6,6 +6,6 @@ if (typeof(ss) === 'undefined' || typeof(ss.i18n) === 'undefined') {
   }
 } else {
   ss.i18n.addDictionary('ru', {
-    "CWP.SPECIFYALTTEXT": "%s has no alt text which is required for non-decorative images.\n\nAre you sure you want to update?"
+    "CWP.SPECIFYALTTEXT": "%s не содержит альтернативного текста, что нежелательно для не-служебных изображений.\n\nХотите продолжить?"
 });
 }
