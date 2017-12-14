@@ -1,17 +1,31 @@
 <?php
 
-## General CWP configuration
+/**
+ * General CWP configuration
+ *
+ * More configuration is applied in cwp/_config/config.yml for APIs that use
+ * {@link Config} instead of setting statics directly.
+ * NOTE: Put your custom site configuration into mysite/_config/config.yml
+ * and if absolutely necessary if you can't use the yml file, mysite/_config.php instead.
+ */
 
-## More configuration is applied in cwp/_config/config.yml for APIs that use
-## {@link Config} instead of setting statics directly.
-
-## NOTE: Put your custom site configuration into mysite/_config/config.yml
-## and if absolutely necessary if you can't use the yml file, mysite/_config.php instead.
+use SilverStripe\CMS\Model\SiteTree,
+    SilverStripe\Forms\HTMLEditor\HTMLEditorConfig,
+    SilverStripe\Control\Director,
+    SilverStripe\Security\PasswordValidator,
+    SilverStripe\Security\Member,
+    SilverStripe\Core\Config\Config,
+    SilverStripe\HybridSessions\HybridSession,
+    CWP\Core\Search\CwpSolr,
+    CWP\Core\Extension\LoginAttemptNotifications_LeftAndMain,
+    SilverStripe\Admin\LeftAndMain;
 
 // Tee logs to syslog to make sure we capture everything regardless of project-specific SS_Log configuration.
-SS_Log::add_writer(new \SilverStripe\Auditor\MonologSysLogWriter(), SS_Log::DEBUG, '<=');
+// @todo @upgrade
+// SS_Log::add_writer(new \SilverStripe\Auditor\MonologSysLogWriter(), SS_Log::DEBUG, '<=');
 
 // configure document converter.
+// @todo @upgrade Where does DocumentConverterDecorator come from? Shpuld be of the form: DocumentConverterDecorator::class
 if (class_exists('DocumentConverterDecorator') && defined('DOCVERT_USERNAME')) {
 	DocumentImportIFrameField_Importer::set_docvert_username(DOCVERT_USERNAME);
 	DocumentImportIFrameField_Importer::set_docvert_password(DOCVERT_PASSWORD);
@@ -19,17 +33,11 @@ if (class_exists('DocumentConverterDecorator') && defined('DOCVERT_USERNAME')) {
 	Page::add_extension('DocumentConverterDecorator');
 }
 
-// Default translations
-if (class_exists('Translatable')) {
-	Translatable::set_default_locale('en_NZ');
-	SiteTree::add_extension('Translatable');
-	SiteConfig::add_extension('Translatable');
-}
-
 // set the system locale to en_GB. This also means locale dropdowns
 // and date formatting etc will default to this locale. Note there is no
 // English (New Zealand) option
-i18n::set_locale('en_GB');
+// @todo @upgrade
+//i18n::set_locale('en_GB');
 
 // default to the binary being in the usual path on Linux
 if(!defined('WKHTMLTOPDF_BINARY')) {
@@ -39,19 +47,16 @@ if(!defined('WKHTMLTOPDF_BINARY')) {
 CwpSolr::configure();
 
 // TinyMCE configuration
-$cwpEditor = HtmlEditorConfig::get('cwp');
+$cwpEditor = HTMLEditorConfig::get('cwp');
 
 // Start with the same configuration as 'cms' config (defined in framework/admin/_config.php).
 $cwpEditor->setOptions(array(
 	'friendly_name' => 'Default CWP',
 	'priority' => '60',
 	'mode' => 'none',
-
 	'body_class' => 'typography',
 	'document_base_url' => Director::absoluteBaseURL(),
-
 	'cleanup_callback' => "sapphiremce_cleanup",
-
 	'use_native_selects' => false,
 	'valid_elements' => "@[id|class|style|title],a[id|rel|rev|dir|tabindex|accesskey|type|name|href|target|title"
 		. "|class],-strong/-b[class],-em/-i[class],-strike[class],-u[class],#p[id|dir|class|align|style],-ol[class],"
@@ -114,12 +119,13 @@ $pwdValidator = new PasswordValidator();
 $pwdValidator->minLength(8);
 $pwdValidator->checkHistoricalPasswords(6);
 $pwdValidator->characterStrength(3, array("lowercase", "uppercase", "digits", "punctuation"));
+
 Member::set_password_validator($pwdValidator);
 
 // Disable the feature. LoginAttempt seems to be broken on bridging solution - logs every request instead of logins!
-/*if (class_exists('LoginAttemptNotifications_LeftAndMain')) {
-	LeftAndMain::add_extension('LoginAttemptNotifications_LeftAndMain');
-}*/
+if (class_exists(LoginAttemptNotifications_LeftAndMain::class)) {
+	LeftAndMain::add_extension(LoginAttemptNotifications_LeftAndMain::class);
+}
 
 // Initialise the redirection configuration if null.
 if (is_null(Config::inst()->get('CwpControllerExtension', 'ssl_redirection_force_domain'))) {
@@ -135,8 +141,9 @@ if (is_null(Config::inst()->get('CwpControllerExtension', 'ssl_redirection_force
 Config::inst()->update('LeftAndMain', 'session_keepalive_ping', false);
 
 // Automatically configure session key for activedr with hybridsessions module
+// @todo @upgrade Use Environment::env()
 if(defined('CWP_INSTANCE_DR_TYPE') && CWP_INSTANCE_DR_TYPE === 'active'
 	&& defined('SS_SESSION_KEY') && class_exists('HybridSessionStore')
 ) {
-	HybridSessionStore::init(SS_SESSION_KEY);
+	HybridSession::init(SS_SESSION_KEY);
 }

@@ -1,8 +1,5 @@
 ---
 Name: cwpcoreconfig
-After:
-  - 'framework/*'
-  - 'cms/*'
 ---
 Injector:
   RequestProcessor:
