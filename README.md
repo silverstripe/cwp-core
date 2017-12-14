@@ -1,5 +1,8 @@
 # CWP Core Module
 
+[![Build Status](https://travis-ci.org/silverstripe/cwp-core.svg?branch=master)](https://travis-ci.org/silverstripe/cwp-core)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/silverstripe/cwp-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/silverstripe/cwp-core/?branch=master)
+
 ## Contributing
 
 ### Translations
