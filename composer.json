@@ -15,5 +15,8 @@
         "silverstripe/environmentcheck": "~1.2",
         "silverstripe/auditor": "~1.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^3.7"
+    },
     "extra": []
 }
