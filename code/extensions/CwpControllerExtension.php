@@ -2,25 +2,30 @@
 
 namespace CWP\Core\Extension;
 
-use SilverStripe\Core\Extension;
-use SilverStripe\Security\PermissionProvider;
+use Exception;
+use SilverStripe\Control\Director;
 use SilverStripe\Control\Session;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Environment;
+use SilverStripe\Core\Extension;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Security\BasicAuth;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
-use SilverStripe\Security\BasicAuth;
-use SilverStripe\Core\Config\Config;
-use SilverStripe\Core\Injector\Injector;
-use SilverStripe\Control\Director;
-use SilverStripe\Subsite\Subsite;
-use \Exception;
+use SilverStripe\Security\PermissionProvider;
+use SilverStripe\Security\Security;
+use SilverStripe\Subsite\Model\Subsite;
 
 class CwpControllerExtension extends Extension implements PermissionProvider
 {
 
     /**
      * Enables SSL redirections - disabling not recommended as it will prevent forcing SSL on admin panel.
+     *
+     * @config
+     * @var bool
      */
-    public static $ssl_redirection_enabled = true;
+    private static $ssl_redirection_enabled = true;
 
     /**
      * Specify a domain to redirect the vulnerable areas to.
@@ -31,20 +36,29 @@ class CwpControllerExtension extends Extension implements PermissionProvider
      * Set to false to redirect to https protocol on current domain (e.g. if you have frontend cert).
      *
      * Set to a domain string (e.g. 'example.com') to force that domain.
+     *
+     * @config
+     * @var string
      */
-    public static $ssl_redirection_force_domain = null;
+    private static $ssl_redirection_force_domain = null;
 
     /**
      * Enables the BasicAuth protection on all test environments. Disable with caution - it will open up
      * all your UAT and test environments to the world.
+     *
+     * @config
+     * @var bool
      */
-    public static $test_basicauth_enabled = true;
+    private static $test_basicauth_enabled = true;
 
     /**
      * Enables the BasicAuth protection on all live environments.
      * Useful for securing sites prior to public launch.
+     *
+     * @config
+     * @var bool
      */
-    public static $live_basicauth_enabled = false;
+    private static $live_basicauth_enabled = false;
 
     /**
      * This executes the passed callback with subsite filter disabled,
@@ -60,20 +74,20 @@ class CwpControllerExtension extends Extension implements PermissionProvider
         $rv = null;
 
         try {
-            if (class_exists('Subsite')) {
+            if (class_exists(Subsite::class)) {
                 Subsite::disable_subsite_filter(true);
             }
 
             $rv = call_user_func($callback);
         } catch (Exception $e) {
-            if (class_exists('Subsite')) {
+            if (class_exists(Subsite::class)) {
                 Subsite::disable_subsite_filter(false);
             }
 
             throw $e;
         }
 
-        if (class_exists('Subsite')) {
+        if (class_exists(Subsite::class)) {
             Subsite::disable_subsite_filter(false);
         }
 
@@ -92,9 +106,9 @@ class CwpControllerExtension extends Extension implements PermissionProvider
         $allowWithoutAuth = false;
 
         // Allow whitelisting IPs for bypassing the basic auth.
-        if (defined('CWP_IP_BYPASS_BASICAUTH')) {
+        if (Environment::getEnv('CWP_IP_BYPASS_BASICAUTH')) {
             $remote = $_SERVER['REMOTE_ADDR'];
-            $bypass = explode(',', CWP_IP_BYPASS_BASICAUTH);
+            $bypass = explode(',', Environment::getEnv('CWP_IP_BYPASS_BASICAUTH'));
 
             if (in_array($remote, $bypass)) {
                 $allowWithoutAuth = true;
@@ -108,10 +122,12 @@ class CwpControllerExtension extends Extension implements PermissionProvider
             if (!$member->validateAutoLoginToken($_REQUEST['t'])) {
                 $member = null;
             }
-        } elseif (Session::get('AutoLoginHash')) {
-            $member = Member::member_from_autologinhash(Session::get('AutoLoginHash'));
+        } elseif ($this->owner->getRequest()->getSession()->get('AutoLoginHash')) {
+            $member = Member::member_from_autologinhash(
+                $this->owner->getRequest()->getSession()->get('AutoLoginHash')
+            );
         } else {
-            $member = Member::currentUser();
+            $member = Security::getCurrentUser();
         }
 
         // Then, if they have the right permissions, check the allowed URLs
@@ -136,7 +152,7 @@ class CwpControllerExtension extends Extension implements PermissionProvider
         if (!$allowWithoutAuth) {
             $this->callWithSubsitesDisabled(function () {
                 BasicAuth::requireLogin(
-                    _t('Cwp.LoginPrompt', "Please log in with your CMS credentials"),
+                    _t(__CLASS__ . '.LoginPrompt', "Please log in with your CMS credentials"),
                     'ACCESS_UAT_SERVER',
                     true
                 );
@@ -150,29 +166,29 @@ class CwpControllerExtension extends Extension implements PermissionProvider
     public function onBeforeInit()
     {
         // Grab global injectable service to allow testing.
-        $director = Injector::inst()->get('SilverStripe\Control\Director');
+        $director = Injector::inst()->get(Director::class);
 
-        if (Config::inst()->get('CWP\Core\Extension\CwpControllerExtension', 'ssl_redirection_enabled')) {
+        if (Config::inst()->get(__CLASS__, 'ssl_redirection_enabled')) {
             // redirect some vulnerable areas to the secure domain
             if (!$director::is_https()) {
-                $forceDomain = Config::inst()->get('CWP\Core\Extension\CwpControllerExtension\CwpControllerExtension', 'ssl_redirection_force_domain');
+                $forceDomain = Config::inst()->get(__CLASS__, 'ssl_redirection_force_domain');
 
                 if ($forceDomain) {
-                    $director::forceSSL(array('/^Security/', '/^api/'), $forceDomain);
+                    $director::forceSSL(['/^Security/', '/^api/'], $forceDomain);
                 } else {
-                    $director::forceSSL(array('/^Security/', '/^api/'));
+                    $director::forceSSL(['/^Security/', '/^api/']);
                 }
             }
         }
 
-        if (Config::inst()->get('CWP\Core\Extension\CwpControllerExtension', 'test_basicauth_enabled')) {
+        if (Config::inst()->get(__CLASS__, 'test_basicauth_enabled')) {
             // Turn on Basic Auth in testing mode
             if ($director::isTest()) {
                 $this->triggerBasicAuthProtection();
             }
         }
 
-        if (Config::inst()->get('CWP\Core\Extension\CwpControllerExtension', 'live_basicauth_enabled')) {
+        if (Config::inst()->get(__CLASS__, 'live_basicauth_enabled')) {
             // Turn on Basic Auth in live mode
             if ($director::isLive()) {
                 $this->triggerBasicAuthProtection();
@@ -185,11 +201,11 @@ class CwpControllerExtension extends Extension implements PermissionProvider
      */
     public function providePermissions()
     {
-        return array(
+        return [
             'ACCESS_UAT_SERVER' => _t(
-                'Cwp.UatServerPermission',
+                __CLASS__ . '.UatServerPermission',
                 'Allow users to use their accounts to access the UAT server'
             )
-        );
+        ];
     }
 }
