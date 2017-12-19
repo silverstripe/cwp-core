@@ -9,21 +9,35 @@ namespace CWP\Core\Feed;
  * @todo Improve documentation
  * @package cwp-core
  */
-use SilverStripe\Control\RSS\RSSFeed,
-    SilverStripe\ORM\SS_List,
-    SilverStripe\Core\Convert,
-    SilverStripe\View\Requirements,
-    SilverStripe\Control\Controller;
+use SilverStripe\Control\RSS\RSSFeed;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\Core\Convert;
+use SilverStripe\View\Requirements;
+use SilverStripe\Control\Controller;
 
 class CwpAtomFeed extends RSSFeed
 {
 
-    public function __construct(SS_List $entries, $link, $title, $description = null,
-            $titleField = "Title", $descriptionField = "Content", $authorField = null,
-            $lastModified = null, $etag = null)
-    {
-        parent::__construct($entries, $link, $title, $description, $titleField,
-            $descriptionField, $authorField, $lastModified
+    public function __construct(
+        SS_List $entries,
+        $link,
+        $title,
+        $description = null,
+        $titleField = "Title",
+        $descriptionField = "Content",
+        $authorField = null,
+        $lastModified = null,
+        $etag = null
+    ) {
+        parent::__construct(
+            $entries,
+            $link,
+            $title,
+            $description,
+            $titleField,
+            $descriptionField,
+            $authorField,
+            $lastModified
         );
 
         $this->setTemplate('AtomFeed');
@@ -40,7 +54,8 @@ class CwpAtomFeed extends RSSFeed
         $title = Convert::raw2xml($title);
         Requirements::insertHeadTags(
             '<link rel="alternate" type="application/atom+xml" title="' . $title .
-            '" href="' . $url . '" />');
+            '" href="' . $url . '" />'
+        );
     }
 
     /**
@@ -54,5 +69,4 @@ class CwpAtomFeed extends RSSFeed
 
         return $output;
     }
-
 }

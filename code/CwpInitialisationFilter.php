@@ -2,10 +2,10 @@
 
 namespace CWP\Core\Config;
 
-use SilverStripe\Control\RequestFilter,
-    SilverStripe\Core\Config\Config,
-    SilverStripe\Control\HTTPRequest,
-    SilverStripe\Control\HTTPResponse;
+use SilverStripe\Control\RequestFilter;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\HTTPResponse;
 
 /**
  * Initialises CWP-specific configuration settings, to avoid _config.php.
@@ -17,9 +17,9 @@ class CwpInitialisationFilter implements RequestFilter
      * @var boolean
      *
      * Enable egress proxy. This works on the principle of setting http(s)_proxy environment variables,
-     * 	which will be automatically picked up by curl. This means RestfulService and raw curl
-     * 	requests should work out of the box. Stream-based requests need extra manual configuration.
-     * 	Refer to https://www.cwp.govt.nz/guides/core-technical-documentation/common-web-platform-core/en/how-tos/external_http_requests_with_proxy
+     *  which will be automatically picked up by curl. This means RestfulService and raw curl
+     *  requests should work out of the box. Stream-based requests need extra manual configuration.
+     *  Refer to https://www.cwp.govt.nz/guides/core-technical-documentation/common-web-platform-core/en/how-tos/external_http_requests_with_proxy
      */
     private static $egress_proxy_default_enabled = true;
 
@@ -77,5 +77,4 @@ class CwpInitialisationFilter implements RequestFilter
     {
         return true;
     }
-
 }

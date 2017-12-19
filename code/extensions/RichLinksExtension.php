@@ -2,14 +2,14 @@
 
 namespace CWP\Core\Extension;
 
-use SilverStripe\Core\Extension,
-    SilverStripe\ORM\DataObject;
+use SilverStripe\Core\Extension;
+use SilverStripe\ORM\DataObject;
 
 /**
  * Adds capability to augment links with extra attributes and meta information.
  *
  * Usage in the templates:
- * 		$Content.RichLinks
+ *      $Content.RichLinks
  *
  * Note: will only work with content produced by HtmlEditorField.
  */
@@ -52,11 +52,11 @@ class RichLinksExtension extends Extension
         // Inject extra attributes into the external links.
         $pattern = '/(<a.*)(href=\"https?:\/\/[^\"]*\"[^>]*>.*)(<\/a>)/iU';
         $replacement = sprintf(
-                '$1class="external" rel="external" title="%s" $2<span class="nonvisual-indicator">(external link)</span>$3', _t('RichLinks.OpenLinkTitle', 'Open external link')
+            '$1class="external" rel="external" title="%s" $2<span class="nonvisual-indicator">(external link)</span>$3',
+            _t('RichLinks.OpenLinkTitle', 'Open external link')
         );
         $content = preg_replace($pattern, $replacement, $content, -1);
 
         return $content;
     }
-
 }

@@ -2,8 +2,8 @@
 
 namespace CWP\Core\Model;
 
-use CWP\Core\Model\CwpSearchIndex,
-    SilverStripe\CMS\Model\SiteTree;
+use CWP\Core\Model\CwpSearchIndex;
+use SilverStripe\CMS\Model\SiteTree;
 
 /**
  * Default search index
@@ -32,5 +32,4 @@ class SolrSearchIndex extends CwpSearchIndex
 
         parent::init();
     }
-
 }

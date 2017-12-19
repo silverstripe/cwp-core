@@ -23,5 +23,4 @@ class CwpHtmlEditorConfig extends DataExtension
 
         return 'cwp';
     }
-
 }

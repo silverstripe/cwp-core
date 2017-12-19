@@ -2,13 +2,13 @@
 
 namespace CWP\Core\Extension;
 
-use SilverStripe\View\Requirements,
-    SilverStripe\Security\Member,
-    SilverStripe\Security\LoginAttempt,
-    SilverStripe\Core\Injector\Injector,
-    SilverStripe\Control\Session,
-    SilverStripe\ORM\FieldType\DBDatetime,
-    SilverStripe\Core\Extension;
+use SilverStripe\View\Requirements;
+use SilverStripe\Security\Member;
+use SilverStripe\Security\LoginAttempt;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Control\Session;
+use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\Core\Extension;
 
 /**
  * TODO: describe.
@@ -70,7 +70,6 @@ class LoginAttemptNotifications_LeftAndMain extends Extension
                 }
             }
         } else {
-
             // New session - show last login attempt.
             // TODO: this currently does NOT surface to the frontend in any way.
             $lastLoginAttempt = LoginAttempt::get()->filter(array(
@@ -88,5 +87,4 @@ class LoginAttemptNotifications_LeftAndMain extends Extension
 
         $this->owner->response->addHeader('X-LoginAttemptNotifications', $message);
     }
-
 }

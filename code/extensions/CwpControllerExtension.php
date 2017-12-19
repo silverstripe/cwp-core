@@ -2,17 +2,17 @@
 
 namespace CWP\Core\Extension;
 
-use SilverStripe\Core\Extension,
-    SilverStripe\Security\PermissionProvider,
-    SilverStripe\Control\Session,
-    SilverStripe\Security\Member,
-    SilverStripe\Security\Permission,
-    SilverStripe\Security\BasicAuth,
-    SilverStripe\Core\Config\Config,
-    SilverStripe\Core\Injector\Injector,
-    SilverStripe\Control\Director,
-    SilverStripe\Subsite\Subsite,
-   \Exception;
+use SilverStripe\Core\Extension;
+use SilverStripe\Security\PermissionProvider;
+use SilverStripe\Control\Session;
+use SilverStripe\Security\Member;
+use SilverStripe\Security\Permission;
+use SilverStripe\Security\BasicAuth;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Control\Director;
+use SilverStripe\Subsite\Subsite;
+use \Exception;
 
 class CwpControllerExtension extends Extension implements PermissionProvider
 {
@@ -108,15 +108,14 @@ class CwpControllerExtension extends Extension implements PermissionProvider
             if (!$member->validateAutoLoginToken($_REQUEST['t'])) {
                 $member = null;
             }
-        }
-        else if (Session::get('AutoLoginHash')) {
+        } elseif (Session::get('AutoLoginHash')) {
             $member = Member::member_from_autologinhash(Session::get('AutoLoginHash'));
         } else {
             $member = Member::currentUser();
         }
 
         // Then, if they have the right permissions, check the allowed URLs
-        $existingMemberCanAccessUAT = $member && $this->callWithSubsitesDisabled(function() use ($member) {
+        $existingMemberCanAccessUAT = $member && $this->callWithSubsitesDisabled(function () use ($member) {
             return Permission::checkMember($member, 'ACCESS_UAT_SERVER');
         });
 
@@ -135,9 +134,11 @@ class CwpControllerExtension extends Extension implements PermissionProvider
 
         // Finally if they weren't allowed to bypass Basic Auth, trigger it
         if (!$allowWithoutAuth) {
-            $this->callWithSubsitesDisabled(function() {
+            $this->callWithSubsitesDisabled(function () {
                 BasicAuth::requireLogin(
-                    _t('Cwp.LoginPrompt', "Please log in with your CMS credentials"), 'ACCESS_UAT_SERVER', true
+                    _t('Cwp.LoginPrompt', "Please log in with your CMS credentials"),
+                    'ACCESS_UAT_SERVER',
+                    true
                 );
             });
         }
@@ -186,9 +187,9 @@ class CwpControllerExtension extends Extension implements PermissionProvider
     {
         return array(
             'ACCESS_UAT_SERVER' => _t(
-                    'Cwp.UatServerPermission', 'Allow users to use their accounts to access the UAT server'
+                'Cwp.UatServerPermission',
+                'Allow users to use their accounts to access the UAT server'
             )
         );
     }
-
 }

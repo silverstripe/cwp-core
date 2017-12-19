@@ -2,8 +2,8 @@
 
 namespace CWP\Core\Search;
 
-use SilverStripe\FullTextSearch\Solr\Stores\SolrConfigStore,
-    SilverStripe\FullTextSearch\Solr\Solr;
+use SilverStripe\FullTextSearch\Solr\Stores\SolrConfigStore;
+use SilverStripe\FullTextSearch\Solr\Solr;
 
 /**
  * Class CwpSolrConfigStore
@@ -76,5 +76,4 @@ class CwpSolrConfigStore implements SolrConfigStore
     {
         return $this->remote ? "{$this->remote}/$index" : $index;
     }
-
 }

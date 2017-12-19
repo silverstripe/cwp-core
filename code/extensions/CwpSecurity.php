@@ -2,9 +2,9 @@
 
 namespace CWP\Core\Extension;
 
-use SilverStripe\Core\Extension,
-    SilverStripe\Control\Session,
-    SilverStripe\Security\Member;
+use SilverStripe\Core\Extension;
+use SilverStripe\Control\Session;
+use SilverStripe\Security\Member;
 
 /**
  * Extends {@see Security} with CWP specific extensions
@@ -31,5 +31,4 @@ class CwpSecurity extends Extension
             return $this->owner->redirectBack();
         }
     }
-
 }

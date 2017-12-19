@@ -2,8 +2,8 @@
 
 namespace CWP\Core\Report;
 
-use SilverStripe\Reports\Report,
-    SilverStripe\ORM\ArrayList;
+use SilverStripe\Reports\Report;
+use SilverStripe\ORM\ArrayList;
 
 /**
  * Summary report on the page and file counts managed by this CMS.
@@ -27,7 +27,8 @@ class CwpStatsReport extends Report
     public function description()
     {
         return _t(
-                'CwpStatsReport.Description', 'This report provides various statistics for this site. The "total live page count" is the number that ' .
+            'CwpStatsReport.Description',
+            'This report provides various statistics for this site. The "total live page count" is the number that ' .
                 'can be compared against the instance size specifications.'
         );
     }
@@ -57,24 +58,25 @@ class CwpStatsReport extends Report
         $records = array();
 
         // Get the query to apply across all variants: looks at all subsites, translations, live stage only.
-        $crossVariant = (function($dataQuery) {
+        $crossVariant = (function ($dataQuery) {
                     $params = array(
                         'Subsite.filter' => false,
                         'Versioned.mode' => 'stage',
                         'Versioned.stage' => 'Live'
                     );
 
-                    if (class_exists('Translatable')) {
-                        $params[Translatable::QUERY_LOCALE_FILTER_ENABLED] = false;
-                    }
+            if (class_exists('Translatable')) {
+                $params[Translatable::QUERY_LOCALE_FILTER_ENABLED] = false;
+            }
 
                     return $dataQuery->setDataQueryParam($params);
-                });
+        });
 
         // Total.
         $records[] = array(
             'Name' => _t(
-                    'CwpStatsReport.TotalPageCount', 'Total live page count, across all translations and subsites'
+                'CwpStatsReport.TotalPageCount',
+                'Total live page count, across all translations and subsites'
             ),
             'Count' => $crossVariant(SiteTree::get())
                     ->count()
@@ -94,7 +96,9 @@ class CwpStatsReport extends Report
             foreach ($subsites as $subsite) {
                 $records[] = array(
                     'Name' => _t(
-                            'CwpStatsReport.PagesForSubsite', "- in the subsite '{SubsiteTitle}'", array('SubsiteTitle' => $subsite->Title)
+                        'CwpStatsReport.PagesForSubsite',
+                        "- in the subsite '{SubsiteTitle}'",
+                        array('SubsiteTitle' => $subsite->Title)
                     ),
                     'Count' => $crossVariant(SiteTree::get())
                             ->filter(array('SubsiteID' => $subsite->ID))
@@ -117,7 +121,7 @@ class CwpStatsReport extends Report
 
     /**
      *
-     * @return \SilverStripe\Forms\FormField 
+     * @return \SilverStripe\Forms\FormField
      */
     public function getReportField()
     {
@@ -129,5 +133,4 @@ class CwpStatsReport extends Report
 
         return $gridField;
     }
-
 }

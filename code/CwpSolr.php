@@ -2,10 +2,10 @@
 
 namespace CWP\Core\Search;
 
-use SilverStripe\FullTextSearch\Solr\Solr,
-    SilverStripe\Core\Config\Config,
-    SilverStripe\Core\Environment,
-    CWP\Core\Search\CwpSolrConfigStore;
+use SilverStripe\FullTextSearch\Solr\Solr;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Environment;
+use CWP\Core\Search\CwpSolrConfigStore;
 
 /**
  * CwpSolr configures Solr in a CWP-compatible manner.
@@ -49,9 +49,10 @@ class CwpSolr
                 break;
             default:
                 throw new \InvalidArgumentException(sprintf(
-                        'Solr version "%s" is not supported on CWP. Please use "local-4" on local ' .
+                    'Solr version "%s" is not supported on CWP. Please use "local-4" on local ' .
                         'and "cwp-4" on production. For preferred configuration see ' .
-                        'https://www.cwp.govt.nz/developer-docs/.', $options['version']
+                        'https://www.cwp.govt.nz/developer-docs/.',
+                    $options['version']
                 ));
                 break;
         }
@@ -74,9 +75,9 @@ class CwpSolr
     public static function options_from_environment()
     {
         throw new \Exception(
-        'CwpSolr::options_from_environment has been deprecated, in favour of implicit Solr ' .
-        'configuration provided by the CwpSolr class in the cwp-core module. For preferred configuration see ' .
-        'https://www.cwp.govt.nz/developer-docs/.'
+            'CwpSolr::options_from_environment has been deprecated, in favour of implicit Solr ' .
+            'configuration provided by the CwpSolr class in the cwp-core module. For preferred configuration see ' .
+            'https://www.cwp.govt.nz/developer-docs/.'
         );
     }
 
@@ -117,7 +118,7 @@ class CwpSolr
             'version' => 4,
             'indexstore' => array(
                 'mode' => defined('SOLR_MODE') ? SOLR_MODE : 'file',
-                'auth' => defined('SOLR_AUTH') ? SOLR_AUTH : NULL,
+                'auth' => defined('SOLR_AUTH') ? SOLR_AUTH : null,
                 // Allow storing the solr index and config data in an arbitrary location,
                 // e.g. outside of the webroot
                 'path' => defined('SOLR_INDEXSTORE_PATH') ? SOLR_INDEXSTORE_PATH : BASE_PATH . '/.solr',
@@ -125,5 +126,4 @@ class CwpSolr
             )
         );
     }
-
 }

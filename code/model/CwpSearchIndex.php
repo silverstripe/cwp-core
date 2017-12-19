@@ -2,10 +2,10 @@
 
 namespace CWP\Core\Model;
 
-use SilverStripe\FullTextSearch\Solr\SolrIndex,
-    SilverStripe\CMS\Model\SiteTree,
-    SilverStripe\SiteConfig\SiteConfig,
-    SilverStripe\FullTextSearch\Search\Queries\SearchQuery;
+use SilverStripe\FullTextSearch\Solr\SolrIndex;
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\FullTextSearch\Search\Queries\SearchQuery;
 
 /**
  * Abstract wrapper for all cwp-core features
@@ -59,7 +59,9 @@ abstract class CwpSearchIndex extends SolrIndex
         $siteConfig = SiteConfig::current_site_config();
         if ($siteConfig->SearchSynonyms) {
             $store->uploadString(
-                $this->getIndexName(), 'synonyms.txt', $siteConfig->SearchSynonyms
+                $this->getIndexName(),
+                'synonyms.txt',
+                $siteConfig->SearchSynonyms
             );
         }
     }
@@ -94,5 +96,4 @@ abstract class CwpSearchIndex extends SolrIndex
 
         return parent::search($query, $offset, $limit, $params);
     }
-
 }
