@@ -4,3 +4,7 @@ Name: cwpcoreextensions
 SilverStripe\Admin\LeftAndMain:
   extensions:
     - CWP\Core\Extension\LoginAttemptNotifications_LeftAndMain
+
+SilverStripe\Control\Controller:
+  extensions:
+    - CWP\Core\Extension\CwpControllerExtension

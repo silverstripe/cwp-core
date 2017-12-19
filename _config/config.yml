@@ -9,9 +9,7 @@ Injector:
 DBField:
   extensions:
    - RichLinksExtension
-Controller:
-  extensions:
-   - CwpControllerExtension
+
 Group:
   extensions:
    - CwpHtmlEditorConfig
@@ -32,8 +30,6 @@ SilverStripe\Admin\LeftAndMain:
 PasswordField:
   autocomplete: false
 Security:
-  extensions:
-    - CwpSecurity
   login_recording: false
 Member:
   lock_out_after_incorrect_logins: 5
