@@ -3,8 +3,8 @@
 namespace CWP\Core\Extension;
 
 use SilverStripe\Core\Extension;
-use SilverStripe\View\Requirements;
 use SilverStripe\Forms\Form;
+use SilverStripe\View\Requirements;
 
 class CustomHtmlEditorFieldToolbar extends Extension
 {
@@ -15,7 +15,7 @@ class CustomHtmlEditorFieldToolbar extends Extension
      */
     public function updateMediaForm(Form $form)
     {
-        Requirements::add_i18n_javascript('cwp-core/javascript/lang');
-        Requirements::javascript('cwp-core/javascript/CustomHtmlEditorFieldToolbar.js');
+        Requirements::add_i18n_javascript('cwp/cwp-core:javascript/lang');
+        Requirements::javascript('cwp/cwp-core:javascript/CustomHtmlEditorFieldToolbar.js');
     }
 }

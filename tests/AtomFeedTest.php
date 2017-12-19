@@ -1,8 +1,15 @@
 <?php
-/**
- * @package framework
- * @subpackage tests
- */
+
+namespace CWP\Core\Tests;
+
+use SilverStripe\ORM\ArrayList;
+use CWP\Core\Feed\CwpAtomFeed;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Control\Director;
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Control\Controller;
+use SilverStripe\View\ViewableData;
+
 class AtomFeedTest extends SapphireTest
 {
 
@@ -56,7 +63,7 @@ class AtomFeedTest extends SapphireTest
     public function setUp()
     {
         parent::setUp();
-        Config::inst()->update('Director', 'alternate_base_url', '/');
+        Config::inst()->update(Director::class, 'alternate_base_url', '/');
         if (!self::$original_host) {
             self::$original_host = $_SERVER['HTTP_HOST'];
         }
@@ -66,7 +73,7 @@ class AtomFeedTest extends SapphireTest
     public function tearDown()
     {
         parent::tearDown();
-        Config::inst()->update('Director', 'alternate_base_url', null);
+        Config::inst()->update(Director::class, 'alternate_base_url', null);
         $_SERVER['HTTP_HOST'] = self::$original_host;
     }
 }

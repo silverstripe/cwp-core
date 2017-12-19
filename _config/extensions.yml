@@ -1,0 +1,14 @@
+---
+Name: cwpcoreextensions
+---
+SilverStripe\Admin\LeftAndMain:
+  extensions:
+    - CWP\Core\Extension\LoginAttemptNotifications
+
+SilverStripe\Control\Controller:
+  extensions:
+    - CWP\Core\Extension\CwpControllerExtension
+
+SilverStripe\Security\Group:
+  extensions:
+    - CWP\Core\Extension\CwpHtmlEditorConfig

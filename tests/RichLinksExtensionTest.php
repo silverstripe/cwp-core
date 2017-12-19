@@ -1,5 +1,10 @@
 <?php
 
+namespace CWP\Core\Tests;
+
+use Text;
+use SilverStripe\Dev\SapphireTest;
+
 class RichLinksExtensionTest extends SapphireTest
 {
 

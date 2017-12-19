@@ -9,12 +9,7 @@ Injector:
 DBField:
   extensions:
    - RichLinksExtension
-Controller:
-  extensions:
-   - CwpControllerExtension
-Group:
-  extensions:
-   - CwpHtmlEditorConfig
+
 HtmlEditorField_Toolbar:
   extensions:
    - CustomHtmlEditorFieldToolbar
@@ -25,13 +20,13 @@ LeftAndMain:
    - 'cwp/css/custom.css'
 Session:
   timeout: 3600
-LeftAndMain:
+
+SilverStripe\Admin\LeftAndMain:
   session_keepalive_ping: false
+
 PasswordField:
   autocomplete: false
 Security:
-  extensions:
-    - CwpSecurity
   login_recording: false
 Member:
   lock_out_after_incorrect_logins: 5
