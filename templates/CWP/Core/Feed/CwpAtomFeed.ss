@@ -11,8 +11,10 @@
 			<title type="html">$Title.XML</title>
 			<link href="$AbsoluteLink" />
 				<content type="html">
-				<% if $Content %>
+				<% if $Content.AbsoluteLinks %>
 					$Content.AbsoluteLinks.XML
+				<% else %>
+					$Content.XML
 				<% end_if %>
 			</content>
 			<author><name><% if $Author %>$Author.XML<% end_if %></name></author>

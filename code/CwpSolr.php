@@ -5,6 +5,7 @@ namespace CWP\Core\Search;
 use Exception;
 use InvalidArgumentException;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Environment;
 use SilverStripe\FullTextSearch\Solr\Solr;
 
@@ -13,6 +14,8 @@ use SilverStripe\FullTextSearch\Solr\Solr;
  */
 class CwpSolr
 {
+    use Configurable;
+
     /**
      *
      * @var array
@@ -37,7 +40,7 @@ class CwpSolr
         }
 
         // get options from configuration
-        $options = Config::inst()->get('CwpSolr', 'options');
+        $options = static::config()->get('options');
 
         // get version specific options
         switch ($options['version']) {
