@@ -4,7 +4,6 @@ namespace CWP\Core\Extension;
 
 use Exception;
 use SilverStripe\Control\Director;
-use SilverStripe\Control\Session;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
 use SilverStripe\Core\Extension;

@@ -10,9 +10,6 @@ DBField:
   extensions:
    - RichLinksExtension
 
-Group:
-  extensions:
-   - CwpHtmlEditorConfig
 HtmlEditorField_Toolbar:
   extensions:
    - CustomHtmlEditorFieldToolbar

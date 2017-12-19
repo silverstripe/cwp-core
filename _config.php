@@ -9,10 +9,9 @@
  * and if absolutely necessary if you can't use the yml file, mysite/_config.php instead.
  */
 
-use CWP\Core\Extension\LoginAttemptNotifications_LeftAndMain;
+use CWP\Core\Extension\LoginAttemptNotifications;
 use CWP\Core\Search\CwpSolr;
-use CwpControllerExtension;
-use SilverStripe\Admin\LeftAndMain;
+use CWP\Core\Extension\CwpControllerExtension;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
