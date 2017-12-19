@@ -19,9 +19,9 @@ class RichLinksExtension extends Extension
     /**
      * @var array
      */
-    private static $casting = array(
+    private static $casting = [
         'RichLinks' => 'HTMLText'
-    );
+    ];
 
     /**
      * @return string
@@ -44,7 +44,8 @@ class RichLinksExtension extends Extension
                 $size = $file->getSize();
                 $ext = strtoupper($file->getExtension());
                 // Replace the closing </a> tag with the size span (and reattach the closing tag).
-                $newLink = substr($matches[0][$i], 0, strlen($matches[0][$i]) - 4) . "<span class='fileExt'> [$ext, $size]</span></a>";
+                $newLink = substr($matches[0][$i], 0, strlen($matches[0][$i]) - 4)
+                    . "<span class='fileExt'> [$ext, $size]</span></a>";
                 $content = str_replace($matches[0][$i], $newLink, $content);
             }
         }

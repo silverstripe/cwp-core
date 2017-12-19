@@ -1,10 +1,13 @@
 ---
 Name: cwpqueuedjobsconfig
 Only:
-  ModuleExists: queuedjobs
+  ModuleExists: symbiote/silverstripe-queuedjobs
 After: '#queuedjobsettings'
 ---
-Injector:
-  QueuedJobService:
+SilverStripe\Core\Injector\Injector:
+  Symbiote\QueuedJobs\Services\QueuedJobsService\QueuedJobService:
     properties: 
-      queueRunner: %$DoormanRunner
+      queueRunner: %$Symbiote\QueuedJobs\Tasks\Engines\DoormanRunner
+
+Symbiote\QueuedJobs\Services\QueuedJobsService:
+  time_limit: 600

@@ -2,10 +2,13 @@
 
 namespace CWP\Core\Model;
 
-use SilverStripe\FullTextSearch\Solr\SolrIndex;
+use CwpSearchBoostExtension;
 use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\SiteConfig\SiteConfig;
 use SilverStripe\FullTextSearch\Search\Queries\SearchQuery;
+use SilverStripe\FullTextSearch\Solr\SolrIndex;
+use SilverStripe\FullTextSearch\Solr\Stores\SolrConfigStore;
+use SilverStripe\SiteConfig\SiteConfig;
+use SilverStripe\View\ArrayData;
 
 /**
  * Abstract wrapper for all cwp-core features
@@ -30,8 +33,8 @@ abstract class CwpSearchIndex extends SolrIndex
      * Default dictionary to use. This will overwrite the 'spellcheck.dictionary' option for searches given,
      * unless set to empty.
      *
-     * '_spellcheck' is a predefined by the cwp infrastructure, which is configured to be built from the '_spellcheckText' field.
-     * You can't rename this within CWP.
+     * '_spellcheck' is a predefined by the cwp infrastructure, which is configured
+     * to be built from the '_spellcheckText' field. You can't rename this within CWP.
      *
      * @var string
      * @config
@@ -41,8 +44,8 @@ abstract class CwpSearchIndex extends SolrIndex
     public function init()
     {
         // Add optional boost
-        if (SiteTree::has_extension('CwpSearchBoostExtension')) {
-            $this->setFieldBoosting('SiteTree_SearchBoost', SiteTree::config()->search_boost);
+        if (SiteTree::has_extension(CwpSearchBoostExtension::class)) {
+            $this->setFieldBoosting(SiteTree::class . '_SearchBoost', SiteTree::config()->get('search_boost'));
         }
     }
 
@@ -74,17 +77,18 @@ abstract class CwpSearchIndex extends SolrIndex
     {
         $xml = parent::getFieldDefinitions();
         $xml .= "\n\n\t\t<!-- Additional custom fields for spell checking -->";
-        $xml .= "\n\t\t<field name='_spellcheckText' type='textSpellHtml' indexed='true' stored='false' multiValued='true' />";
+        $xml .= "\n\t\t<field name='_spellcheckText' type='textSpellHtml' indexed='true' "
+            . "stored='false' multiValued='true' />";
 
         return $xml;
     }
 
     /**
      *
-     * @param \CWP\Core\Model\SearchQuery $query
-     * @param type $offset
-     * @param type $limit
-     * @param type $params
+     * @param SearchQuery $query
+     * @param int $offset
+     * @param int $limit
+     * @param array $params
      * @return ArrayData
      */
     public function search(SearchQuery $query, $offset = -1, $limit = -1, $params = [])

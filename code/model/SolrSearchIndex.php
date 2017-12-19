@@ -2,7 +2,6 @@
 
 namespace CWP\Core\Model;
 
-use CWP\Core\Model\CwpSearchIndex;
 use SilverStripe\CMS\Model\SiteTree;
 
 /**
@@ -10,10 +9,6 @@ use SilverStripe\CMS\Model\SiteTree;
  */
 class SolrSearchIndex extends CwpSearchIndex
 {
-
-    /**
-     * @return void
-     */
     public function init()
     {
         $this->addClass(SiteTree::class);

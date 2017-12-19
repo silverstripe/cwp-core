@@ -1,2 +1,5 @@
-HtmlEditorField:
+---
+Name: cwphtmleditorconfig
+---
+SilverStripe\Forms\HTMLEditor\HTMLEditorField:
   sanitise_server_side: true

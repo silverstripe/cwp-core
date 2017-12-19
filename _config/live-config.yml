@@ -1,6 +1,7 @@
 ---
+Name: cwpcoreliveconfig
 Except:
   environment: dev
 ---
-Session:
+SilverStripe\Control\Session:
   cookie_secure: true

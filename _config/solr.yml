@@ -1,17 +1,17 @@
 ---
 Name: solrconfig-prod
 Only:
-  constantdefined: CWP_ENVIRONMENT
+  EnvVarSet: CWP_ENVIRONMENT
 ---
-CwpSolr:
+CWP\Core\Search\CwpSolr:
   options:
     version: 'cwp-4'
 
 ---
 Name: solrconfig-local
 Except:
-  constantdefined: CWP_ENVIRONMENT
+  EnvVarSet: CWP_ENVIRONMENT
 ---
-CwpSolr:
+CWP\Core\Search\CwpSolr:
   options:
     version: 'local-4'
