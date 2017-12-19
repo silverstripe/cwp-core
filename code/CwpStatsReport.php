@@ -2,6 +2,7 @@
 
 namespace CWP\Core\Report;
 
+use SilverStripe\Assets\File;
 use SilverStripe\Assets\Folder;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Forms\GridField\GridField;
