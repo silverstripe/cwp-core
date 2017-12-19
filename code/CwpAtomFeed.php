@@ -9,15 +9,15 @@ namespace CWP\Core\Feed;
  * @todo Improve documentation
  * @package cwp-core
  */
-use SilverStripe\Control\RSS\RSSFeed;
-use SilverStripe\ORM\SS_List;
-use SilverStripe\Core\Convert;
-use SilverStripe\View\Requirements;
 use SilverStripe\Control\Controller;
+use SilverStripe\Control\RSS\RSSFeed;
+use SilverStripe\Core\Convert;
+use SilverStripe\ORM\FieldType\DBHTMLText;
+use SilverStripe\ORM\SS_List;
+use SilverStripe\View\Requirements;
 
 class CwpAtomFeed extends RSSFeed
 {
-
     public function __construct(
         SS_List $entries,
         $link,
@@ -40,7 +40,7 @@ class CwpAtomFeed extends RSSFeed
             $lastModified
         );
 
-        $this->setTemplate('AtomFeed');
+        $this->setTemplate(__CLASS__);
     }
 
     /**
@@ -60,6 +60,8 @@ class CwpAtomFeed extends RSSFeed
 
     /**
      * Output the feed to the browser
+     *
+     * @return DBHTMLText
      */
     public function outputToBrowser()
     {
