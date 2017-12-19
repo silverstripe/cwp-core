@@ -2,134 +2,124 @@
 
 namespace CWP\Core\Report;
 
-use SilverStripe\Reports\Report;
+use SilverStripe\Assets\Folder;
+use SilverStripe\CMS\Model\SiteTree;
+use SilverStripe\Forms\GridField\GridField;
+use SilverStripe\Forms\GridField\GridFieldConfig;
+use SilverStripe\Forms\GridField\GridFieldExportButton;
+use SilverStripe\Forms\GridField\GridFieldPrintButton;
+use SilverStripe\Forms\GridField\GridFieldSortableHeader;
 use SilverStripe\ORM\ArrayList;
+use SilverStripe\Reports\Report;
+use SilverStripe\Subsites\Model\Subsite;
+use SilverStripe\Versioned\Versioned;
 
 /**
  * Summary report on the page and file counts managed by this CMS.
  */
 class CwpStatsReport extends Report
 {
-
-    /**
-     *
-     * @return string
-     */
     public function title()
     {
-        return _t('CwpStatsReport.Title', 'Summary statistics');
+        return _t(__CLASS__ . '.Title', 'Summary statistics');
     }
 
-    /**
-     *
-     * @return string
-     */
     public function description()
     {
         return _t(
-            'CwpStatsReport.Description',
+            __CLASS__ . '.Description',
             'This report provides various statistics for this site. The "total live page count" is the number that ' .
                 'can be compared against the instance size specifications.'
         );
     }
 
-    /**
-     *
-     * @return array
-     */
     public function columns()
     {
-        return array(
-            'Name' => _t('CwpStatsReport.Name', 'Name'),
-            'Count' => _t('CwpStatsReport.Count', 'Count')
-        );
+        return [
+            'Name' => _t(__CLASS__ . '.Name', 'Name'),
+            'Count' => _t(__CLASS__ . '.Count', 'Count'),
+        ];
     }
 
     /**
      * Manually create source records for the report. Agreggates cannot be provided as a column of a DataQuery result.
      *
-     * @param type $params
-     * @param type $sort
-     * @param type $limit
-     * @return ArrayList
+     * {@inheritDoc}
      */
-    public function sourceRecords($params = array(), $sort = null, $limit = null)
+    public function sourceRecords($params = [], $sort = null, $limit = null)
     {
-        $records = array();
+        $records = [];
 
         // Get the query to apply across all variants: looks at all subsites, translations, live stage only.
         $crossVariant = (function ($dataQuery) {
-                    $params = array(
-                        'Subsite.filter' => false,
-                        'Versioned.mode' => 'stage',
-                        'Versioned.stage' => 'Live'
-                    );
+            $params = [
+                'Subsite.filter' => false,
+                'Versioned.mode' => Versioned::DRAFT,
+                'Versioned.stage' => Versioned::LIVE,
+            ];
 
-            if (class_exists('Translatable')) {
-                $params[Translatable::QUERY_LOCALE_FILTER_ENABLED] = false;
-            }
-
-                    return $dataQuery->setDataQueryParam($params);
+            return $dataQuery->setDataQueryParam($params);
         });
 
         // Total.
-        $records[] = array(
+        $records[] = [
             'Name' => _t(
-                'CwpStatsReport.TotalPageCount',
+                __CLASS__ . '.TotalPageCount',
                 'Total live page count, across all translations and subsites'
             ),
-            'Count' => $crossVariant(SiteTree::get())
-                    ->count()
-        );
+            'Count' => $crossVariant(SiteTree::get())->count(),
+        ];
 
-        if (class_exists('Subsite')) {
+        if (class_exists(Subsite::class)) {
             // Main site.
-            $records[] = array(
-                'Name' => _t('CwpStatsReport.PagesForMainSite', '- in the main site'),
+            $records[] = [
+                'Name' => _t(__CLASS__ . '.PagesForMainSite', '- in the main site'),
                 'Count' => $crossVariant(SiteTree::get())
-                        ->filter(array('SubsiteID' => 0))
-                        ->count()
-            );
+                    ->filter(['SubsiteID' => 0])
+                    ->count(),
+            ];
 
             // Per subsite.
             $subsites = Subsite::get();
             foreach ($subsites as $subsite) {
-                $records[] = array(
+                $records[] = [
                     'Name' => _t(
-                        'CwpStatsReport.PagesForSubsite',
+                        __CLASS__ . '.PagesForSubsite',
                         "- in the subsite '{SubsiteTitle}'",
-                        array('SubsiteTitle' => $subsite->Title)
+                        ['SubsiteTitle' => $subsite->Title]
                     ),
                     'Count' => $crossVariant(SiteTree::get())
-                            ->filter(array('SubsiteID' => $subsite->ID))
-                            ->count()
-                );
+                        ->filter(['SubsiteID' => $subsite->ID])
+                        ->count(),
+                ];
             }
         }
 
         // Files.
-        $records[] = array(
+        $records[] = [
             'Name' => _t('CwpStatsReport.FileCount', 'File count'),
             'Count' => File::get()
-                    ->setDataQueryParam('Subsite.filter', false)
-                    ->filter(array('ClassName:not' => 'Folder'))
-                    ->count()
-        );
+                ->setDataQueryParam('Subsite.filter', false)
+                ->filter(['ClassName:not' => Folder::class])
+                ->count(),
+        ];
 
         return ArrayList::create($records);
     }
 
     /**
-     *
-     * @return \SilverStripe\Forms\FormField
+     * @return GridField
      */
     public function getReportField()
     {
+        /** @var GridField $gridField */
         $gridField = parent::getReportField();
+
+        /** @var GridFieldConfig $gridConfig */
         $gridConfig = $gridField->getConfig();
-        $gridConfig->removeComponentsByType('GridFieldPrintButton');
-        $gridConfig->removeComponentsByType('GridFieldExportButton');
-        $gridConfig->removeComponentsByType('GridFieldSortableHeader');
+        $gridConfig->removeComponentsByType(GridFieldPrintButton::class);
+        $gridConfig->removeComponentsByType(GridFieldExportButton::class);
+        $gridConfig->removeComponentsByType(GridFieldSortableHeader::class);
 
         return $gridField;
     }

@@ -2,18 +2,17 @@
 
 namespace CWP\Core\Search;
 
-use SilverStripe\FullTextSearch\Solr\Solr;
+use Exception;
+use InvalidArgumentException;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
-use CWP\Core\Search\CwpSolrConfigStore;
+use SilverStripe\FullTextSearch\Solr\Solr;
 
 /**
  * CwpSolr configures Solr in a CWP-compatible manner.
  */
-
 class CwpSolr
 {
-
     /**
      *
      * @var array
@@ -25,7 +24,8 @@ class CwpSolr
      *
      * $options - An array consisting of:
      *
-     * 'extraspath' - (String) Where to find Solr core configuartion files. Defaults to '<BASE_PATH>/mysite/conf/extras'.
+     * 'extraspath' - (String) Where to find Solr core configuartion files.
+     *     Defaults to '<BASE_PATH>/mysite/conf/extras'.
      * 'version' - select the Solr configuration to use when in CWP. One of:
      * * 'cwp-4': preferred version, uses secured 4.x service available on CWP
      * * 'local-4': this can be use for development using silverstripe-localsolr package, 4.x branch
@@ -48,7 +48,7 @@ class CwpSolr
                 $solrOptions = self::options_for_local($options);
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     'Solr version "%s" is not supported on CWP. Please use "local-4" on local ' .
                         'and "cwp-4" on production. For preferred configuration see ' .
                         'https://www.cwp.govt.nz/developer-docs/.',
@@ -69,12 +69,11 @@ class CwpSolr
     }
 
     /**
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public static function options_from_environment()
     {
-        throw new \Exception(
+        throw new Exception(
             'CwpSolr::options_from_environment has been deprecated, in favour of implicit Solr ' .
             'configuration provided by the CwpSolr class in the cwp-core module. For preferred configuration see ' .
             'https://www.cwp.govt.nz/developer-docs/.'
@@ -82,7 +81,6 @@ class CwpSolr
     }
 
     /**
-     *
      * @param array $options
      * @return array
      */
@@ -90,16 +88,16 @@ class CwpSolr
     {
         $version = $options['version'];
 
-        return array(
+        return [
             'host' => Environment::getEnv('SOLR_SERVER'),
             'port' => Environment::getEnv('SOLR_PORT'),
             'path' => '/v4/',
             'version' => 4,
-            'indexstore' => array(
+            'indexstore' => [
                 'mode' => CwpSolrConfigStore::class,
-                'path' => '/v4'
-            )
-        );
+                'path' => '/v4',
+            ],
+        ];
     }
 
     /**
@@ -109,21 +107,23 @@ class CwpSolr
      */
     public static function options_for_local($options)
     {
-        $version = $options['version'];
-
-        return array(
-            'host' => defined('SOLR_SERVER') ? SOLR_SERVER : 'localhost',
-            'port' => defined('SOLR_PORT') ? SOLR_PORT : 8983,
-            'path' => defined('SOLR_PATH') ? SOLR_PATH : '/solr/',
+        return [
+            'host' => Environment::getEnv('SOLR_SERVER') ? Environment::getEnv('SOLR_SERVER') : 'localhost',
+            'port' => Environment::getEnv('SOLR_PORT') ? Environment::getEnv('SOLR_PORT') : 8983,
+            'path' => Environment::getEnv('SOLR_PATH') ? Environment::getEnv('SOLR_PATH') : '/solr/',
             'version' => 4,
-            'indexstore' => array(
-                'mode' => defined('SOLR_MODE') ? SOLR_MODE : 'file',
-                'auth' => defined('SOLR_AUTH') ? SOLR_AUTH : null,
+            'indexstore' => [
+                'mode' => Environment::getEnv('SOLR_MODE') ? Environment::getEnv('SOLR_MODE') : 'file',
+                'auth' => Environment::getEnv('SOLR_AUTH') ? Environment::getEnv('SOLR_AUTH') : null,
                 // Allow storing the solr index and config data in an arbitrary location,
                 // e.g. outside of the webroot
-                'path' => defined('SOLR_INDEXSTORE_PATH') ? SOLR_INDEXSTORE_PATH : BASE_PATH . '/.solr',
-                'remotepath' => defined('SOLR_REMOTE_PATH') ? SOLR_REMOTE_PATH : null
-            )
-        );
+                'path' => Environment::getEnv('SOLR_INDEXSTORE_PATH')
+                    ? Environment::getEnv('SOLR_INDEXSTORE_PATH')
+                    : BASE_PATH . '/.solr',
+                'remotepath' => Environment::getEnv('SOLR_REMOTE_PATH')
+                    ? Environment::getEnv('SOLR_REMOTE_PATH')
+                    : null
+            ]
+        ];
     }
 }
