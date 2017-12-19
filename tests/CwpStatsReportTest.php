@@ -1,5 +1,11 @@
 <?php
 
+namespace CWP\Core\Tests;
+
+use SilverStripe\Subsites\Model\Subsite;
+use CWP\Core\Report\CwpStatsReport;
+use SilverStripe\Dev\SapphireTest;
+
 class CwpStatsReportTest extends SapphireTest
 {
 
@@ -14,7 +20,7 @@ class CwpStatsReportTest extends SapphireTest
 
         // Add page5s to a subsite, if the module is installed.
         $page5s = $this->objFromFixture('Page', 'page5s');
-        if (class_exists('Subsite')) {
+        if (class_exists(Subsite::class)) {
             $subsite = Subsite::create();
             $subsite->Title = 'subsite';
             $subsite->write();
@@ -28,7 +34,7 @@ class CwpStatsReportTest extends SapphireTest
         $records = $report->sourceRecords(array())->toArray();
         $i = 0;
         $this->assertEquals($records[$i++]['Count'], 4, 'Four pages in total, across locales, subsites, live only.');
-        if (class_exists('Subsite')) {
+        if (class_exists(Subsite::class)) {
             $this->assertEquals($records[$i++]['Count'], 3, 'Three pages in the main site, if subsites installed.');
             $this->assertEquals($records[$i++]['Count'], 1, 'One page in the subsite, if subsites installed');
         }

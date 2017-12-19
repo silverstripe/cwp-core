@@ -1,0 +1,6 @@
+---
+Name: cwpcoreextensions
+---
+SilverStripe\Admin\LeftAndMain:
+  extensions:
+    - CWP\Core\Extension\LoginAttemptNotifications_LeftAndMain

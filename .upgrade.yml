@@ -1,20 +1,21 @@
 mappings:
-  # Config
   CwpInitialisationFilter: CWP\Core\Config\CwpInitialisationFilter
-  # Extension
   CustomHtmlEditorFieldToolbar: CWP\Core\Extension\CustomHtmlEditorFieldToolbar
   CwpControllerExtension: CWP\Core\Extension\CwpControllerExtension
   CwpHtmlEditorConfig: CWP\Core\Extension\CwpHtmlEditorConfig
   CwpSecurity: CWP\Core\Extension\CwpSecurity
   LoginAttemptNotifications_LeftAndMain: CWP\Core\Extension\LoginAttemptNotifications_LeftAndMain
   RichLinksExtension: CWP\Core\Extension\RichLinksExtension
-  # Feed
   CwpAtomFeed: CWP\Core\Feed\CwpAtomFeed
-  # Model
   CwpSearchIndex: CWP\Core\Model\CwpSearchIndex
   SolrSearchIndex: CWP\Core\Model\SolrSearchIndex
-  # Report
   CwpStatsReport: CWP\Core\Report\CwpStatsReport
-  # Search
   CwpSolr: CWP\Core\Search\CwpSolr
-  CwpSolr: CWP\Core\Search\CwpSolrConfigStore
+  RichLinksExtensionTest: CWP\Core\Tests\RichLinksExtensionTest
+  CwpControllerExtensionTest: CWP\Core\Tests\CwpControllerExtensionTest
+  CwpStatsReportTest: CWP\Core\Tests\CwpStatsReportTest
+  AtomFeedTest: CWP\Core\Tests\AtomFeedTest
+  AtomFeedTest_ItemA: CWP\Core\Tests\AtomFeedTest_ItemA
+  AtomFeedTest_ItemB: CWP\Core\Tests\AtomFeedTest_ItemB
+  AtomFeedTest_ItemC: CWP\Core\Tests\AtomFeedTest_ItemC
+  AtomTags_Test: CWP\Core\Tests\AtomTags_Test
