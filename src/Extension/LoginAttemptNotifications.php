@@ -89,7 +89,10 @@ class LoginAttemptNotifications extends Extension
             }
         }
 
-        $session->set('LoginAttemptNotifications.SessionLastVisited', DBDatetime::now()->Format('Y-m-d H:i:s'));
+        $session->set(
+            'LoginAttemptNotifications.SessionLastVisited',
+            DBDatetime::now()->Format(DBDatetime::ISO_DATETIME)
+        );
 
         $this->owner->getResponse()->addHeader('X-LoginAttemptNotifications', $message);
     }
