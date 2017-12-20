@@ -13,7 +13,7 @@ use SilverStripe\View\ArrayData;
 /**
  * Abstract wrapper for all cwp-core features
  *
- * Can be extended by user indexes to include these features. {@see SolrSearchIndex} for an example
+ * Can be extended by user indexes to include these features. {@see CwpSolrIndex} for an example
  */
 abstract class CwpSearchIndex extends SolrIndex
 {

@@ -4,7 +4,6 @@ namespace CWP\Core\Search;
 
 use Exception;
 use InvalidArgumentException;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Environment;
 use SilverStripe\FullTextSearch\Solr\Solr;

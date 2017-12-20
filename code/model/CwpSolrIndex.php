@@ -7,7 +7,7 @@ use SilverStripe\CMS\Model\SiteTree;
 /**
  * Default search index
  */
-class SolrSearchIndex extends CwpSearchIndex
+class CwpSolrIndex extends CwpSearchIndex
 {
     public function init()
     {
