@@ -1,5 +1,5 @@
 mappings:
-  CwpInitialisationFilter: CWP\Core\Config\CwpInitialisationFilter
+  CwpInitialisationFilter: CWP\Core\Control\InitialisationMiddleware
   CustomHtmlEditorFieldToolbar: CWP\Core\Extension\CustomHtmlEditorFieldToolbar
   CwpControllerExtension: CWP\Core\Extension\CwpControllerExtension
   CwpHtmlEditorConfig: CWP\Core\Extension\CwpHtmlEditorConfig
