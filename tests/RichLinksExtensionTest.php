@@ -2,21 +2,21 @@
 
 namespace CWP\Core\Tests;
 
-use Text;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\ORM\FieldType\DBText;
 
 class RichLinksExtensionTest extends SapphireTest
 {
-
-    function testContentLinkInjections()
+    public function testContentLinkInjections()
     {
-        $field = new Text();
+        $field = new DBText();
 
         // External links injection.
         $field->setValue('<a href="http://newzealand.govt.nz">New Zealand Government</a>');
         $this->assertEquals(
             $field->RichLinks(),
-            '<a class="external" rel="external" title="Open external link" href="http://newzealand.govt.nz">New Zealand Government'
+            '<a class="external" rel="external" title="Open external link" '
+            . 'href="http://newzealand.govt.nz">New Zealand Government'
             .'<span class="nonvisual-indicator">(external link)</span></a>',
             'Injects attributes to external link without target.'
         );
@@ -24,7 +24,8 @@ class RichLinksExtensionTest extends SapphireTest
         $field->setValue('<a href="http://newzealand.govt.nz" target="_blank">New Zealand Government</a>');
         $this->assertEquals(
             $field->RichLinks(),
-            '<a class="external" rel="external" title="Open external link" href="http://newzealand.govt.nz" target="_blank">New Zealand Government'
+            '<a class="external" rel="external" title="Open external link" '
+            . 'href="http://newzealand.govt.nz" target="_blank">New Zealand Government'
             .'<span class="nonvisual-indicator">(external link)</span></a>',
             'Injects attributes to external link with target, while keeping the existing attributes.'
         );
