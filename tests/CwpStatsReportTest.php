@@ -2,24 +2,24 @@
 
 namespace CWP\Core\Tests;
 
-use SilverStripe\Subsites\Model\Subsite;
 use CWP\Core\Report\CwpStatsReport;
+use Page;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Subsites\Model\Subsite;
 
 class CwpStatsReportTest extends SapphireTest
 {
-
-    protected static $fixture_file = 'cwp-core/tests/CwpStatsReportTest.yml';
+    protected static $fixture_file = 'CwpStatsReportTest.yml';
 
     public function testCount()
     {
         // Publish all pages apart from page3.
-        $this->objFromFixture('Page', 'page1')->doPublish();
-        $this->objFromFixture('Page', 'page2')->doPublish();
-        $this->objFromFixture('Page', 'page3')->doPublish();
+        $this->objFromFixture(Page::class, 'page1')->publishRecursive();
+        $this->objFromFixture(Page::class, 'page2')->publishRecursive();
+        $this->objFromFixture(Page::class, 'page3')->publishRecursive();
 
         // Add page5s to a subsite, if the module is installed.
-        $page5s = $this->objFromFixture('Page', 'page5s');
+        $page5s = $this->objFromFixture(Page::class, 'page5s');
         if (class_exists(Subsite::class)) {
             $subsite = Subsite::create();
             $subsite->Title = 'subsite';
@@ -28,10 +28,10 @@ class CwpStatsReportTest extends SapphireTest
             $page5s->SubsiteID = $subsite->ID;
             $page5s->write();
         }
-        $page5s->doPublish();
+        $page5s->publishRecursive();
 
         $report = CwpStatsReport::create();
-        $records = $report->sourceRecords(array())->toArray();
+        $records = $report->sourceRecords([])->toArray();
         $i = 0;
         $this->assertEquals($records[$i++]['Count'], 4, 'Four pages in total, across locales, subsites, live only.');
         if (class_exists(Subsite::class)) {

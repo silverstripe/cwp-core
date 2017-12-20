@@ -55,7 +55,7 @@ class CwpStatsReport extends Report
         $crossVariant = (function ($dataQuery) {
             $params = [
                 'Subsite.filter' => false,
-                'Versioned.mode' => Versioned::DRAFT,
+                'Versioned.mode' => 'stage',
                 'Versioned.stage' => Versioned::LIVE,
             ];
 
