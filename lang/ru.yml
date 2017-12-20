@@ -1,7 +1,7 @@
 ru:
-  Cwp:
+  CWP\Core\Extension\CwpControllerExtension:
     LoginPrompt: 'Пожалуйста, авторизуйтесь'
-  CwpStatsReport:
+  CWP\Core\Report\CwpStatsReport:
     Count: Количество
     FileCount: 'Количество файлов'
     Name: Название
@@ -9,5 +9,5 @@ ru:
     PagesForSubsite: '- на подсайте ''{SubsiteTitle}'''
     Title: 'Общая статистика'
     TotalPageCount: 'Общее количество страниц - на всех подсайтах и языках'
-  RichLinks:
+  CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Открыть внешнюю ссылку'

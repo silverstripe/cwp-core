@@ -54,7 +54,7 @@ class RichLinksExtension extends Extension
         $pattern = '/(<a.*)(href=\"https?:\/\/[^\"]*\"[^>]*>.*)(<\/a>)/iU';
         $replacement = sprintf(
             '$1class="external" rel="external" title="%s" $2<span class="nonvisual-indicator">(external link)</span>$3',
-            _t('RichLinks.OpenLinkTitle', 'Open external link')
+            _t(__CLASS__ . '.OpenLinkTitle', 'Open external link')
         );
         $content = preg_replace($pattern, $replacement, $content, -1);
 

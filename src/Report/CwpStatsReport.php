@@ -98,7 +98,7 @@ class CwpStatsReport extends Report
 
         // Files.
         $records[] = [
-            'Name' => _t('CwpStatsReport.FileCount', 'File count'),
+            'Name' => _t(__CLASS__ . '.FileCount', 'File count'),
             'Count' => File::get()
                 ->setDataQueryParam('Subsite.filter', false)
                 ->filter(['ClassName:not' => Folder::class])

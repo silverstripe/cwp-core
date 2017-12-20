@@ -1,6 +1,6 @@
 mi:
-  Cwp:
+  CWP\Core\Extension\CwpControllerExtension:
     LoginPrompt: 'Takiuru mā ō taipitopito tautoko CMS'
     UatServerPermission: 'Tukuna ngā kaiwhakamahi kia whakamahi i ā rātou pūkete hei uru ki te tūmau UAT'
-  RichLinks:
+  CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Whakatuwheratia tētahi hono ā-waho'

@@ -1,8 +1,8 @@
 fi:
-  Cwp:
+  CWP\Core\Extension\CwpControllerExtension:
     LoginPrompt: 'Ole hyvä ja kirjaudu CMS-tunnuksillasi'
     UatServerPermission: 'Salli käyttäjien pääsy tilin avulla UAT-serverille'
-  CwpStatsReport:
+  CWP\Core\Report\CwpStatsReport:
     Count: Lukumäärä
     Description: 'Tämä raportti sisältää tilastotietoa sivustosta. "Julkaistujen sivujen määrää" voidaan verrata osion kokoon.'
     FileCount: 'Tiedostojen määrä'
@@ -11,5 +11,5 @@ fi:
     PagesForSubsite: '- alasivustolla ''{SubsiteTitle}'''
     Title: Yhteenvetotilasto
     TotalPageCount: 'Julkaistujen sivujen määrä, kaikki käännetyt ja alasivut huomioiden'
-  RichLinks:
+  CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Avaa ulkoinen linkki'
