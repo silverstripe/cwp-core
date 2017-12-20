@@ -23,12 +23,11 @@ SilverStripe\Security\Member:
 SilverStripe\Security\Security:
   login_recording: false
 
-# @todo replace with middleware
 SilverStripe\Core\Injector\Injector:
-  SilverStripe\Control\RequestProcessor:
+  SilverStripe\Control\Director:
     properties:
-      filters:
-        - '%$CWP\Core\Config\CwpInitialisationFilter'
+      Middlewares:
+        CwpInitialisationMiddleware: '%$CWP\Core\Control\InitialisationMiddleware'
 
 # @todo investigate replacement for this
 HtmlEditorField_Toolbar:
