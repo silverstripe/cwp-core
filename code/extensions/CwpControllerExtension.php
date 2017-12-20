@@ -151,6 +151,7 @@ class CwpControllerExtension extends Extension implements PermissionProvider
         if (!$allowWithoutAuth) {
             $this->callWithSubsitesDisabled(function () {
                 BasicAuth::requireLogin(
+                    $this->owner->getRequest(),
                     _t(__CLASS__ . '.LoginPrompt', "Please log in with your CMS credentials"),
                     'ACCESS_UAT_SERVER',
                     true

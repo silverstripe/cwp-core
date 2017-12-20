@@ -2,154 +2,122 @@
 
 namespace CWP\Core\Tests;
 
-use DataModel;
-
-
-use Exception;
-use SilverStripe\Control\Session;
-use SilverStripe\Control\Controller;
-use SilverStripe\Control\HTTPRequest;
-use SilverStripe\Core\Config\Config;
-use SilverStripe\Control\Director;
-use SilverStripe\Core\Injector\Injector;
 use CWP\Core\Extension\CwpControllerExtension;
+use Exception;
+use SilverStripe\Control\Controller;
+use SilverStripe\Control\Director;
+use SilverStripe\Control\HTTPRequest;
+use SilverStripe\Control\Middleware\CanonicalURLMiddleware;
+use SilverStripe\Control\Session;
+use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Injector\Injector;
+use SilverStripe\Core\Kernel;
 use SilverStripe\Dev\SapphireTest;
 
+/**
+ * Tests for the CWP Core controller extension. Note that tests here will use configuration to mock the
+ * responses from {@link Director} method calls.
+ */
 class CwpControllerExtensionTest extends SapphireTest
 {
+    /**
+     * @var Controller
+     */
+    protected $controller;
 
-    function testRedirectsSSLToDomain()
+    /**
+     * @var CanonicalURLMiddleware
+     */
+    protected $middlewareMock;
+
+    protected function setUp()
     {
-        Session::set("loggedInAs", null);
+        parent::setUp();
 
-        $ctrl = new Controller();
-        $req = new HTTPRequest('GET', '/');
-        $dataModel = new DataModel();
+        $this->logOut();
 
-        Config::inst()->nest();
+        $this->controller = new Controller();
 
-        $directorClass = $this->getMockClass(Director::class, array('forceSSL', 'is_https'));
-        Injector::inst()->registerNamedService(Director::class, new $directorClass);
+        $request = new HTTPRequest('GET', '/');
+        $request->setSession(new Session([]));
+
+        $this->controller->setRequest($request);
+
+        $this->middlewareMock = $this->getMockBuilder(CanonicalURLMiddleware::class)
+            ->setMethods(['setForceSSL'])
+            ->getMock();
+
+        Injector::inst()->registerService($this->middlewareMock, CanonicalURLMiddleware::class);
+    }
+
+    public function testRedirectsSSLToDomain()
+    {
+        Config::modify()->set(Director::class, 'alternate_base_url', 'http://nothttps.local');
 
         // Expecting this to call forceSSL to forcedomain.org.
-        $directorClass::staticExpects($this->any())
-            ->method('is_https')
-            ->will($this->returnValue(false));
-        $directorClass::staticExpects($this->once())
-            ->method('forceSSL')
-            ->with($this->anything(), $this->equalTo('forcedomain.org'));
+        $this->middlewareMock->expects($this->once())
+            ->method('setForceSSL')
+            ->with(true)
+            ->will($this->returnSelf());
 
-        Config::inst()->update(CwpControllerExtension::class, 'ssl_redirection_enabled', true);
-        Config::inst()->update(CwpControllerExtension::class, 'ssl_redirection_force_domain', 'forcedomain.org');
-        $response = $ctrl->handleRequest($req, $dataModel);
+        Config::modify()->set(CwpControllerExtension::class, 'ssl_redirection_enabled', true);
+        Config::modify()->set(CwpControllerExtension::class, 'ssl_redirection_force_domain', 'forcedomain.org');
 
-        Injector::inst()->unregisterAllObjects();
-        Config::inst()->unnest();
+        $this->controller->handleRequest($this->controller->getRequest());
     }
 
-    function testRedirectsSSLToCurrentDomain()
+    public function testRedirectsSSLToCurrentDomain()
     {
-        Session::set("loggedInAs", null);
-
-        $ctrl = new Controller();
-        $req = new HTTPRequest('GET', '/');
-        $dataModel = new DataModel();
-
-        $directorClass = $this->getMockClass(Director::class, array('forceSSL', 'is_https'));
-        Injector::inst()->registerNamedService(Director::class, new $directorClass);
+        Config::modify()->set(Director::class, 'alternate_base_url', 'http://nothttps.local');
 
         // Expecting this to call forceSSL to current domain.
-        $directorClass::staticExpects($this->any())
-            ->method('is_https')
-            ->will($this->returnValue(false));
-        $directorClass::staticExpects($this->once())
-            ->method('forceSSL')
-            ->with($this->anything());
+        $this->middlewareMock->expects($this->once())
+            ->method('setForceSSL')
+            ->will($this->returnSelf());
 
-        Config::inst()->update(CwpControllerExtension::class, 'ssl_redirection_enabled', true);
-        Config::inst()->update(CwpControllerExtension::class, 'ssl_redirection_force_domain', false);
-        $response = $ctrl->handleRequest($req, $dataModel);
+        Config::modify()->set(CwpControllerExtension::class, 'ssl_redirection_enabled', true);
+        Config::modify()->set(CwpControllerExtension::class, 'ssl_redirection_force_domain', false);
 
-        Injector::inst()->unregisterAllObjects();
+        $this->controller->handleRequest($this->controller->getRequest());
     }
 
-    function testRequiresLoginForTest()
+    public function testRequiresLoginForTest()
     {
-        Session::set("loggedInAs", null);
-
-        $ctrl = new Controller();
-        $req = new HTTPRequest('GET', '/');
-        $dataModel = new DataModel();
-
-        $directorClass = $this->getMockClass(Director::class, array('isTest'));
-        Injector::inst()->registerNamedService(Director::class, new $directorClass);
-
-        $directorClass::staticExpects($this->any())
-            ->method('isTest')
-            ->will($this->returnValue(true));
+        Injector::inst()->get(Kernel::class)->setEnvironment('test');
 
         try {
-            $response = $ctrl->handleRequest($req, $dataModel);
+            $this->controller->handleRequest($this->controller->getRequest());
         } catch (Exception $e) {
             $this->assertEquals($e->getResponse()->getStatusCode(), '401', 'Forces BasicAuth on test');
 
             // We need to pop manually, since throwing an SS_HTTPResponse_Exception in onBeforeInit hijacks
             // the normal Controller control flow and confuses TestRunner (as they share global controller stack).
-            $ctrl->popCurrent();
+            $this->controller->popCurrent();
         }
     }
 
-    function testRequiresLoginForNonTest()
+    public function testRequiresLoginForNonTest()
     {
-        Session::set("loggedInAs", null);
+        Injector::inst()->get(Kernel::class)->setEnvironment('live');
 
-        $ctrl = new Controller();
-        $req = new HTTPRequest('GET', '/');
-        $dataModel = new DataModel();
-
-        $directorClass = $this->getMockClass(Director::class, array('isTest'));
-        Injector::inst()->registerNamedService(Director::class, new $directorClass);
-
-        $directorClass::staticExpects($this->any())
-            ->method('isTest')
-            ->will($this->returnValue(false));
-
-        $response = $ctrl->handleRequest($req, $dataModel);
+        $response = $this->controller->handleRequest($this->controller->getRequest());
         $this->assertEquals($response->getStatusCode(), '200', 'Does not force BasicAuth on live');
     }
 
-    function testRequiresLoginForLiveWhenEnabled()
+    public function testRequiresLoginForLiveWhenEnabled()
     {
-        Session::set("loggedInAs", null);
+        Config::modify()->set(CwpControllerExtension::class, 'live_basicauth_enabled', true);
 
-        $ctrl = new Controller();
-        $req = new HTTPRequest('GET', '/');
-        $dataModel = new DataModel();
-
-        Config::inst()->nest();
-
-        Config::inst()->update(CwpControllerExtension::class, 'live_basicauth_enabled', true);
-        $directorClass = $this->getMockClass(Director::class, array('isTest', 'isLive'));
-        Injector::inst()->registerNamedService(Director::class, new $directorClass);
-
-        $directorClass::staticExpects($this->any())
-            ->method('isTest')
-            ->will($this->returnValue(false));
-
-        $directorClass::staticExpects($this->any())
-            ->method('isLive')
-            ->will($this->returnValue(true));
+        Injector::inst()->get(Kernel::class)->setEnvironment('live');
 
         try {
-            $response = $ctrl->handleRequest($req, $dataModel);
+            $this->controller->handleRequest($this->controller->getRequest());
         } catch (Exception $e) {
             $this->assertEquals($e->getResponse()->getStatusCode(), '401', 'Forces BasicAuth on live (optionally)');
 
             // We need to pop manually, since throwing an SS_HTTPResponse_Exception in onBeforeInit hijacks
             // the normal Controller control flow and confuses TestRunner (as they share global controller stack).
-            $ctrl->popCurrent();
+            $this->controller->popCurrent();
         }
-
-        Config::inst()->unnest();
     }
 }
