@@ -1,34 +1,41 @@
 <?php
 
-class RichLinksExtensionTest extends SapphireTest {
+namespace CWP\Core\Tests;
 
-	function testContentLinkInjections() {
-		$field = new Text();
+use SilverStripe\Dev\SapphireTest;
+use SilverStripe\ORM\FieldType\DBText;
 
-		// External links injection.
-		$field->setValue('<a href="http://newzealand.govt.nz">New Zealand Government</a>');
-		$this->assertEquals(
-			$field->RichLinks(),
-			'<a class="external" rel="external" title="Open external link" href="http://newzealand.govt.nz">New Zealand Government'
-			.'<span class="nonvisual-indicator">(external link)</span></a>',
-			'Injects attributes to external link without target.'
-		);
+class RichLinksExtensionTest extends SapphireTest
+{
+    public function testContentLinkInjections()
+    {
+        $field = new DBText();
 
-		$field->setValue('<a href="http://newzealand.govt.nz" target="_blank">New Zealand Government</a>');
-		$this->assertEquals(
-			$field->RichLinks(),
-			'<a class="external" rel="external" title="Open external link" href="http://newzealand.govt.nz" target="_blank">New Zealand Government'
-			.'<span class="nonvisual-indicator">(external link)</span></a>',
-			'Injects attributes to external link with target, while keeping the existing attributes.'
-		);
+        // External links injection.
+        $field->setValue('<a href="http://newzealand.govt.nz">New Zealand Government</a>');
+        $this->assertEquals(
+            $field->RichLinks(),
+            '<a class="external" rel="external" title="Open external link" '
+            . 'href="http://newzealand.govt.nz">New Zealand Government'
+            .'<span class="nonvisual-indicator">(external link)</span></a>',
+            'Injects attributes to external link without target.'
+        );
 
-		// Check the normal links are not affected.
-		$field->setValue('<a href="[sitetree_link,id=1]">Internal</a>');
-		$this->assertEquals(
-			$field->RichLinks(),
-			'<a href="[sitetree_link,id=1]">Internal</a>',
-			'Regular link is not modified.'
-		);
-	}
+        $field->setValue('<a href="http://newzealand.govt.nz" target="_blank">New Zealand Government</a>');
+        $this->assertEquals(
+            $field->RichLinks(),
+            '<a class="external" rel="external" title="Open external link" '
+            . 'href="http://newzealand.govt.nz" target="_blank">New Zealand Government'
+            .'<span class="nonvisual-indicator">(external link)</span></a>',
+            'Injects attributes to external link with target, while keeping the existing attributes.'
+        );
+
+        // Check the normal links are not affected.
+        $field->setValue('<a href="[sitetree_link,id=1]">Internal</a>');
+        $this->assertEquals(
+            $field->RichLinks(),
+            '<a href="[sitetree_link,id=1]">Internal</a>',
+            'Regular link is not modified.'
+        );
+    }
 }
-

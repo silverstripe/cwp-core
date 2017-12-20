@@ -1,0 +1,22 @@
+---
+Name: cwpcoreextensions
+---
+SilverStripe\Admin\LeftAndMain:
+  extensions:
+    - CWP\Core\Extension\LoginAttemptNotifications
+
+SilverStripe\Control\Controller:
+  extensions:
+    - CWP\Core\Extension\CwpControllerExtension
+
+SilverStripe\ORM\FieldType\DBField:
+  extensions:
+    - CWP\Core\Extension\RichLinksExtension
+
+SilverStripe\Security\Group:
+  extensions:
+    - CWP\Core\Extension\CwpHtmlEditorConfig
+
+HtmlEditorField_Toolbar:
+  extensions:
+   - CustomHtmlEditorFieldToolbar

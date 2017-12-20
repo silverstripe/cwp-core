@@ -2,10 +2,11 @@
 Name: cwptextextraction
 After: '#textextraction'
 Only:
-  moduleexists: textextraction
+  moduleexists: silverstripe/textextraction
 ---
-Injector:
+SilverStripe\Core\Injector\Injector:
   FileTextCache: FileTextCache_SSCache
-File:
+
+SilverStripe\Assets\File:
   extensions:
     - FileTextExtractable

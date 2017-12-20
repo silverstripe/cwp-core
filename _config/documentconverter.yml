@@ -1,0 +1,14 @@
+---
+Name: cwpdocumentconverterconfig
+Only:
+  moduleexists: silverstripe/documentconverter
+  EnvVarSet: DOCVERT_USERNAME
+---
+SilverStripe\DocumentConverter\ServiceConnector:
+  username: '`DOCVERT_USERNAME`'
+  password: '`DOCVERT_PASSWORD`'
+  url: '`DOCVERT_URL`'
+
+Page:
+  extensions:
+    - SilverStripe\DocumentConverter\PageExtension

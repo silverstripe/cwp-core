@@ -1,0 +1,15 @@
+---
+Name: cwpenvironmentchecks
+---
+SilverStripe\EnvironmentCheck\EnvironmentCheckSuite:
+  registered_checks:
+    db:
+      definition: 'SilverStripe\EnvironmentCheck\Checks\DatabaseCheck()'
+      title: 'Is the database accessible?'
+    solr:
+      definition: 'SilverStripe\EnvironmentCheck\Checks\SolrIndexCheck()'
+      title: 'Are all Solr indexes available?'
+  registered_suites:
+    health:
+      - db
+      - solr

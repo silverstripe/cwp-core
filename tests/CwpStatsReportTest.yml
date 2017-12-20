@@ -11,6 +11,7 @@ Page:
     Title: page4 - not published
   page5s:
     Title: page5s
-File:
+
+SilverStripe\Assets\File:
   file1:
     Title: file1

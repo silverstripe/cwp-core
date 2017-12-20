@@ -1,58 +1,39 @@
 ---
 Name: cwpcoreconfig
-After:
-  - 'framework/*'
-  - 'cms/*'
 ---
-Injector:
-  RequestProcessor:
-    properties:
-      filters:
-        - '%$CwpInitialisationFilter'
-DBField:
-  extensions:
-   - RichLinksExtension
-Controller:
-  extensions:
-   - CwpControllerExtension
-Group:
-  extensions:
-   - CwpHtmlEditorConfig
-HtmlEditorField_Toolbar:
-  extensions:
-   - CustomHtmlEditorFieldToolbar
-GDBackend:
-  default_quality: 90
-LeftAndMain:
+CWP\Core\Config\CwpInitialisationFilter:
+  egress_proxy_default_enabled: true
+
+SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
-   - 'cwp/css/custom.css'
-Session:
-  timeout: 3600
-LeftAndMain:
+    - 'cwp/cwp:css/custom.css'
   session_keepalive_ping: false
-PasswordField:
+
+SilverStripe\Control\Session:
+  timeout: 3600
+
+SilverStripe\Forms\PasswordField:
   autocomplete: false
-Security:
-  extensions:
-    - CwpSecurity
-  login_recording: false
-Member:
+
+SilverStripe\Security\Member:
   lock_out_after_incorrect_logins: 5
   lock_out_delay_mins: 15
   notify_password_change: true
-CwpInitialisationFilter:
-  egress_proxy_default_enabled: true
-QueuedJobsService:
-  time_limit: 600
-EnvironmentCheckSuite:
-  registered_checks:
-    db:
-      definition: 'DatabaseCheck()'
-      title: 'Is the database accessible?'
-    solr:
-      definition: 'SolrIndexCheck()'
-      title: 'Are all Solr indexes available?'
-  registered_suites:
-    health:
-      - db
-      - solr
+
+SilverStripe\Security\Security:
+  login_recording: false
+
+# @todo replace with middleware
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\RequestProcessor:
+    properties:
+      filters:
+        - '%$CWP\Core\Config\CwpInitialisationFilter'
+
+# @todo investigate replacement for this
+HtmlEditorField_Toolbar:
+  extensions:
+    - CustomHtmlEditorFieldToolbar
+
+GDBackend:
+  default_quality: 90
