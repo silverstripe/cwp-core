@@ -6,7 +6,7 @@ CWP\Core\Config\CwpInitialisationFilter:
 
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
-    - 'cwp/cwp:css/custom.css'
+    - 'cwp/cwp-core:css/custom.css'
   session_keepalive_ping: false
 
 SilverStripe\Control\Session:
