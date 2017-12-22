@@ -13,7 +13,7 @@ use SilverStripe\Security\Member;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\PermissionProvider;
 use SilverStripe\Security\Security;
-use SilverStripe\Subsite\Model\Subsite;
+use SilverStripe\Subsites\Model\Subsite;
 
 class CwpControllerExtension extends Extension implements PermissionProvider
 {
