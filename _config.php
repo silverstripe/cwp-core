@@ -15,6 +15,7 @@ use CWP\Core\Extension\CwpControllerExtension;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
+use SilverStripe\Core\Manifest\ModuleLoader;
 use SilverStripe\Forms\HTMLEditor\HTMLEditorConfig;
 use SilverStripe\Forms\HTMLEditor\TinyMCEConfig;
 use SilverStripe\HybridSessions\HybridSession;
@@ -77,14 +78,44 @@ $cwpEditor->setOptions([
     'theme_advanced_blockformats' => 'p,pre,address,h2,h3,h4,h5,h6'
 ]);
 
-$cwpEditor->enablePlugins('media', 'fullscreen', 'inlinepopups');
+$cwpEditor->enablePlugins('media', 'fullscreen');
+
+// Enable insert-link to internal pages
+$cmsModule = ModuleLoader::inst()->getManifest()->getModule('silverstripe/cms');
+$cwpEditor
+    ->enablePlugins([
+        'sslinkinternal' => $cmsModule
+            ->getResource('client/dist/js/TinyMCE_sslink-internal.js'),
+        'sslinkanchor' => $cmsModule
+            ->getResource('client/dist/js/TinyMCE_sslink-anchor.js'),
+    ]);
+
+// Re-enable media dialog
+$assetAdminModule = ModuleLoader::inst()->getManifest()->getModule('silverstripe/asset-admin');
+$cwpEditor
+    ->enablePlugins([
+        'ssmedia' => $assetAdminModule
+            ->getResource('client/dist/js/TinyMCE_ssmedia.js'),
+        'ssembed' => $assetAdminModule
+            ->getResource('client/dist/js/TinyMCE_ssembed.js'),
+        'sslinkfile' => $assetAdminModule
+            ->getResource('client/dist/js/TinyMCE_sslink-file.js'),
+    ]);
+
+// Add SilverStripe link options
+$adminModule = ModuleLoader::inst()->getManifest()->getModule('silverstripe/admin');
+$cwpEditor
+    ->enablePlugins([
+        'contextmenu' => null,
+        'image' => null,
+        'sslink' => $adminModule->getResource('client/dist/js/TinyMCE_sslink.js'),
+        'sslinkexternal' => $adminModule->getResource('client/dist/js/TinyMCE_sslink-external.js'),
+        'sslinkemail' => $adminModule->getResource('client/dist/js/TinyMCE_sslink-email.js'),
+    ])
+    ->setOption('contextmenu', 'sslink inserttable | cell row column deletetable');
+
 $cwpEditor->enablePlugins('template');
 $cwpEditor->enablePlugins('visualchars');
-$cwpEditor->enablePlugins('xhtmlxtras');
-$cwpEditor->enablePlugins([
-    'ssbuttons' => sprintf('../../../%s/tinymce_ssbuttons/editor_plugin_src.js', THIRDPARTY_DIR),
-    'ssmacron' => sprintf('../../../%s/tinymce_ssmacron/editor_plugin_src.js', THIRDPARTY_DIR)
-]);
 
 // First line:
 $cwpEditor->insertButtonsAfter('strikethrough', 'sub', 'sup');
@@ -94,25 +125,33 @@ $cwpEditor->removeButtons('underline', 'strikethrough', 'spellchecker');
 $cwpEditor->insertButtonsBefore('formatselect', 'styleselect');
 $cwpEditor->addButtonsToLine(
     2,
-    'ssmedia',
-    'sslink',
-    'unlink',
     'anchor',
     'separator',
-    'code',
     'fullscreen',
     'separator',
     'template',
-    'separator',
-    'ssmacron'
+    'separator'
 );
+
+// Add macrons
+$cwpEditor->enablePlugins('charmap');
+$cwpEditor->addButtonsToLine(1, 'charmap');
+$cwpEditor->setOption('charmap_append', [
+    ['256','A - macron'],
+    ['274','E - macron'],
+    ['298','I - macron'],
+    ['332','O - macron'],
+    ['362','U - macron'],
+    ['257','a - macron'],
+    ['275','e - macron'],
+    ['299','i - macron'],
+    ['333','o - macron'],
+    ['363','u - macron']
+]);
+
 $cwpEditor->insertButtonsAfter('pasteword', 'removeformat');
 $cwpEditor->insertButtonsAfter('selectall', 'visualchars');
 $cwpEditor->removeButtons('visualaid');
-
-// Third line:
-$cwpEditor->removeButtons('tablecontrols');
-$cwpEditor->addButtonsToLine(3, 'cite', 'abbr', 'ins', 'del', 'separator', 'tablecontrols');
 
 // Configure password strength requirements
 $pwdValidator = new PasswordValidator();
