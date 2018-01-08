@@ -2,7 +2,7 @@
 
 namespace CWP\Core\Model;
 
-use CwpSearchBoostExtension;
+use CWP\CWP\Extensions\CwpSearchBoostExtension;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\FullTextSearch\Search\Queries\SearchQuery;
 use SilverStripe\FullTextSearch\Solr\SolrIndex;
@@ -24,10 +24,10 @@ abstract class CwpSearchIndex extends SolrIndex
      * @var array
      * @config
      */
-    private static $copy_fields = array(
+    private static $copy_fields = [
         '_text',
-        '_spellcheckText'
-    );
+        '_spellcheckText',
+    ];
 
     /**
      * Default dictionary to use. This will overwrite the 'spellcheck.dictionary' option for searches given,
@@ -44,7 +44,9 @@ abstract class CwpSearchIndex extends SolrIndex
     public function init()
     {
         // Add optional boost
-        if (SiteTree::has_extension(CwpSearchBoostExtension::class)) {
+        if (class_exists(CwpSearchBoostExtension::class)
+            && SiteTree::has_extension(CwpSearchBoostExtension::class)
+        ) {
             $this->setFieldBoosting(SiteTree::class . '_SearchBoost', SiteTree::config()->get('search_boost'));
         }
     }
