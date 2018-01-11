@@ -9,8 +9,6 @@
  * and if absolutely necessary if you can't use the yml file, mysite/_config.php instead.
  */
 
-use CWP\Core\Extension\LoginAttemptNotifications;
-use CWP\Core\Search\CwpSolr;
 use CWP\Core\Extension\CwpControllerExtension;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
@@ -32,8 +30,6 @@ i18n::set_locale('en_GB');
 if (!Environment::getEnv('WKHTMLTOPDF_BINARY')) {
     Environment::setEnv('WKHTMLTOPDF_BINARY', '/usr/local/bin/wkhtmltopdf');
 }
-
-CwpSolr::configure();
 
 // TinyMCE configuration
 /** @var TinyMCEConfig $cwpEditor */

@@ -6,10 +6,7 @@ mappings:
   LoginAttemptNotifications_LeftAndMain: CWP\Core\Extension\LoginAttemptNotifications
   RichLinksExtension: CWP\Core\Extension\RichLinksExtension
   CwpAtomFeed: CWP\Core\Feed\CwpAtomFeed
-  CwpSearchIndex: CWP\Core\Model\CwpSearchIndex
-  SolrSearchIndex: CWP\Core\Model\CwpSolrIndex
   CwpStatsReport: CWP\Core\Report\CwpStatsReport
-  CwpSolr: CWP\Core\Search\CwpSolr
   RichLinksExtensionTest: CWP\Core\Tests\RichLinksExtensionTest
   CwpControllerExtensionTest: CWP\Core\Tests\CwpControllerExtensionTest
   CwpStatsReportTest: CWP\Core\Tests\CwpStatsReportTest

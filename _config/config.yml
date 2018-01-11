@@ -29,10 +29,5 @@ SilverStripe\Core\Injector\Injector:
       Middlewares:
         CwpInitialisationMiddleware: '%$CWP\Core\Control\InitialisationMiddleware'
 
-# @todo investigate replacement for this
-HtmlEditorField_Toolbar:
-  extensions:
-    - CustomHtmlEditorFieldToolbar
-
 GDBackend:
   default_quality: 90

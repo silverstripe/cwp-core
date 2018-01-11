@@ -26,7 +26,6 @@ before_script:
   - composer require --no-update silverstripe/recipe-cms ^1
   - if [[ $SUBSITES ]]; then composer require --no-update silverstripe/subsites:2.0.x-dev; fi
   - composer install --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
-  - composer require --prefer-source silverstripe/fulltextsearch:3.x-dev
 
 script:
   - if [[ $PHPUNIT_TEST ]]; then vendor/bin/phpunit; fi
