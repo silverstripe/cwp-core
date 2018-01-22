@@ -9,4 +9,4 @@ SilverStripe\Core\Injector\Injector:
 
 SilverStripe\Assets\File:
   extensions:
-    - FileTextExtractable
+    - SilverStripe\TextExtraction\Extension\FileTextExtractable
