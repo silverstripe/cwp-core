@@ -15,6 +15,10 @@ use SilverStripe\Reports\Report;
 use SilverStripe\Subsites\Model\Subsite;
 use SilverStripe\Versioned\Versioned;
 
+if (!class_exists(Report::class)) {
+    return;
+}
+
 /**
  * Summary report on the page and file counts managed by this CMS.
  */

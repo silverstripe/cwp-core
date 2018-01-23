@@ -11,6 +11,18 @@ class CwpStatsReportTest extends SapphireTest
 {
     protected static $fixture_file = 'CwpStatsReportTest.yml';
 
+    protected function setUp()
+    {
+        if (!class_exists(CwpStatsReport::class)) {
+            // If CMS is not installed, do not run this test class
+            static::$fixture_file = null;
+            parent::setUp();
+            $this->markTestSkipped('This test class requires the CMS module to be installed.');
+        }
+
+        parent::setUp();
+    }
+
     public function testCount()
     {
         // Publish all pages apart from page3.

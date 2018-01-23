@@ -80,27 +80,31 @@ call_user_func(function () {
 
     // Enable insert-link to internal pages
     $cmsModule = ModuleLoader::inst()->getManifest()->getModule('silverstripe/cms');
-    $cwpEditor
-        ->enablePlugins([
-            'sslinkinternal' => $cmsModule
-                ->getResource('client/dist/js/TinyMCE_sslink-internal.js'),
-            'sslinkanchor' => $cmsModule
-                ->getResource('client/dist/js/TinyMCE_sslink-anchor.js'),
-        ]);
+    if ($cmsModule) {
+        $cwpEditor
+            ->enablePlugins([
+                'sslinkinternal' => $cmsModule
+                    ->getResource('client/dist/js/TinyMCE_sslink-internal.js'),
+                'sslinkanchor' => $cmsModule
+                    ->getResource('client/dist/js/TinyMCE_sslink-anchor.js'),
+            ]);
+    }
 
     // Re-enable media dialog
     $assetAdminModule = ModuleLoader::inst()->getManifest()->getModule('silverstripe/asset-admin');
-    $cwpEditor
-        ->enablePlugins([
-            'ssmedia' => $assetAdminModule
-                ->getResource('client/dist/js/TinyMCE_ssmedia.js'),
-            'ssembed' => $assetAdminModule
-                ->getResource('client/dist/js/TinyMCE_ssembed.js'),
-            'sslinkfile' => $assetAdminModule
-                ->getResource('client/dist/js/TinyMCE_sslink-file.js'),
-        ]);
-    $cwpEditor->insertButtonsAfter('table', 'ssmedia');
-    $cwpEditor->insertButtonsAfter('ssmedia', 'ssembed');
+    if ($assetAdminModule) {
+        $cwpEditor
+            ->enablePlugins([
+                'ssmedia' => $assetAdminModule
+                    ->getResource('client/dist/js/TinyMCE_ssmedia.js'),
+                'ssembed' => $assetAdminModule
+                    ->getResource('client/dist/js/TinyMCE_ssembed.js'),
+                'sslinkfile' => $assetAdminModule
+                    ->getResource('client/dist/js/TinyMCE_sslink-file.js'),
+            ]);
+        $cwpEditor->insertButtonsAfter('table', 'ssmedia');
+        $cwpEditor->insertButtonsAfter('ssmedia', 'ssembed');
+    }
 
     // Add SilverStripe link options
     $adminModule = ModuleLoader::inst()->getManifest()->getModule('silverstripe/admin');
