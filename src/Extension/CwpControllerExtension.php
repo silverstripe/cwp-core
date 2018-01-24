@@ -4,6 +4,7 @@ namespace CWP\Core\Extension;
 
 use Exception;
 use SilverStripe\Control\Director;
+use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
 use SilverStripe\Core\Extension;
@@ -114,16 +115,20 @@ class CwpControllerExtension extends Extension implements PermissionProvider
             }
         }
 
+        /** @var HTTPRequest|null $request */
+        $request = $this->getRequest();
+
         // First, see if we can get a member to act on, either from a changepassword token or the session
         if (isset($_REQUEST['m']) && isset($_REQUEST['t'])) {
+            /** @var Member $member */
             $member = Member::get()->filter('ID', (int) $_REQUEST['m'])->first();
 
             if (!$member->validateAutoLoginToken($_REQUEST['t'])) {
                 $member = null;
             }
-        } elseif ($this->owner->getRequest()->getSession()->get('AutoLoginHash')) {
+        } elseif ($request && $request->getSession()->get('AutoLoginHash')) {
             $member = Member::member_from_autologinhash(
-                $this->owner->getRequest()->getSession()->get('AutoLoginHash')
+                $request->getSession()->get('AutoLoginHash')
             );
         } else {
             $member = Security::getCurrentUser();
@@ -149,15 +154,28 @@ class CwpControllerExtension extends Extension implements PermissionProvider
 
         // Finally if they weren't allowed to bypass Basic Auth, trigger it
         if (!$allowWithoutAuth) {
-            $this->callWithSubsitesDisabled(function () {
+            $this->callWithSubsitesDisabled(function () use ($request) {
                 BasicAuth::requireLogin(
-                    $this->owner->getRequest(),
+                    $request,
                     _t(__CLASS__ . '.LoginPrompt', "Please log in with your CMS credentials"),
                     'ACCESS_UAT_SERVER',
                     true
                 );
             });
         }
+    }
+
+    /**
+     * Get the current request, either from an Injector service or from the current controller
+     *
+     * @return HTTPRequest|null
+     */
+    protected function getRequest()
+    {
+        if (Injector::inst()->has(HTTPRequest::class)) {
+            return Injector::inst()->get(HTTPRequest::class);
+        }
+        return $this->owner->getRequest();
     }
 
     /**
