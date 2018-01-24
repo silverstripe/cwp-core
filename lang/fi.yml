@@ -4,12 +4,3 @@ fi:
     UatServerPermission: 'Salli käyttäjien pääsy tilin avulla UAT-serverille'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Avaa ulkoinen linkki'
-  CWP\Core\Report\CwpStatsReport:
-    Count: Lukumäärä
-    Description: 'Tämä raportti sisältää tilastotietoa sivustosta. "Julkaistujen sivujen määrää" voidaan verrata osion kokoon.'
-    FileCount: 'Tiedostojen määrä'
-    Name: Nimi
-    PagesForMainSite: '- pääsivustolla'
-    PagesForSubsite: '- alasivustolla ''{SubsiteTitle}'''
-    Title: 'Yhteenvetotilasto'
-    TotalPageCount: 'Julkaistujen sivujen määrä, kaikki käännetyt ja alasivut huomioiden'

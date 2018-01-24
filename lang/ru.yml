@@ -3,11 +3,3 @@ ru:
     LoginPrompt: 'Пожалуйста, авторизуйтесь'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Открыть внешнюю ссылку'
-  CWP\Core\Report\CwpStatsReport:
-    Count: Количество
-    FileCount: 'Количество файлов'
-    Name: Название
-    PagesForMainSite: '- на главном сайте'
-    PagesForSubsite: '- на подсайте ''{SubsiteTitle}'''
-    Title: 'Общая статистика'
-    TotalPageCount: 'Общее количество страниц - на всех подсайтах и языках'
