@@ -23,7 +23,7 @@ before_script:
 
   # Install composer dependencies
   - composer validate
-  - composer require --no-update silverstripe/recipe-cms ^1
+  - composer require --no-update silverstripe/recipe-core ^1
   - if [[ $SUBSITES ]]; then composer require --no-update silverstripe/subsites:2.0.x-dev; fi
   - composer install --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
 

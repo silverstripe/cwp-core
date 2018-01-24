@@ -8,11 +8,8 @@
         "cwp"
     ],
     "require": {
-        "silverstripe/cms": "^4",
         "silverstripe/framework": "^4",
         "silverstripe/admin": "^1",
-        "silverstripe/assets": "^1",
-        "silverstripe/versioned": "^1",
         "silverstripe/hybridsessions": "^2@dev",
         "silverstripe/environmentcheck": "^2@dev",
         "silverstripe/auditor": "^2@dev"
