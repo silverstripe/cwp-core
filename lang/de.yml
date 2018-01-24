@@ -1,10 +1,10 @@
 de:
   CWP\Core\Extension\CwpControllerExtension:
     LoginPrompt: 'Bitte melden Sie sich mit Ihren CMS-Anmeldedaten an'
+  CWP\Core\Extension\RichLinksExtension:
+    OpenLinkTitle: 'Externen Link öffnen'
   CWP\Core\Report\CwpStatsReport:
-    FileCount: Dateianzahl
+    FileCount: 'Dateianzahl'
     Name: Name
     PagesForMainSite: '- auf der Hauptseite'
     PagesForSubsite: '- auf der Unterseite ''{SubsiteTitle}'''
-  CWP\Core\Extension\RichLinksExtension:
-    OpenLinkTitle: 'Externen Link öffnen'
