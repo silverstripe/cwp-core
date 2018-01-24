@@ -2,14 +2,5 @@ id:
   CWP\Core\Extension\CwpControllerExtension:
     LoginPrompt: 'Silakan login'
     UatServerPermission: 'Bolehkan pengguna mengakses server UAT'
-  CWP\Core\Report\CwpStatsReport:
-    Count: Hitung
-    Description: 'Laporan ini menyediakan berbagai statistik situs. "jumlah hitungan laman live" adalah angka yang bisa dibandingkan dengan spesifikasi ukuran instans.'
-    FileCount: 'Hitung Berkas'
-    Name: Nama
-    PagesForMainSite: '- pada situs utama'
-    PagesForSubsite: '- pada sub-situs ''{SubsiteTitle}'''
-    Title: 'Ringkasan statistik'
-    TotalPageCount: 'Jumlah hitungan laman live, mencakup semua terjemahan dan sub-situs'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Buka tautan luar'
