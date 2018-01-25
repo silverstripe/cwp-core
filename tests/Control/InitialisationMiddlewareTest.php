@@ -6,9 +6,9 @@ use CWP\Core\Control\InitialisationMiddleware;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
-use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Dev\FunctionalTest;
 
-class InitialisationMiddlewareTest extends SapphireTest
+class InitialisationMiddlewareTest extends FunctionalTest
 {
     /**
      * @var HTTPRequest
@@ -86,6 +86,20 @@ class InitialisationMiddlewareTest extends SapphireTest
             Environment::getEnv('NO_PROXY'),
             'Domain exclusions are combined with existing values and configuration settings'
         );
+    }
+
+    public function testSecurityHeadersAddedByDefault()
+    {
+        $response = $this->get('test');
+        $this->assertArrayHasKey('x-xss-protection', $response->getHeaders());
+        $this->assertSame('1; mode=block', $response->getHeader('x-xss-protection'));
+    }
+
+    public function testXSSProtectionHeaderNotAdded()
+    {
+        Config::modify()->set(InitialisationMiddleware::class, 'xss_protection_disabled', true);
+        $response = $this->get('test');
+        $this->assertArrayNotHasKey('x-xss-protection', $response->getHeaders());
     }
 
     /**
