@@ -15,6 +15,16 @@ class InitialisationMiddleware implements HTTPMiddleware
     use Configurable;
 
     /**
+     * Disable the automatically added 'X-XSS-Protection' header that is added to all responses. This should be left
+     * alone in most circumstances to include the header. Refer to Mozilla Developer Network for more information:
+     * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
+     *
+     * @config
+     * @var bool
+     */
+    private static $xss_protection_disabled = false;
+
+    /**
      * Enable egress proxy. This works on the principle of setting http(s)_proxy environment variables,
      *  which will be automatically picked up by curl. This means RestfulService and raw curl
      *  requests should work out of the box. Stream-based requests need extra manual configuration.
@@ -40,12 +50,19 @@ class InitialisationMiddleware implements HTTPMiddleware
 
     public function process(HTTPRequest $request, callable $delegate)
     {
+        $response = $delegate($request);
+
         if ($this->config()->get('egress_proxy_default_enabled')) {
             $this->configureEgressProxy();
         }
+        
         $this->configureProxyDomainExclusions();
 
-        return $delegate($request);
+        if (!$this->config()->get('xss_protection_disabled') && $response) {
+            $response->addHeader('X-XSS-Protection', '1; mode=block');
+        }
+
+        return $response;
     }
 
     /**
