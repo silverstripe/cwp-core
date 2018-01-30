@@ -97,7 +97,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
 
     public function testXSSProtectionHeaderNotAdded()
     {
-        Config::modify()->set(InitialisationMiddleware::class, 'xss_protection_disabled', true);
+        Config::modify()->set(InitialisationMiddleware::class, 'xss_protection_enabled', false);
         $response = $this->get('test');
         $this->assertArrayNotHasKey('x-xss-protection', $response->getHeaders());
     }

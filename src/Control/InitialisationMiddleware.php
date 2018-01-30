@@ -22,7 +22,7 @@ class InitialisationMiddleware implements HTTPMiddleware
      * @config
      * @var bool
      */
-    private static $xss_protection_disabled = false;
+    private static $xss_protection_enabled = true;
 
     /**
      * Enable egress proxy. This works on the principle of setting http(s)_proxy environment variables,
@@ -58,7 +58,7 @@ class InitialisationMiddleware implements HTTPMiddleware
         
         $this->configureProxyDomainExclusions();
 
-        if (!$this->config()->get('xss_protection_disabled') && $response) {
+        if ($this->config()->get('xss_protection_enabled') && $response) {
             $response->addHeader('X-XSS-Protection', '1; mode=block');
         }
 

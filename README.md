@@ -14,7 +14,7 @@ There are some settings that can be modified in this module, depending on requir
 By default, CWP sites instruct newer browsers to protect against cross-site scripting (XSS) attacks. This is done using an HTTP header (X-XSS-Protection). More information on this header can be found on the [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection) site. To disable this feature, add the following to your YML configuration:
 ```
 CWP\Core\Control\InitialisationMiddleware:
-  xss_protection_disabled: true
+  xss_protection_enabled: false
 ```
 
 #### Egress Proxy settings
