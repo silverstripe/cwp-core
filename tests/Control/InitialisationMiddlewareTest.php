@@ -90,7 +90,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
 
     public function testSecurityHeadersAddedByDefault()
     {
-        $response = $this->get('test');
+        $response = $this->get('Security/login');
         $this->assertArrayHasKey('x-xss-protection', $response->getHeaders());
         $this->assertSame('1; mode=block', $response->getHeader('x-xss-protection'));
     }
@@ -98,7 +98,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
     public function testXSSProtectionHeaderNotAdded()
     {
         Config::modify()->set(InitialisationMiddleware::class, 'xss_protection_enabled', false);
-        $response = $this->get('test');
+        $response = $this->get('Security/login');
         $this->assertArrayNotHasKey('x-xss-protection', $response->getHeaders());
     }
 
