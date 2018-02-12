@@ -35,16 +35,6 @@ $pwdValidator->characterStrength(3, ["lowercase", "uppercase", "digits", "punctu
 
 Member::set_password_validator($pwdValidator);
 
-// Initialise the redirection configuration if null.
-// @todo nesting the config manifests here is not ideal. Work out a way that doesn't need to do that.
-if (is_null(Config::inst()->get(CwpControllerExtension::class, 'ssl_redirection_force_domain'))) {
-    if ($secureDomain = Environment::getEnv('CWP_SECURE_DOMAIN')) {
-        Config::modify()->set(CwpControllerExtension::class, 'ssl_redirection_force_domain', $secureDomain);
-    } else {
-        Config::modify()->set(CwpControllerExtension::class, 'ssl_redirection_force_domain', false);
-    }
-}
-
 // Automatically configure session key for activedr with hybridsessions module
 if (Environment::getEnv('CWP_INSTANCE_DR_TYPE')
     && Environment::getEnv('CWP_INSTANCE_DR_TYPE') === 'active'

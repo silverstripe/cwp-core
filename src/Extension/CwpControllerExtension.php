@@ -18,30 +18,6 @@ use SilverStripe\Subsites\Model\Subsite;
 
 class CwpControllerExtension extends Extension implements PermissionProvider
 {
-
-    /**
-     * Enables SSL redirections - disabling not recommended as it will prevent forcing SSL on admin panel.
-     *
-     * @config
-     * @var bool
-     */
-    private static $ssl_redirection_enabled = true;
-
-    /**
-     * Specify a domain to redirect the vulnerable areas to.
-     *
-     * If left as null, live instance will set this to <instance-id>.cwp.govt.nz via CWP_SECURE_DOMAIN in _config.php.
-     * This allows us to automatically protect vulnerable areas on live even if the frontend cert is not installed.
-     *
-     * Set to false to redirect to https protocol on current domain (e.g. if you have frontend cert).
-     *
-     * Set to a domain string (e.g. 'example.com') to force that domain.
-     *
-     * @config
-     * @var string
-     */
-    private static $ssl_redirection_force_domain = null;
-
     /**
      * Enables the BasicAuth protection on all test environments. Disable with caution - it will open up
      * all your UAT and test environments to the world.
@@ -185,19 +161,6 @@ class CwpControllerExtension extends Extension implements PermissionProvider
     {
         // Grab global injectable service to allow testing.
         $director = Injector::inst()->get(Director::class);
-
-        if (Config::inst()->get(__CLASS__, 'ssl_redirection_enabled')) {
-            // redirect some vulnerable areas to the secure domain
-            if (!$director::is_https()) {
-                $forceDomain = Config::inst()->get(__CLASS__, 'ssl_redirection_force_domain');
-
-                if ($forceDomain) {
-                    $director::forceSSL(['/^Security/', '/^api/'], $forceDomain);
-                } else {
-                    $director::forceSSL(['/^Security/', '/^api/']);
-                }
-            }
-        }
 
         if (Config::inst()->get(__CLASS__, 'test_basicauth_enabled')) {
             // Turn on Basic Auth in testing mode

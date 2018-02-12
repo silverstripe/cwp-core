@@ -1,0 +1,22 @@
+---
+Name: cwpsecurity
+After: '#canonicalurls'
+---
+# Configure SSL redirection for sensitive areas
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\Middleware\CanonicalURLMiddleware:
+    properties:
+      ForceSSL: true
+      ForceSSLPatterns:
+        - '/^Security/'
+        - '/^api/'
+
+---
+Name: cwpsslredirectdomain
+Only:
+  EnvVarSet: CWP_SECURE_DOMAIN
+---
+# Define the domain to redirect sensitive URL patterns to SSL for
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\Middleware\CanonicalURLMiddleware:
+    ForceSSLDomain: '`CWP_SECURE_DOMAIN`'
