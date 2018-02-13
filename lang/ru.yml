@@ -1,5 +1,5 @@
 ru:
-  CWP\Core\Extension\CwpControllerExtension:
+  CWP\Core\Control\CwpBasicAuthMiddleware:
     LoginPrompt: 'Пожалуйста, авторизуйтесь'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Открыть внешнюю ссылку'
