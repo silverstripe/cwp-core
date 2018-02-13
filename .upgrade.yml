@@ -1,7 +1,6 @@
 mappings:
   CwpInitialisationFilter: CWP\Core\Control\InitialisationMiddleware
   CustomHtmlEditorFieldToolbar: CWP\Core\Extension\CustomHtmlEditorFieldToolbar
-  CwpControllerExtension: CWP\Core\Extension\CwpControllerExtension
   CwpHtmlEditorConfig: CWP\Core\Extension\CwpHtmlEditorConfig
   LoginAttemptNotifications_LeftAndMain: CWP\Core\Extension\LoginAttemptNotifications
   RichLinksExtension: CWP\Core\Extension\RichLinksExtension

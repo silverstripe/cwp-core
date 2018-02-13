@@ -1,6 +1,5 @@
 id:
-  CWP\Core\Extension\CwpControllerExtension:
-    LoginPrompt: 'Silakan login'
+  CWP\Core\Control\CwpBasicAuthMiddleware:
     UatServerPermission: 'Bolehkan pengguna mengakses server UAT'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Buka tautan luar'

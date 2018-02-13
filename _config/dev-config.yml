@@ -1,7 +1,0 @@
----
-Name: cwpcoredevconfig
-Only:
-  environment: dev
----
-CWP\Core\Extension\CwpControllerExtension:
-  ssl_redirection_enabled: false

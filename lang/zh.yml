@@ -1,6 +1,5 @@
 zh:
-  CWP\Core\Extension\CwpControllerExtension:
-    LoginPrompt: '轻使用您的 CMS 证书登录'
+  CWP\Core\Control\CwpBasicAuthMiddleware:
     UatServerPermission: '允许用户使用它们的帐户访问 UAT 服务器'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: '打开外部链接'
