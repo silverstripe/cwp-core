@@ -1,6 +1,5 @@
 fi:
   CWP\Core\Control\CwpBasicAuthMiddleware:
-    LoginPrompt: 'Ole hyvä ja kirjaudu CMS-tunnuksillasi'
     UatServerPermission: 'Salli käyttäjien pääsy tilin avulla UAT-serverille'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Avaa ulkoinen linkki'
