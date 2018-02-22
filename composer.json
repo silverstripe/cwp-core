@@ -10,9 +10,9 @@
     "require": {
         "silverstripe/framework": "^4.1",
         "silverstripe/admin": "^1.1",
-        "silverstripe/hybridsessions": "^2@dev",
-        "silverstripe/environmentcheck": "^2@dev",
-        "silverstripe/auditor": "^2@dev"
+        "silverstripe/hybridsessions": "2.0.0@stable",
+        "silverstripe/environmentcheck": "2.0.0@stable",
+        "silverstripe/auditor": "2.0.0@stable"
     },
     "require-dev": {
         "phpunit/phpunit": "^5.7",
