@@ -20,6 +20,8 @@ class InitialisationMiddlewareTest extends FunctionalTest
      */
     protected $middleware;
 
+    protected $usesDatabase = true;
+
     protected function setUp()
     {
         parent::setUp();
