@@ -1,5 +1,6 @@
 ar:
-  CWP\Core\Control\CwpBasicAuthMiddleware:
+  CWP\Core\Extension\CwpControllerExtension:
+    LoginPrompt: 'من فضلك قم بالدخول عن طريق استخدام أوراق اعتماد ال سى إم إس الخاصة بك'
     UatServerPermission: 'تتيح للمستخدمين استخدام حساباتهم للدخول على سيرفر يو أيه تى'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'فتح الرابط الخارجى'
