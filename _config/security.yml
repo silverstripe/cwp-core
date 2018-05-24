@@ -34,6 +34,7 @@ SilverStripe\Core\Injector\Injector:
 
 ---
 Name: cwpsecuritytest
+After: '#cwpsecurity'
 Only:
   environment: test
 ---
@@ -45,6 +46,10 @@ SilverStripe\Core\Injector\Injector:
         '#^Security/lostpassword#i': false
         '#^Security/changepassword#i': false
         '#.*#': ACCESS_UAT_SERVER
+  SilverStripe\Control\Middleware\CanonicalURLMiddleware:
+    properties:
+      # Enforce HTTPS everywhere since basic authentication is on everywhere
+      ForceSSLPatterns: null
 
 ---
 Name: cwpsslredirectdomain
