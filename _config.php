@@ -29,8 +29,6 @@ if (!Environment::getEnv('WKHTMLTOPDF_BINARY')) {
 
 // Configure password strength requirements
 $pwdValidator = new PasswordValidator();
-$pwdValidator->minLength(8);
-$pwdValidator->checkHistoricalPasswords(6);
 $pwdValidator->characterStrength(3, ["lowercase", "uppercase", "digits", "punctuation"]);
 
 Member::set_password_validator($pwdValidator);
