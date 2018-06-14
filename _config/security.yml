@@ -47,6 +47,7 @@ SilverStripe\Core\Injector\Injector:
         '#^Security/changepassword#i': false
         '#.*#': ACCESS_UAT_SERVER
   SilverStripe\Control\Middleware\CanonicalURLMiddleware:
+    class: 'CWP\Core\Control\CwpCanonicalURLMiddleware'
     properties:
       # Enforce HTTPS everywhere since basic authentication is on everywhere
       ForceSSLPatterns: null
