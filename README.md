@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/silverstripe/cwp-core.svg?branch=master)](https://travis-ci.org/silverstripe/cwp-core)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/silverstripe/cwp-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/silverstripe/cwp-core/?branch=master)
 [![codecov](https://codecov.io/gh/silverstripe/cwp-core/branch/master/graph/badge.svg)](https://codecov.io/gh/silverstripe/cwp-core)
+[![SilverStripe supported module](https://img.shields.io/badge/silverstripe-supported-0071C4.svg)](https://www.silverstripe.org/software/addons/silverstripe-commercially-supported-module-list/)
 
 ## About this module
 This module includes core configuration that is required for Common Web Platform sites to function correctly.
