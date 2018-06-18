@@ -9,8 +9,6 @@
  * and if absolutely necessary if you can't use the yml file, mysite/_config.php instead.
  */
 
-use CWP\Core\Extension\CwpControllerExtension;
-use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
 use SilverStripe\HybridSessions\HybridSession;
 use SilverStripe\i18n\i18n;
@@ -29,8 +27,8 @@ if (!Environment::getEnv('WKHTMLTOPDF_BINARY')) {
 
 // Configure password strength requirements
 $pwdValidator = new PasswordValidator();
-$pwdValidator->characterStrength(3, ["lowercase", "uppercase", "digits", "punctuation"]);
-
+$pwdValidator->setMinTestScore(3);
+$pwdValidator->setTestNames(["lowercase", "uppercase", "digits", "punctuation"]);
 Member::set_password_validator($pwdValidator);
 
 // Automatically configure session key for activedr with hybridsessions module
