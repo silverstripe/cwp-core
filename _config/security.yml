@@ -5,7 +5,6 @@ After: '#canonicalurls'
 # Configure SSL redirection for sensitive areas
 SilverStripe\Core\Injector\Injector:
   SilverStripe\Control\Middleware\CanonicalURLMiddleware:
-    class: 'CWP\Core\Control\CwpCanonicalURLMiddleware'
     properties:
       ForceSSL: true
       ForceSSLPatterns:
