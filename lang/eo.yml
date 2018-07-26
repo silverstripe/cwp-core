@@ -1,6 +1,5 @@
 eo:
-  CWP\Core\Extension\CwpControllerExtension:
-    LoginPrompt: 'Bonvole ensaluti per via CMS-legitimaĵo'
+  CWP\Core\Control\CwpBasicAuthMiddleware:
     UatServerPermission: 'Permesi al uzuloj uzi siajn kontojn por aliri la UAT-servilon'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Malfermi eksteran ligilon'

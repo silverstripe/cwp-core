@@ -1,5 +1,3 @@
 de:
-  CWP\Core\Extension\CwpControllerExtension:
-    LoginPrompt: 'Bitte melden Sie sich mit Ihren CMS-Anmeldedaten an'
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Externen Link öffnen'
