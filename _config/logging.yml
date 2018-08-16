@@ -1,0 +1,13 @@
+---
+Name: cwpcorelogging
+After: '#logging'
+---
+SilverStripe\Core\Injector\Injector:
+  Psr\Log\LoggerInterface:
+    calls:
+      pushSilverStripeSyslogHandler: [ pushHandler, [ '%$Monolog\Handler\HandlerInterface.silverstripe' ] ]
+  # Internal error handler, piped to syslog which is routed to Graylog
+  Monolog\Handler\HandlerInterface.silverstripe:
+    class: Monolog\Handler\SyslogHandler
+    constructor:
+      - 'SilverStripe_log'
