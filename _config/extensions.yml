@@ -16,7 +16,6 @@ SilverStripe\Security\Group:
   extensions:
     - CWP\Core\Extension\CwpHtmlEditorConfig
 
-# @todo investigate replacement for this
-HtmlEditorField_Toolbar:
+SilverStripe\Admin\ModalController:
   extensions:
    - CWP\Core\Extension\CustomHtmlEditorFieldToolbar
