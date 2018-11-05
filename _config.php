@@ -12,8 +12,6 @@
 use SilverStripe\Core\Environment;
 use SilverStripe\HybridSessions\HybridSession;
 use SilverStripe\i18n\i18n;
-use SilverStripe\Security\Member;
-use SilverStripe\Security\PasswordValidator;
 
 // set the system locale to en_GB. This also means locale dropdowns
 // and date formatting etc will default to this locale. Note there is no
@@ -24,12 +22,6 @@ i18n::set_locale('en_GB');
 if (!Environment::getEnv('WKHTMLTOPDF_BINARY')) {
     Environment::setEnv('WKHTMLTOPDF_BINARY', '/usr/local/bin/wkhtmltopdf');
 }
-
-// Configure password strength requirements
-$pwdValidator = new PasswordValidator();
-$pwdValidator->setMinTestScore(3);
-$pwdValidator->setTestNames(["lowercase", "uppercase", "digits", "punctuation"]);
-Member::set_password_validator($pwdValidator);
 
 // Automatically configure session key for activedr with hybridsessions module
 if (Environment::getEnv('CWP_INSTANCE_DR_TYPE')
