@@ -10,7 +10,7 @@ SilverStripe\Admin\LeftAndMain:
   session_keepalive_ping: false
 
 SilverStripe\Control\Session:
-  timeout: 3600
+  timeout: 1440
 
 SilverStripe\Forms\PasswordField:
   autocomplete: false

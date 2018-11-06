@@ -5,7 +5,7 @@ Only:
 After: '#queuedjobsettings'
 ---
 SilverStripe\Core\Injector\Injector:
-  Symbiote\QueuedJobs\Services\QueuedJobsService\QueuedJobService:
+  Symbiote\QueuedJobs\Services\QueuedJobService:
     properties: 
       queueRunner: %$Symbiote\QueuedJobs\Tasks\Engines\DoormanRunner
 

@@ -1,0 +1,23 @@
+---
+Name: cwpoembedconfig
+After: coreoembed
+Except:
+  environment: dev
+Only:
+  EnvVarSet: SS_OUTBOUND_PROXY
+---
+SilverStripe\Core\Injector\Injector:
+  # Configure the CWP proxy if defined
+  Embed\Http\DispatcherInterface:
+    class: Embed\Http\CurlDispatcher
+    constructor:
+      config:
+        # CURLOPT_PROXY = 10004
+        10004: '`SS_OUTBOUND_PROXY`'
+        # CURLOPT_PROXYPORT = 59
+        59: '`SS_OUTBOUND_PROXY_PORT`'
+
+  # Provide dispatcher to Embeddable implementations
+  SilverStripe\View\Embed\Embeddable:
+    properties:
+      Dispatcher: '%$Embed\Http\DispatcherInterface'
