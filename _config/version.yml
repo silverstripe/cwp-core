@@ -6,6 +6,4 @@ After:
 ---
 SilverStripe\Core\Manifest\VersionProvider:
   modules:
-    silverstripe/framework: ''
-    silverstripe/cms: ''
     cwp/cwp-core: 'CWP'
