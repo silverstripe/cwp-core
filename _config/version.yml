@@ -1,0 +1,9 @@
+---
+Name: cwpversion
+After:
+  - '#cmsversion'
+  - '#coreconfig'
+---
+SilverStripe\Core\Manifest\VersionProvider:
+  modules:
+    cwp/cwp-core: 'CWP'
