@@ -39,4 +39,9 @@
 
 .cms-help__toggle-cwp-title {
     font-size: 9px;
+    display: flex;
+}
+
+.cms-help__badge {
+    align-self: flex-start;
 }
