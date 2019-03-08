@@ -80,8 +80,15 @@ class InitialisationMiddleware implements HTTPMiddleware
         $proxy = Environment::getEnv('SS_OUTBOUND_PROXY');
         $proxyPort = Environment::getEnv('SS_OUTBOUND_PROXY_PORT');
 
-        Environment::setEnv('http_proxy', $proxy . ':' . $proxyPort);
-        Environment::setEnv('https_proxy', $proxy . ':' . $proxyPort);
+        /*
+         * This sets the environment variables so they are available in
+         * external calls executed by exec() such as curl.
+         * Environment::setEnv() would only availabe in context of SilverStripe.
+         * Environment::getEnv() will fallback to getenv() and will therefore
+         * fetch the variables
+         */
+        putenv('http_proxy=' .  $proxy . ':' . $proxyPort);
+        putenv('https_proxy=' . $proxy . ':' . $proxyPort);
     }
 
     /**
@@ -103,6 +110,10 @@ class InitialisationMiddleware implements HTTPMiddleware
             $noProxy = array_merge(explode(',', Environment::getEnv('NO_PROXY')), $noProxy);
         }
 
-        Environment::setEnv('NO_PROXY', implode(',', array_unique($noProxy)));
+        /*
+         * Set the environment varial for NO_PROXY the same way the
+         * proxy variables are set above
+         */
+        putenv('NO_PROXY=' . implode(',', array_unique($noProxy)));
     }
 }
