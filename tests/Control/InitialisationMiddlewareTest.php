@@ -3,10 +3,14 @@
 namespace CWP\Core\Tests\Control;
 
 use CWP\Core\Control\InitialisationMiddleware;
+use function getenv;
+use function print_r;
+use function putenv;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
 use SilverStripe\Dev\FunctionalTest;
+use function var_dump;
 
 class InitialisationMiddlewareTest extends FunctionalTest
 {
@@ -31,7 +35,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
 
         Environment::setEnv('SS_OUTBOUND_PROXY', '');
         Environment::setEnv('SS_OUTBOUND_PROXY_PORT', '');
-        Environment::setEnv('NO_PROXY', '');
+        putenv('NO_PROXY=');
     }
 
     public function testDoNotConfigureProxyIfNoEnvironmentVarsAreSet()
@@ -79,8 +83,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
             'example.com'
         );
 
-        Environment::setEnv('NO_PROXY', 'foo.com,bar.com');
-
+        putenv('NO_PROXY=foo.com,bar.com');
         $this->runMiddleware();
 
         $this->assertSame(
