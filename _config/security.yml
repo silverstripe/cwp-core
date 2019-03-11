@@ -1,5 +1,6 @@
 ---
 Name: cwppasswordstrength
+After: '#corepasswords'
 ---
 # In the case someone uses `new PasswordValidator` instead of Injector, provide some safe defaults through config.
 # Test names will not be set however, as it is not configurable.

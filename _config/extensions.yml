@@ -20,3 +20,7 @@ SilverStripe\Security\Group:
 HtmlEditorField_Toolbar:
   extensions:
    - CWP\Core\Extension\CustomHtmlEditorFieldToolbar
+
+SilverStripe\Admin\LeftAndMain:
+  extensions:
+    - CWP\Core\Extension\CWPVersionExtension

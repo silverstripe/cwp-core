@@ -27,3 +27,21 @@
 .alignExtraLabel label{
 	line-height:2em;
 }
+
+/* See vendor/silverstripe/admin/client/src/components/Menu/Menu.scss */
+.cms-help__logo {
+    min-width: 26px;
+}
+
+.cms-help__toggle-title {
+    line-height: 12px;
+}
+
+.cms-help__toggle-cwp-title {
+    font-size: 9px;
+    display: flex;
+}
+
+.cms-help__badge {
+    align-self: flex-start;
+}
