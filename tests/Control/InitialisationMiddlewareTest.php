@@ -3,14 +3,10 @@
 namespace CWP\Core\Tests\Control;
 
 use CWP\Core\Control\InitialisationMiddleware;
-use function getenv;
-use function print_r;
-use function putenv;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Environment;
 use SilverStripe\Dev\FunctionalTest;
-use function var_dump;
 
 class InitialisationMiddlewareTest extends FunctionalTest
 {
