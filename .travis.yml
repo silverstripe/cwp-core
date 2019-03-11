@@ -23,7 +23,7 @@ before_script:
 
   # Install composer dependencies
   - composer validate
-  - composer require --no-update silverstripe/recipe-core 1.2.x-dev
+  - composer require --no-update silverstripe/recipe-core:1.2.x-dev silverstripe/versioned:1.2.x-dev
   - composer install --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
 
 script:

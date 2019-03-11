@@ -31,7 +31,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
 
         Environment::setEnv('SS_OUTBOUND_PROXY', '');
         Environment::setEnv('SS_OUTBOUND_PROXY_PORT', '');
-        Environment::setEnv('NO_PROXY', '');
+        putenv('NO_PROXY=');
     }
 
     public function testDoNotConfigureProxyIfNoEnvironmentVarsAreSet()
@@ -79,8 +79,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
             'example.com'
         );
 
-        Environment::setEnv('NO_PROXY', 'foo.com,bar.com');
-
+        putenv('NO_PROXY=foo.com,bar.com');
         $this->runMiddleware();
 
         $this->assertSame(
