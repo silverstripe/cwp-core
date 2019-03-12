@@ -1,9 +1,5 @@
 language: php
 
-env:
-  global:
-    - COMPOSER_ROOT_VERSION=2.x-dev
-
 matrix:
   include:
     - php: 5.6
@@ -13,6 +9,8 @@ matrix:
     - php: 7.1
       env: DB=MYSQL PHPUNIT_COVERAGE_TEST=1
     - php: 7.2
+      env: DB=MYSQL PHPUNIT_TEST=1
+    - php: 7.3
       env: DB=MYSQL PHPUNIT_TEST=1
 
 before_script:
