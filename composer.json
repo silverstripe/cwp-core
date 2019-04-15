@@ -8,7 +8,7 @@
         "cwp"
     ],
     "require": {
-        "silverstripe/framework": "^4.4@dev"
+        "silverstripe/framework": "^4.4@dev",
         "silverstripe/admin": "^1.4@dev",
         "silverstripe/hybridsessions": "^2",
         "silverstripe/environmentcheck": "^2",
