@@ -8,8 +8,8 @@
         "cwp"
     ],
     "require": {
-        "silverstripe/framework": "^4.3",
-        "silverstripe/admin": "^1.3",
+        "silverstripe/framework": "^4.4@dev"
+        "silverstripe/admin": "^1.4@dev",
         "silverstripe/hybridsessions": "^2",
         "silverstripe/environmentcheck": "^2",
         "silverstripe/auditor": "^2"
@@ -25,9 +25,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev"
-        },
         "expose": [
             "css",
             "javascript"
