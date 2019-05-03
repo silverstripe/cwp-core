@@ -28,15 +28,27 @@ class CwpBasicAuthMiddleware extends BasicAuthMiddleware implements PermissionPr
     }
 
     /**
-     * @param string|string[] $whitelistedIps An array of IP addresses, or a comma delimited string
+     * @param string|string[] $whitelistedIps An array of IP addresses, a comma delimited string, or an array of IPs
+     *                                        or comma delimited IP list strings
      * @return $this
      */
     public function setWhitelistedIps($whitelistedIps)
     {
-        if (is_string($whitelistedIps)) {
-            $whitelistedIps = explode(',', $whitelistedIps);
+        // Allow string or array input
+        $ipLists = is_array($whitelistedIps) ? $whitelistedIps : [$whitelistedIps];
+
+        $whitelistedIps = [];
+        // Break each string in the array by commas to support nested IP lists
+        foreach ($ipLists as $ipList) {
+            if (!$ipList) {
+                continue;
+            }
+            $ips = array_map('trim', explode(',', $ipList));
+            $whitelistedIps = array_merge($whitelistedIps, $ips);
         }
-        $this->whitelistedIps = $whitelistedIps;
+
+        // Return unique values with keys reset
+        $this->whitelistedIps = array_values(array_unique($whitelistedIps));
         return $this;
     }
 
