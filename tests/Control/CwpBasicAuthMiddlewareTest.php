@@ -40,16 +40,38 @@ class CwpBasicAuthMiddlewareTest extends SapphireTest
         parent::tearDown();
     }
 
-    public function testSetWhitelistedIps()
+    public function testSetWhitelistedIpsAcceptsStrings()
     {
         $this->middleware->setWhitelistedIps('127.0.0.1,127.0.0.2');
         $this->assertSame([
             '127.0.0.1',
             '127.0.0.2',
         ], $this->middleware->getWhitelistedIps(), 'Accepts comma delimited strings');
+    }
 
+    public function testSetWhitelistedIpsAcceptsArraysOfStrings()
+    {
         $this->middleware->setWhitelistedIps(['127.0.0.1']);
         $this->assertSame(['127.0.0.1'], $this->middleware->getWhitelistedIps(), 'Accepts array values');
+    }
+
+    public function testSetWhitelistedIpsSupportedNestedStringListsInsideArrays()
+    {
+        $this->middleware->setWhitelistedIps([
+            '127.0.0.1,127.0.0.2', // Example of `CWP_IP_BYPASS_BASICAUTH` env var value
+            ' 137.0.0.1 , 127.0.0.2', // Example of `CWP_IP_BYPASS_BASICAUTH` env var value with added spaces
+            '127.0.0.3',
+            '127.0.0.3', // check results are unique
+            '127.0.0.4',
+        ]);
+
+        $this->assertSame([
+            '127.0.0.1',
+            '127.0.0.2',
+            '137.0.0.1',
+            '127.0.0.3',
+            '127.0.0.4',
+        ], $this->middleware->getWhitelistedIps(), 'Accepts IP list strings inside arrays');
     }
 
     /**
