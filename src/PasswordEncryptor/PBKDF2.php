@@ -12,7 +12,9 @@ use SilverStripe\Security\PasswordEncryptor_PHPHash;
 class PBKDF2 extends PasswordEncryptor_PHPHash
 {
     /**
-     * The number of internal iterations for hash_pbkdf2() to perform for the derivation.
+     * The number of internal iterations for hash_pbkdf2() to perform for the derivation. Please note that if you
+     * change this from the default value you will break existing hashes stored in the database, so these would
+     * need to be regenerated.
      *
      * @var int
      */
