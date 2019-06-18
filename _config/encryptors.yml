@@ -1,0 +1,11 @@
+---
+name: cwpencryptors
+---
+SilverStripe\Security\PasswordEncryptor:
+  encryptors:
+    pbkdf2_sha512:
+      CWP\Core\PasswordEncryptor\PBKDF2: sha512
+
+# Enable SHA-512 via PBKDF2 by default, for NZISM compliance
+SilverStripe\Security\Security:
+  password_encryption_algorithm: pbkdf2_sha512
