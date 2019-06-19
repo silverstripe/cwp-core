@@ -16,7 +16,7 @@ class PBKDF2Test extends SapphireTest
 
     public function testEncrypt()
     {
-        $encryptor = new PBKDF2('sha512');
+        $encryptor = new PBKDF2('sha512', 10000);
         $salt = 'predictablesaltforunittesting';
         $result = $encryptor->encrypt('opensesame', $salt);
         $this->assertSame(
