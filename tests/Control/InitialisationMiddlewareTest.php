@@ -103,6 +103,20 @@ class InitialisationMiddlewareTest extends FunctionalTest
         $this->assertArrayNotHasKey('x-xss-protection', $response->getHeaders());
     }
 
+    public function testHstsNotAddedByDefault()
+    {
+        Config::modify()->remove(InitialisationMiddleware::class, 'strict_transport_security');
+        $response = $this->get('Security/login');
+        $this->assertArrayNotHasKey('strict-transport-security', $response->getHeaders());
+    }
+
+    public function testHstsAddedWhenConfigured()
+    {
+        Config::modify()->update(InitialisationMiddleware::class, 'strict_transport_security', 'max-age=1');
+        $response = $this->get('Security/login');
+        $this->assertArrayHasKey('strict-transport-security', $response->getHeaders());
+    }
+
     /**
      * Runs the middleware with a stubbed delegate
      */
