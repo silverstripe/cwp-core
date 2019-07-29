@@ -48,6 +48,36 @@ class InitialisationMiddleware implements HTTPMiddleware
         'localhost',
     ];
 
+    /**
+     * Provide a value for the HTTP Strict Transport Security header.
+     * This header is only respected if you also redirect to SSL.
+     *
+     * Example configuration (short max-age, excluding dev environments):
+     * ```yml
+     * ---
+     * Name: appsecurity
+     * After: '#cwpsecurity'
+     * Except:
+     *   environment: dev
+     * ---
+     * CWP\Core\Control\InitialisationMiddleware:
+     *   strict_transport_security: 'max-age: 300'
+     * SilverStripe\Core\Injector\Injector:
+     *   SilverStripe\Control\Middleware\CanonicalURLMiddleware:
+     *     properties:
+     *       ForceSSL: true
+     *       ForceSSLPatterns: null
+     * ```
+     *
+     * Note: This is enabled by default in `cwp/installer` starting with 2.4.x,
+     * see `app/_config/security.yml`.
+     *
+     * @see https://www.cwp.govt.nz/developer-docs/en/2/working_with_projects/security/
+     * @config
+     * @var string
+     */
+    private static $strict_transport_security = null;
+
     public function process(HTTPRequest $request, callable $delegate)
     {
         if ($this->config()->get('egress_proxy_default_enabled')) {
@@ -60,6 +90,11 @@ class InitialisationMiddleware implements HTTPMiddleware
 
         if ($this->config()->get('xss_protection_enabled') && $response) {
             $response->addHeader('X-XSS-Protection', '1; mode=block');
+        }
+
+        $hsts = $this->config()->get('strict_transport_security');
+        if ($hsts && $response) {
+            $response->addHeader('Strict-Transport-Security', $hsts);
         }
 
         return $response;
