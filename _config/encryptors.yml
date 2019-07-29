@@ -1,0 +1,11 @@
+---
+name: cwpencryptors
+---
+PasswordEncryptor:
+  encryptors:
+    pbkdf2_sha512:
+      PasswordEncryptor_PBKDF2: sha512
+
+# Enable SHA-512 via PBKDF2 by default, for NZISM compliance
+Security:
+  password_encryption_algorithm: pbkdf2_sha512
