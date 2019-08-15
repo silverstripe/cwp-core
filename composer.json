@@ -27,7 +27,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.x-dev"
+            "dev-master": "2.x-dev",
+            "2.x-dev": "2.5.x-dev"
         },
         "expose": [
             "css",
