@@ -2,4 +2,5 @@ en:
   CWP\Core\Control\CwpBasicAuthMiddleware:
     UatServerPermission: 'Allow users to use their accounts to access the UAT server'
   CWP\Core\Extension\RichLinksExtension:
+    ExternalLink: 'external link'
     OpenLinkTitle: 'Open external link'
