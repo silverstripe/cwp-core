@@ -9,8 +9,8 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "silverstripe/framework": "^4.5@dev",
-        "silverstripe/admin": "^1.5@dev",
+        "silverstripe/framework": "^4",
+        "silverstripe/admin": "^1",
         "silverstripe/hybridsessions": "^2",
         "silverstripe/environmentcheck": "^2",
         "silverstripe/auditor": "^2"
@@ -26,10 +26,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "2.x-dev",
-            "2.x-dev": "2.5.x-dev"
-        },
         "expose": [
             "css",
             "javascript"
