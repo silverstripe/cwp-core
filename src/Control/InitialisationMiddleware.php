@@ -61,7 +61,7 @@ class InitialisationMiddleware implements HTTPMiddleware
      *   environment: dev
      * ---
      * CWP\Core\Control\InitialisationMiddleware:
-     *   strict_transport_security: 'max-age: 300'
+     *   strict_transport_security: 'max-age=300'
      * SilverStripe\Core\Injector\Injector:
      *   SilverStripe\Control\Middleware\CanonicalURLMiddleware:
      *     properties:
