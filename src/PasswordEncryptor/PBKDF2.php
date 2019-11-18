@@ -18,7 +18,7 @@ class PBKDF2 extends PasswordEncryptor_PHPHash
      *
      * @var int
      */
-    protected $iterations = 10000;
+    protected $iterations = 30000;
 
     /**
      * @param string $algorithm
