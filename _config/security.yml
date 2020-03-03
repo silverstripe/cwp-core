@@ -69,6 +69,7 @@ SilverStripe\Core\Injector\Injector:
       URLPatterns:
         '#^Security/lostpassword#i': false
         '#^Security/changepassword#i': false
+        '#^Security/resetaccount#i': false
         '#.*#': ACCESS_UAT_SERVER
   SilverStripe\Control\Middleware\CanonicalURLMiddleware:
     properties:
