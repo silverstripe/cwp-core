@@ -9,8 +9,8 @@
     ],
     "require": {
         "php": ">=7.1.0",
-        "silverstripe/framework": "^4.5",
-        "silverstripe/admin": "^1.5",
+        "silverstripe/framework": "^4.6",
+        "silverstripe/admin": "^1.6",
         "silverstripe/hybridsessions": "^2",
         "silverstripe/environmentcheck": "^2",
         "silverstripe/auditor": "^2"
