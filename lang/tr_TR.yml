@@ -1,0 +1,6 @@
+tr_TR:
+  CWP\Core\Control\CwpBasicAuthMiddleware:
+    UatServerPermission: 'Kullanıcıların UAT sunucusuna erişmek için hesaplarını kullanmasına izin ver'
+  CWP\Core\Extension\RichLinksExtension:
+    ExternalLink: 'harici bağlantı'
+    OpenLinkTitle: 'Harici bağlantıyı aç'
