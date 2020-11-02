@@ -6,8 +6,8 @@ After: '#queuedjobsettings'
 ---
 SilverStripe\Core\Injector\Injector:
   Symbiote\QueuedJobs\Services\QueuedJobService:
-    properties: 
-      queueRunner: %$Symbiote\QueuedJobs\Tasks\Engines\DoormanRunner
+    properties:
+      queueRunner: '%$Symbiote\QueuedJobs\Tasks\Engines\DoormanRunner'
 
 Symbiote\QueuedJobs\Services\QueuedJobsService:
   time_limit: 600
