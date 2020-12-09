@@ -54,8 +54,7 @@ class RichLinksExtension extends Extension
         // Inject extra attributes into the external links.
         $pattern = '/(<a.*)(href=\"https?:\/\/[^\"]*\"[^>]*>.*)(<\/a>)/iU';
         $replacement = sprintf(
-            '$1class="external" rel="external" title="%s" $2<span class="nonvisual-indicator">(%s)</span>$3',
-            _t(__CLASS__ . '.OpenLinkTitle', 'Open external link'),
+            '$1class="external" rel="external" $2<span class="nonvisual-indicator">(%s)</span>$3',
             _t(__CLASS__ . '.ExternalLink', 'external link')
         );
         $content = preg_replace($pattern, $replacement, $content, -1);
