@@ -24,7 +24,7 @@ before_script:
 
   # Install composer dependencies
   - composer validate
-  - composer require --no-update silverstripe/recipe-core:4.6.x-dev silverstripe/versioned:1.6.x-dev
+  - composer require --no-update silverstripe/recipe-core:4.7.x-dev silverstripe/versioned:1.7.x-dev
   - composer require --no-update sminnee/phpunit-mock-objects:^3
   - composer install --prefer-dist --no-interaction --no-progress --no-suggest --optimize-autoloader --verbose --profile
 
