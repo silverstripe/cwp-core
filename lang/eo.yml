@@ -3,4 +3,3 @@ eo:
     UatServerPermission: 'Permesi al uzuloj uzi siajn kontojn por aliri la UAT-servilon'
   CWP\Core\Extension\RichLinksExtension:
     ExternalLink: 'Ekstera ligilo'
-    OpenLinkTitle: 'Malfermi eksteran ligilon'
