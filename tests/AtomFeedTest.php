@@ -32,17 +32,17 @@ class AtomFeedTest extends SapphireTest
         $content = $atomFeed->outputToBrowser();
 
         //Debug::message($content);
-        $this->assertContains('<link href="http://www.example.org/item-a/" />', $content);
-        $this->assertContains('<link href="http://www.example.com/item-b.html" />', $content);
-        $this->assertContains('<link href="http://www.example.com/item-c.html" />', $content);
+        $this->assertStringContainsString('<link href="http://www.example.org/item-a/" />', $content);
+        $this->assertStringContainsString('<link href="http://www.example.com/item-b.html" />', $content);
+        $this->assertStringContainsString('<link href="http://www.example.com/item-c.html" />', $content);
 
-        $this->assertContains('<title type="html">ItemA</title>', $content);
-        $this->assertContains('<title type="html">ItemB</title>', $content);
-        $this->assertContains('<title type="html">ItemC</title>', $content);
+        $this->assertStringContainsString('<title type="html">ItemA</title>', $content);
+        $this->assertStringContainsString('<title type="html">ItemB</title>', $content);
+        $this->assertStringContainsString('<title type="html">ItemC</title>', $content);
 
-        $this->assertContains("\tItemA Content\n", $content);
-        $this->assertContains("\tItemB Content\n", $content);
-        $this->assertContains("\tItemC Content\n", $content);
+        $this->assertStringContainsString("\tItemA Content\n", $content);
+        $this->assertStringContainsString("\tItemB Content\n", $content);
+        $this->assertStringContainsString("\tItemC Content\n", $content);
     }
 
     public function testRenderWithTemplate()
@@ -50,18 +50,18 @@ class AtomFeedTest extends SapphireTest
         $atomFeed = new CwpAtomFeed(new ArrayList(), "", "", "");
         $content = $atomFeed->outputToBrowser();
         // test we have switched from a RSS feed test template tot he AtomFeed template
-        $this->assertNotContains('<title>Test Custom Template</title>', $content);
+        $this->assertStringNotContainsString('<title>Test Custom Template</title>', $content);
     }
 
     public function testLinkToFeed()
     {
         $link = AtomTagsStub::linkToFeed('atomLinkUrl', 'Atom feed of this blog');
-        $this->assertContains('atomLinkUrl', $link);
-        $this->assertContains('Atom feed of this blog', $link);
-        $this->assertContains('application/atom+xml', $link);
+        $this->assertStringContainsString('atomLinkUrl', $link);
+        $this->assertStringContainsString('Atom feed of this blog', $link);
+        $this->assertStringContainsString('application/atom+xml', $link);
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         Config::modify()->set(Director::class, 'alternate_base_url', '/');
@@ -71,7 +71,7 @@ class AtomFeedTest extends SapphireTest
         $_SERVER['HTTP_HOST'] = 'www.example.org';
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         Config::modify()->set(Director::class, 'alternate_base_url', null);

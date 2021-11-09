@@ -23,7 +23,7 @@ class CwpBasicAuthMiddlewareTest extends SapphireTest
      */
     protected $originalServersVars = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +33,7 @@ class CwpBasicAuthMiddlewareTest extends SapphireTest
         Config::modify()->set(BasicAuth::class, 'ignore_cli', false);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $_SERVER = $this->originalServersVars;
 

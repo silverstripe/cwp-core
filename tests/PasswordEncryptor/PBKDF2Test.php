@@ -26,12 +26,10 @@ class PBKDF2Test extends SapphireTest
         );
     }
 
-    /**
-     * @expectedException Exception
-     * @expectedExceptionMessage Hash algorithm "foobar" not found
-     */
     public function testThrowsExceptionWhenInvalidAlgorithmIsProvided()
     {
+        $this->expectException(\Exception::class);
+        $this->expectExceptionMessage('Hash algorithm "foobar" not found in hash_algos()');
         new PBKDF2('foobar');
     }
 }

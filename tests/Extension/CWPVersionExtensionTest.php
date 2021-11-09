@@ -20,7 +20,7 @@ class CWPVersionExtensionTest extends SapphireTest
      */
     protected $leftAndMain;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
