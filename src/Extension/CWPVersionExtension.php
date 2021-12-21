@@ -5,6 +5,9 @@ namespace CWP\Core\Extension;
 use SilverStripe\Core\Extension;
 use SilverStripe\Core\Manifest\VersionProvider;
 
+/**
+ * @deprecated CWP version in no longer shown on the frontend
+ */
 class CWPVersionExtension extends Extension
 {
     /**
