@@ -43,12 +43,12 @@ class CwpBasicAuthMiddleware extends BasicAuthMiddleware implements PermissionPr
             if (!$ipList) {
                 continue;
             }
-            $ips = array_map('trim', explode(',', $ipList));
+            $ips = array_map('trim', explode(',', $ipList ?? ''));
             $whitelistedIps = array_merge($whitelistedIps, $ips);
         }
 
         // Return unique values with keys reset
-        $this->whitelistedIps = array_values(array_unique($whitelistedIps));
+        $this->whitelistedIps = array_values(array_unique($whitelistedIps ?? []));
         return $this;
     }
 
@@ -80,7 +80,7 @@ class CwpBasicAuthMiddleware extends BasicAuthMiddleware implements PermissionPr
         }
 
         $userIp = $_SERVER['REMOTE_ADDR'];
-        if (in_array($userIp, $whitelist)) {
+        if (in_array($userIp, $whitelist ?? [])) {
             return true;
         }
 

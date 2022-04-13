@@ -44,6 +44,11 @@ class PBKDF2 extends PasswordEncryptor_PHPHash
 
     public function encrypt($password, $salt = null, $member = null)
     {
-        return hash_pbkdf2($this->getAlgorithm(), (string) $password, (string) $salt, $this->getIterations());
+        return hash_pbkdf2(
+            $this->getAlgorithm() ?? '',
+            (string) $password,
+            (string) $salt,
+            $this->getIterations() ?? 0
+        );
     }
 }

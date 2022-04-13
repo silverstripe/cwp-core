@@ -142,13 +142,13 @@ class InitialisationMiddleware implements HTTPMiddleware
 
         // Merge with exsiting if needed.
         if (Environment::getEnv('NO_PROXY')) {
-            $noProxy = array_merge(explode(',', Environment::getEnv('NO_PROXY')), $noProxy);
+            $noProxy = array_merge(explode(',', Environment::getEnv('NO_PROXY') ?? ''), $noProxy);
         }
 
         /*
          * Set the environment varial for NO_PROXY the same way the
          * proxy variables are set above
          */
-        putenv('NO_PROXY=' . implode(',', array_unique($noProxy)));
+        putenv('NO_PROXY=' . implode(',', array_unique($noProxy ?? [])));
     }
 }
