@@ -27,6 +27,6 @@ class CWPVersionExtension extends Extension
 
         // Example: "2.2.x-dev"
         $cwpCore = $modules['cwp/cwp-core'];
-        return (string) substr($cwpCore, 0, strpos($cwpCore, '.', 2));
+        return (string) substr($cwpCore ?? '', 0, strpos($cwpCore ?? '', '.', 2));
     }
 }

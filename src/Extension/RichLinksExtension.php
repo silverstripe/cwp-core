@@ -36,18 +36,18 @@ class RichLinksExtension extends Extension
         $content = $this->owner->value;
 
         // Find all file links for processing.
-        preg_match_all('/<a.*href="\[file_link,id=([0-9]+)\].*".*>.*<\/a>/U', $content, $matches);
+        preg_match_all('/<a.*href="\[file_link,id=([0-9]+)\].*".*>.*<\/a>/U', $content ?? '', $matches);
 
         // Attach the file type and size to each of the links.
-        for ($i = 0; $i < count($matches[0]); $i++) {
+        for ($i = 0; $i < count($matches[0] ?? []); $i++) {
             $file = DataObject::get_by_id(File::class, $matches[1][$i]);
             if ($file) {
                 $size = $file->getSize();
-                $ext = strtoupper($file->getExtension());
+                $ext = strtoupper($file->getExtension() ?? '');
                 // Replace the closing </a> tag with the size span (and reattach the closing tag).
-                $newLink = substr($matches[0][$i], 0, strlen($matches[0][$i]) - 4)
+                $newLink = substr($matches[0][$i] ?? '', 0, strlen($matches[0][$i] ?? '') - 4)
                     . "<span class='fileExt'> [$ext, $size]</span></a>";
-                $content = str_replace($matches[0][$i], $newLink, $content);
+                $content = str_replace($matches[0][$i] ?? '', $newLink ?? '', $content ?? '');
             }
         }
 
@@ -57,7 +57,7 @@ class RichLinksExtension extends Extension
             '$1class="external" rel="external" $2<span class="nonvisual-indicator">(%s)</span>$3',
             _t(__CLASS__ . '.ExternalLink', 'external link')
         );
-        $content = preg_replace($pattern, $replacement, $content, -1);
+        $content = preg_replace($pattern ?? '', $replacement ?? '', $content ?? '', -1);
 
         return $content;
     }

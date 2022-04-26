@@ -21,7 +21,7 @@ class PBKDF2Test extends SapphireTest
         $result = $encryptor->encrypt('opensesame', $salt);
         $this->assertSame(
             '6bafcacb90',
-            substr($result, 0, 10),
+            substr($result ?? '', 0, 10),
             'Hashed password with predictable salt did not match fixtured expectation'
         );
     }

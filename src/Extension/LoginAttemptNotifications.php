@@ -51,7 +51,7 @@ class LoginAttemptNotifications extends Extension
                 $lastVisitedObj->setValue($sessionLastVisited);
                 $elapsed = $lastVisitedObj->TimeDiff();
                 $failures = $meantimeLoginAttempts->filter(['Status' => 'Failure'])->count();
-                $IPs = array_unique($meantimeLoginAttempts->column('IP'));
+                $IPs = array_unique($meantimeLoginAttempts->column('IP') ?? []);
 
                 if ($attempts == 1) {
                     $statusString = $failures ? "a failed" : "a successful";
