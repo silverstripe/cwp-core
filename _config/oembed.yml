@@ -8,16 +8,6 @@ Only:
 ---
 SilverStripe\Core\Injector\Injector:
   # Configure the CWP proxy if defined
-  Embed\Http\DispatcherInterface:
-    class: Embed\Http\CurlDispatcher
+  Psr\Http\Client\ClientInterface.oembed:
     constructor:
-      config:
-        # CURLOPT_PROXY = 10004
-        10004: '`SS_OUTBOUND_PROXY`'
-        # CURLOPT_PROXYPORT = 59
-        59: '`SS_OUTBOUND_PROXY_PORT`'
-
-  # Provide dispatcher to Embeddable implementations
-  SilverStripe\View\Embed\Embeddable:
-    properties:
-      Dispatcher: '%$Embed\Http\DispatcherInterface'
+      - proxy: '`SS_OUTBOUND_PROXY`:`SS_OUTBOUND_PROXY_PORT`'
