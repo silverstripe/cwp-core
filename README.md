@@ -1,9 +1,7 @@
 # CWP Core Module
 
 [![CI](https://github.com/silverstripe/cwp-core/actions/workflows/ci.yml/badge.svg)](https://github.com/silverstripe/cwp-core/actions/workflows/ci.yml)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/silverstripe/cwp-core/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/silverstripe/cwp-core/?branch=master)
-[![codecov](https://codecov.io/gh/silverstripe/cwp-core/branch/master/graph/badge.svg)](https://codecov.io/gh/silverstripe/cwp-core)
-[![SilverStripe supported module](https://img.shields.io/badge/silverstripe-supported-0071C4.svg)](https://www.silverstripe.org/software/addons/silverstripe-commercially-supported-module-list/)
+[![Silverstripe supported module](https://img.shields.io/badge/silverstripe-supported-0071C4.svg)](https://www.silverstripe.org/software/addons/silverstripe-commercially-supported-module-list/)
 
 ## About this module
 This module includes core configuration that integrates a Silverstripe CMS project with the underlying infrastructure of Silverstripe Cloud Platform CCL (formally Revera). Most NZ public sector projects will have this module included after installing the [silverstripe/recipe-ccl recipe module](https://github.com/silverstripe/recipe-ccl).
