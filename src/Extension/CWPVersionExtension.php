@@ -2,11 +2,12 @@
 
 namespace CWP\Core\Extension;
 
+use SilverStripe\Dev\Deprecation;
 use SilverStripe\Core\Extension;
 use SilverStripe\Core\Manifest\VersionProvider;
 
 /**
- * @deprecated CWP version in no longer shown on the frontend
+ * @deprecated 2.12.0 Will be removed without equivalent functionality to replace it
  */
 class CWPVersionExtension extends Extension
 {
@@ -15,6 +16,15 @@ class CWPVersionExtension extends Extension
      *
      * @return string
      */
+    public function __construct()
+    {
+        Deprecation::notice(
+            '2.12.0',
+            'Will be removed without equivalent functionality to replace it',
+            Deprecation::SCOPE_CLASS
+        );
+    }
+
     public function getCWPVersionNumber()
     {
         /** @var VersionProvider $versionProvider */
