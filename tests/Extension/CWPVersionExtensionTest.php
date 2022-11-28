@@ -7,6 +7,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Core\Manifest\VersionProvider;
 use SilverStripe\Dev\SapphireTest;
+use SilverStripe\Dev\Deprecation;
 
 class CWPVersionExtensionTest extends SapphireTest
 {
@@ -40,6 +41,9 @@ class CWPVersionExtensionTest extends SapphireTest
      */
     public function testGetVersion($modules, $expected)
     {
+        if (Deprecation::isEnabled()) {
+            $this->markTestSkipped('Test calls deprecated code');
+        }
         $this->versionProvider->expects($this->once())
             ->method('getModuleVersionFromComposer')
             ->willReturn($modules);
