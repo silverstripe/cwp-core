@@ -112,7 +112,7 @@ class InitialisationMiddlewareTest extends FunctionalTest
 
     public function testHstsAddedWhenConfigured()
     {
-        Config::modify()->update(InitialisationMiddleware::class, 'strict_transport_security', 'max-age=1');
+        Config::modify()->set(InitialisationMiddleware::class, 'strict_transport_security', 'max-age=1');
         $response = $this->get('Security/login');
         $this->assertArrayHasKey('strict-transport-security', $response->getHeaders());
     }
