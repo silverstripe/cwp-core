@@ -8,12 +8,12 @@
         "cwp"
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
-        "silverstripe/framework": "^4.11",
-        "silverstripe/admin": "^1.10",
-        "silverstripe/hybridsessions": "^2",
-        "silverstripe/environmentcheck": "^2",
-        "silverstripe/auditor": "^2.2.1"
+        "php": "^8.1",
+        "silverstripe/framework": "^5",
+        "silverstripe/admin": "^2",
+        "silverstripe/hybridsessions": "^3",
+        "silverstripe/environmentcheck": "^3",
+        "silverstripe/auditor": "^3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
