@@ -56,7 +56,7 @@ class LoginAttemptNotifications extends Extension
                 if ($attempts == 1) {
                     $statusString = $failures ? "a failed" : "a successful";
                     $message = "In the last $elapsed $statusString login attempt to your account was "
-                        . "registered. The attempt was made from ${IPs[0]}. ";
+                        . "registered. The attempt was made from {$IPs[0]}. ";
                 } else {
                     if ($failures == $attempts) {
                         $statusString = $failures ? "failed" : "successful";
