@@ -32,7 +32,7 @@ class AtomFeedTest extends SapphireTest
         $content = $atomFeed->outputToBrowser();
 
         //Debug::message($content);
-        $this->assertStringContainsString('<link href="http://www.example.org/item-a/" />', $content);
+        $this->assertStringContainsString('<link href="http://www.example.org/item-a" />', $content);
         $this->assertStringContainsString('<link href="http://www.example.com/item-b.html" />', $content);
         $this->assertStringContainsString('<link href="http://www.example.com/item-c.html" />', $content);
 
