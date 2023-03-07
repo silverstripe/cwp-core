@@ -1,3 +1,5 @@
 zh:
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 打开外部链接
+  CWP\Core\Control\CwpBasicAuthMiddleware:
+    UatServerPermission: '允许用户使用它们的帐户访问 UAT 服务器'

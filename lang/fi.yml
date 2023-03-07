@@ -1,3 +1,5 @@
 fi:
   CWP\Core\Extension\RichLinksExtension:
     OpenLinkTitle: 'Avaa ulkoinen linkki'
+  CWP\Core\Control\CwpBasicAuthMiddleware:
+    UatServerPermission: 'Salli käyttäjien pääsy tilin avulla UAT-serverille'
