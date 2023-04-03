@@ -4,6 +4,8 @@ namespace CWP\Core\Tests;
 
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Security\Member;
+use SilverStripe\Security\PasswordValidator;
+use SilverStripe\Core\Injector\Injector;
 
 /**
  * Indeed it appears to only be testing config settings, however that isn't the main goal of this minor test suite. The
@@ -26,6 +28,15 @@ use SilverStripe\Security\Member;
  */
 class PasswordStrengthTest extends SapphireTest
 {
+    protected function setUp(): void
+    {
+        // Out of the box, SapphireTest::setUp will deregister the PasswordValidator.
+        // However, we need a PasswordValidator for these tests to work.
+        $validator = Member::password_validator() ?: new PasswordValidator();
+        parent::setUp();
+        Member::set_password_validator($validator);
+    }
+
     public function testPasswordMinLength()
     {
         $passwordValidator = Member::password_validator();
