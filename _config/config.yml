@@ -31,3 +31,12 @@ SilverStripe\Core\Injector\Injector:
 
 GDBackend:
   default_quality: 90
+
+# Set the system locale to en_GB. This also means locale dropdowns
+# and date formatting etc will default to this locale. Note there is no
+# English (New Zealand) option
+---
+Name: cwplocaleconfig
+---
+SilverStripe\i18n\i18n:
+  default_locale: en_GB

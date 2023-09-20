@@ -11,12 +11,6 @@
 
 use SilverStripe\Core\Environment;
 use SilverStripe\HybridSessions\HybridSession;
-use SilverStripe\i18n\i18n;
-
-// set the system locale to en_GB. This also means locale dropdowns
-// and date formatting etc will default to this locale. Note there is no
-// English (New Zealand) option
-i18n::set_locale('en_GB');
 
 // default to the binary being in the usual path on Linux
 if (!Environment::getEnv('WKHTMLTOPDF_BINARY')) {
