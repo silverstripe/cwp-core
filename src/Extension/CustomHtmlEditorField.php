@@ -6,10 +6,6 @@ use SilverStripe\Core\Extension;
 use SilverStripe\Forms\Form;
 use SilverStripe\View\Requirements;
 
-/**
- * @todo rename file to match class name
- * @todo investigate updated HTMLEditorField_Toolbar changes, and find new implementation
- */
 class CustomHtmlEditorFieldToolbar extends Extension
 {
 
