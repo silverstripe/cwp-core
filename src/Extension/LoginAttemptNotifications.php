@@ -10,8 +10,6 @@ use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 
 /**
- * TODO: describe.
- * TODO: bug when using default admin - always shows the message...
  * Requires Security::login_recording config to be set to true.
  *
  * @property LeftAndMain $owner
@@ -69,14 +67,12 @@ class LoginAttemptNotifications extends Extension
 
                     $message .= "The attempts were from " . implode(', ', $IPs) . '. ';
 
-                    // TODO: add this call to action in a way that doesn't break out of the availabel space. Fix CSS?
-                    // $message .= "If you suspect somebody else might be trying to access
-                    //  . "your account, please contact support.";
+                    $message .= "If you suspect somebody else might be trying to access "
+                    . "your account, please contact support.";
                 }
             }
         } else {
             // New session - show last login attempt.
-            // TODO: this currently does NOT surface to the frontend in any way.
             $lastLoginAttempt = LoginAttempt::get()->filter([
                         'MemberID' => $member->ID
             ])->sort('Created DESC')->First();

@@ -6,7 +6,6 @@ namespace CWP\Core\Feed;
  * CwpAtomFeed class
  *
  * This class is used to create an Atom feed.
- * @todo Improve documentation
  * @package cwp-core
  */
 use SilverStripe\Control\Controller;

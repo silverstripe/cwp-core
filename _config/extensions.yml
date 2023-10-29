@@ -1,12 +1,6 @@
 ---
 Name: cwpcoreextensions
 ---
-# @todo Disable the feature. LoginAttempt seems to be broken on bridging solution - logs every
-# request instead of logins!
-# Follow up issue: https://github.com/silverstripe/cwp-core/issues/41
-# SilverStripe\Admin\LeftAndMain:
-#   extensions:
-#     - CWP\Core\Extension\LoginAttemptNotifications
 
 SilverStripe\ORM\FieldType\DBField:
   extensions:
@@ -16,7 +10,6 @@ SilverStripe\Security\Group:
   extensions:
     - CWP\Core\Extension\CwpHtmlEditorConfig
 
-# @todo investigate replacement for this
 HtmlEditorField_Toolbar:
   extensions:
    - CWP\Core\Extension\CustomHtmlEditorFieldToolbar
