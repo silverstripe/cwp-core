@@ -14,18 +14,15 @@ use SilverStripe\View\Requirements;
  * TODO: bug when using default admin - always shows the message...
  * Requires Security::login_recording config to be set to true.
  *
- * @property LeftAndMain $owner
+ * @extends Extension<LeftAndMain>
  */
 class LoginAttemptNotifications extends Extension
 {
-
     /**
-     *
-     * @return mixed null
+     * @return mixed
      */
     public function init()
     {
-
         // Exclude default admin.
         $member = Security::getCurrentUser();
         if (!$member || !$member->ID) {
