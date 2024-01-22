@@ -5,6 +5,7 @@ namespace CWP\Core\Extension;
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Assets\File;
+use SilverStripe\ORM\FieldType\DBField;
 
 /**
  * Adds capability to augment links with extra attributes and meta information.
@@ -13,10 +14,11 @@ use SilverStripe\Assets\File;
  *      $Content.RichLinks
  *
  * Note: will only work with content produced by HtmlEditorField.
+ *
+ * @extends Extension<DBField>
  */
 class RichLinksExtension extends Extension
 {
-
     /**
      * @var array
      */
