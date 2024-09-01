@@ -65,8 +65,8 @@ class AtomFeedTest extends SapphireTest
     {
         parent::setUp();
         Config::modify()->set(Director::class, 'alternate_base_url', '/');
-        if (!self::$original_host) {
-            self::$original_host = $_SERVER['HTTP_HOST'];
+        if (!AtomFeedTest::$original_host) {
+            AtomFeedTest::$original_host = $_SERVER['HTTP_HOST'];
         }
         $_SERVER['HTTP_HOST'] = 'www.example.org';
     }
@@ -75,6 +75,6 @@ class AtomFeedTest extends SapphireTest
     {
         parent::tearDown();
         Config::modify()->set(Director::class, 'alternate_base_url', null);
-        $_SERVER['HTTP_HOST'] = self::$original_host;
+        $_SERVER['HTTP_HOST'] = AtomFeedTest::$original_host;
     }
 }
