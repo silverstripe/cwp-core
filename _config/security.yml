@@ -66,11 +66,15 @@ SilverStripe\Core\Injector\Injector:
   SilverStripe\Security\BasicAuthMiddleware:
     properties:
       # Enforce basic authentication in UAT environments for all routes except for the "change password" form
+      # and the dev/check routes
       URLPatterns:
         '#^Security/lostpassword#i': false
         '#^Security/changepassword#i': false
         '#^Security/resetaccount#i': false
+        '#^dev/check$#': false
+        '#^dev/check/.+#': false
         '#.*#': ACCESS_UAT_SERVER
+
   SilverStripe\Control\Middleware\CanonicalURLMiddleware:
     properties:
       # Enforce HTTPS everywhere since basic authentication is on everywhere
