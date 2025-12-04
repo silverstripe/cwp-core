@@ -3,9 +3,9 @@
 namespace CWP\Core\Tests\AtomFeedTest;
 
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\View\ViewableData;
+use SSilverStripe\Model\ModelData;
 
-class ItemC extends ViewableData implements TestOnly
+class ItemC extends ModelData implements TestOnly
 {
     // ItemC tests fields - Title has casting, Content doesn't.
     private static $casting = [
