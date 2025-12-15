@@ -25,7 +25,7 @@ class PBKDF2 extends PasswordEncryptor_PHPHash
      * @param int|null $iterations
      * @throws Exception If the provided algorithm is not available in the current environment
      */
-    public function __construct(string $algorithm, int $iterations = null)
+    public function __construct(string $algorithm, ?int $iterations = null)
     {
         parent::__construct($algorithm);
 
@@ -42,7 +42,7 @@ class PBKDF2 extends PasswordEncryptor_PHPHash
         return $this->iterations;
     }
 
-    public function encrypt($password, $salt = null, $member = null)
+    public function encrypt($password, ?$salt = null, ?$member = null)
     {
         return hash_pbkdf2(
             $this->getAlgorithm() ?? '',
