@@ -4,7 +4,7 @@ namespace CWP\Core\Tests\AtomFeedTest;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Dev\TestOnly;
-use SSilverStripe\Model\ModelData;
+use SilverStripe\Model\ModelData;
 
 class ItemA extends ModelData implements TestOnly
 {

@@ -3,4 +3,4 @@ name: cwpencryptors
 ---
 # Enable SHA-512 via PBKDF2 by default, for NZISM compliance
 SilverStripe\Security\Security:
-  password_encryption_algorithm: pbkdf2_sha512
+  password_encryption_algorithm: 'pbkdf2_sha512'
