@@ -21,12 +21,12 @@ class CwpAtomFeed extends RSSFeed
         SS_List $entries,
         $link,
         $title,
-        ?$description = null,
+        ?string $description = null,
         $titleField = "Title",
         $descriptionField = "Content",
-        ?$authorField = null,
-        ?$lastModified = null,
-        ?$etag = null
+        $authorField = null,
+        $lastModified = null,
+        $etag = null
     ) {
         parent::__construct(
             $entries,
