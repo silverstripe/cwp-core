@@ -4,7 +4,7 @@ namespace CWP\Core\Tests;
 
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Security\Member;
-use SilverStripe\Security\Validation\RulesPasswordValidator;
+use SilverStripe\Security\PasswordValidator;
 use SilverStripe\Core\Injector\Injector;
 
 /**
@@ -32,7 +32,7 @@ class PasswordStrengthTest extends SapphireTest
     {
         // Out of the box, SapphireTest::setUp will deregister the PasswordValidator.
         // However, we need a PasswordValidator for these tests to work.
-        $validator = Member::password_validator() ?: new RulesPasswordValidator();
+        $validator = Member::password_validator() ?: new PasswordValidator();
         parent::setUp();
         Member::set_password_validator($validator);
     }
