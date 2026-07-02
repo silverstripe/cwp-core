@@ -10,7 +10,7 @@ use CWP\Core\Tests\AtomFeedTest\ItemC;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
-use SilverStripe\ORM\ArrayList;
+use SilverStripe\Model\List\ArrayList;
 
 class AtomFeedTest extends SapphireTest
 {
