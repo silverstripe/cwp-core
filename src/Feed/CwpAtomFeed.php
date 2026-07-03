@@ -11,8 +11,8 @@ namespace CWP\Core\Feed;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RSS\RSSFeed;
 use SilverStripe\Core\Convert;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\ORM\FieldType\DBHTMLText;
-use SilverStripe\ORM\SS_List;
 use SilverStripe\View\Requirements;
 
 class CwpAtomFeed extends RSSFeed
@@ -21,7 +21,7 @@ class CwpAtomFeed extends RSSFeed
         SS_List $entries,
         $link,
         $title,
-        $description = null,
+        ?string $description = null,
         $titleField = "Title",
         $descriptionField = "Content",
         $authorField = null,

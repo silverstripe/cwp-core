@@ -3,9 +3,9 @@
 namespace CWP\Core\Tests\AtomFeedTest;
 
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\ModelData;
 
-class ItemB extends ViewableData implements TestOnly
+class ItemB extends ModelData implements TestOnly
 {
     // ItemB tests without $casting
     public $Title = 'ItemB';

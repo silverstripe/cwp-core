@@ -2,13 +2,13 @@
 
 namespace CWP\Core\Extension;
 
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\Security\Group;
 
 /**
- * @extends DataExtension<Group>
+ * @extends Extension<Group>
  */
-class CwpHtmlEditorConfig extends DataExtension
+class CwpHtmlEditorConfig extends Extension
 {
     /**
      * @return string

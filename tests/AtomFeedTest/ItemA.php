@@ -4,9 +4,9 @@ namespace CWP\Core\Tests\AtomFeedTest;
 
 use SilverStripe\Control\Controller;
 use SilverStripe\Dev\TestOnly;
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\ModelData;
 
-class ItemA extends ViewableData implements TestOnly
+class ItemA extends ModelData implements TestOnly
 {
     // Atom-feed items must have $casting/$db information.
     private static $casting = [
