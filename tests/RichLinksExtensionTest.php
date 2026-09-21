@@ -2,6 +2,8 @@
 
 namespace CWP\Core\Tests;
 
+use CWP\Core\Extension\RichLinksExtension;
+use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\ORM\FieldType\DBText;
 
@@ -36,6 +38,20 @@ class RichLinksExtensionTest extends SapphireTest
             $field->RichLinks(),
             '<a href="[sitetree_link,id=1]">Internal</a>',
             'Regular link is not modified.'
+        );
+    }
+
+    public function testDisablingLeavesContentUntouched()
+    {
+        Config::modify()->set(RichLinksExtension::class, 'enabled', false);
+
+        $field = new DBText();
+        $field->setValue('<a href="http://newzealand.govt.nz">New Zealand Government</a>');
+
+        $this->assertEquals(
+            '<a href="http://newzealand.govt.nz">New Zealand Government</a>',
+            $field->RichLinks(),
+            'External link is returned unchanged once the feature is off.'
         );
     }
 }

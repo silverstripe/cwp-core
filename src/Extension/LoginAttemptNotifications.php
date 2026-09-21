@@ -2,6 +2,7 @@
 
 namespace CWP\Core\Extension;
 
+use CWP\Core\Config\FeatureToggle;
 use SilverStripe\Admin\LeftAndMain;
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\FieldType\DBDatetime;
@@ -16,11 +17,18 @@ use SilverStripe\View\Requirements;
  */
 class LoginAttemptNotifications extends Extension
 {
+    use FeatureToggle;
+
+
     /**
      * @return mixed
      */
     public function init()
     {
+        if (!static::isEnabled()) {
+            return;
+        }
+
         // Exclude default admin.
         $member = Security::getCurrentUser();
         if (!$member || !$member->ID) {

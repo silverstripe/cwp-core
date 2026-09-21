@@ -8,6 +8,7 @@ namespace CWP\Core\Feed;
  * This class is used to create an Atom feed.
  * @package cwp-core
  */
+use CWP\Core\Config\FeatureToggle;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\RSS\RSSFeed;
 use SilverStripe\Core\Convert;
@@ -17,6 +18,8 @@ use SilverStripe\View\Requirements;
 
 class CwpAtomFeed extends RSSFeed
 {
+    use FeatureToggle;
+
     public function __construct(
         SS_List $entries,
         $link,
@@ -39,7 +42,9 @@ class CwpAtomFeed extends RSSFeed
             $lastModified
         );
 
-        $this->setTemplate(__CLASS__);
+        // Templates are found by class hierarchy, so the Atom template would be picked up whether or
+        // not it is set here. Point the feed back at the framework's RSS template when disabled.
+        $this->setTemplate(static::isEnabled() ? __CLASS__ : RSSFeed::class);
     }
 
     /**
@@ -50,6 +55,11 @@ class CwpAtomFeed extends RSSFeed
      */
     public static function linkToFeed($url, $title = null)
     {
+        if (!static::isEnabled()) {
+            parent::linkToFeed($url, $title);
+            return;
+        }
+
         $title = Convert::raw2xml($title);
         Requirements::insertHeadTags(
             '<link rel="alternate" type="application/atom+xml" title="' . $title .
@@ -65,8 +75,11 @@ class CwpAtomFeed extends RSSFeed
     public function outputToBrowser()
     {
         $output = parent::outputToBrowser();
-        $response = Controller::curr()->getResponse();
-        $response->addHeader("Content-Type", "application/atom+xml");
+
+        if (static::isEnabled()) {
+            $response = Controller::curr()->getResponse();
+            $response->addHeader("Content-Type", "application/atom+xml");
+        }
 
         return $output;
     }

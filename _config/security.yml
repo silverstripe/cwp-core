@@ -2,18 +2,19 @@
 Name: cwppasswordstrength
 After: '#corepasswords'
 ---
-# In the case someone uses `new RulesPasswordValidator` instead of Injector, provide some safe defaults through config.
-# Test names will not be set however, as it is not configurable.
+# In the case someone constructs a validator directly instead of using Injector, provide the same
+# safe defaults through config. Test names will not be set however, as it is not configurable.
+SilverStripe\Security\Validation\PasswordValidator:
+  historic_count: 6
 SilverStripe\Security\Validation\RulesPasswordValidator:
   min_length: 10
   min_test_score: 3
-  historic_count: 6
-# Set strength tests and requirements in line with NZISM.
-# CMS 6 defaults PasswordValidator to EntropyPasswordValidator; bind it back to the rules-based
-# validator so the NZISM policy below is enforced. Injector is used by default for Member password validation.
+# Set strength tests and requirements in line with NZISM. The framework scores passwords on entropy
+# by default; NZISM asks for a minimum length and a spread of character classes instead.
+# Injector is used by default for Member password validation
 SilverStripe\Core\Injector\Injector:
   SilverStripe\Security\Validation\PasswordValidator:
-    class: SilverStripe\Security\Validation\RulesPasswordValidator
+    class: 'SilverStripe\Security\Validation\RulesPasswordValidator'
     properties:
       MinLength: 10
       MinTestScore: 3
@@ -90,4 +91,5 @@ Only:
 # Define the domain to redirect sensitive URL patterns to SSL for
 SilverStripe\Core\Injector\Injector:
   SilverStripe\Control\Middleware\CanonicalURLMiddleware:
-    ForceSSLDomain: '`CWP_SECURE_DOMAIN`'
+    properties:
+      ForceSSLDomain: '`CWP_SECURE_DOMAIN`'

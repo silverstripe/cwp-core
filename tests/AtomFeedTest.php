@@ -7,10 +7,12 @@ use CWP\Core\Tests\AtomFeedTest\AtomTagsStub;
 use CWP\Core\Tests\AtomFeedTest\ItemA;
 use CWP\Core\Tests\AtomFeedTest\ItemB;
 use CWP\Core\Tests\AtomFeedTest\ItemC;
+use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Dev\SapphireTest;
 use SilverStripe\Model\List\ArrayList;
+use SilverStripe\View\Requirements;
 
 class AtomFeedTest extends SapphireTest
 {
@@ -59,6 +61,38 @@ class AtomFeedTest extends SapphireTest
         $this->assertStringContainsString('atomLinkUrl', $link);
         $this->assertStringContainsString('Atom feed of this blog', $link);
         $this->assertStringContainsString('application/atom+xml', $link);
+    }
+
+    public function testDisablingFallsBackToRssOutput()
+    {
+        Config::modify()->set(CwpAtomFeed::class, 'enabled', false);
+
+        $list = new ArrayList();
+        $list->push(new ItemA());
+
+        $atomFeed = new CwpAtomFeed($list, 'http://www.example.com', 'Test Feed', 'Test Feed Description');
+        $content = $atomFeed->outputToBrowser();
+
+        $this->assertStringNotContainsString('<feed', $content, 'Atom template is not used once disabled.');
+        $this->assertStringNotContainsString(
+            'application/atom+xml',
+            Controller::curr()->getResponse()->getHeader('Content-Type') ?? '',
+            'Atom content type is not set once disabled.'
+        );
+    }
+
+    public function testDisablingLinkToFeedUsesTheRssTag()
+    {
+        Config::modify()->set(CwpAtomFeed::class, 'enabled', false);
+        Requirements::clear();
+
+        CwpAtomFeed::linkToFeed('feedUrl', 'Feed of this blog');
+
+        $tags = implode("\n", Requirements::backend()->getCustomHeadTags());
+        $this->assertStringContainsString('application/rss+xml', $tags);
+        $this->assertStringNotContainsString('application/atom+xml', $tags);
+
+        Requirements::clear();
     }
 
     protected function setUp(): void

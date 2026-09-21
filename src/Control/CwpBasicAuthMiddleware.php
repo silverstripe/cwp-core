@@ -2,12 +2,16 @@
 
 namespace CWP\Core\Control;
 
+use CWP\Core\Config\FeatureToggle;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Security\BasicAuthMiddleware;
 use SilverStripe\Security\PermissionProvider;
 
 class CwpBasicAuthMiddleware extends BasicAuthMiddleware implements PermissionProvider
 {
+    use FeatureToggle;
+
+
     /**
      * Whitelisted IP addresses will not be given a basic authentication prompt when other basic authentication
      * rules via {@link BasicAuthMiddleware} are enabled.
@@ -60,6 +64,12 @@ class CwpBasicAuthMiddleware extends BasicAuthMiddleware implements PermissionPr
      */
     protected function checkMatchingURL(HTTPRequest $request)
     {
+        // Null rather than false, so the URL patterns this module adds stop applying without also
+        // switching off BasicAuth.entire_site_protected, which a project sets for itself.
+        if (!static::isEnabled()) {
+            return null;
+        }
+
         if ($this->ipMatchesWhitelist()) {
             return false;
         }

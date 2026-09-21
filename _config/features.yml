@@ -1,0 +1,81 @@
+---
+Name: cwpcorefeatures
+---
+# Every feature this module applies, and the flag that turns it off. Set any of these to false in
+# your project's YAML. The README says what each one covers and what the site falls back to.
+
+# Egress proxy, X-XSS-Protection and Strict-Transport-Security headers
+CWP\Core\Control\InitialisationMiddleware:
+  enabled: true
+
+# Basic authentication on test (UAT) environments
+CWP\Core\Control\CwpBasicAuthMiddleware:
+  enabled: true
+
+# File size and external link markers added by $Content.RichLinks
+CWP\Core\Extension\RichLinksExtension:
+  enabled: true
+
+# 'cwp' HTML editor configuration as the fallback for CMS groups
+CWP\Core\Extension\CwpHtmlEditorConfig:
+  enabled: true
+
+# Login attempt notifications in the CMS
+CWP\Core\Extension\LoginAttemptNotifications:
+  enabled: true
+
+# Atom output for feeds built with CwpAtomFeed
+CWP\Core\Feed\CwpAtomFeed:
+  enabled: true
+
+# CWP stylesheet loaded into the CMS
+CWP\Core\Config\CmsStylesConfig:
+  enabled: true
+
+# 24 minute session timeout, and no CMS keepalive ping
+CWP\Core\Config\SessionConfig:
+  enabled: true
+
+# autocomplete="off" on password fields
+CWP\Core\Config\PasswordFieldConfig:
+  enabled: true
+
+# Account lockout thresholds and password change notifications
+CWP\Core\Config\MemberSecurityConfig:
+  enabled: true
+
+# en_GB as the site locale
+CWP\Core\Config\LocaleConfig:
+  enabled: true
+
+# NZISM password strength rules
+CWP\Core\Config\PasswordStrengthConfig:
+  enabled: true
+
+# SHA-512 via PBKDF2 for password hashing
+CWP\Core\Config\PasswordEncryptionConfig:
+  enabled: true
+
+# HTTPS redirects for login and API URLs
+CWP\Core\Config\SslConfig:
+  enabled: true
+
+# Errors sent to syslog, and on to Graylog
+CWP\Core\Config\LoggingConfig:
+  enabled: true
+
+# oEmbed lookups routed through the egress proxy
+CWP\Core\Config\OEmbedConfig:
+  enabled: true
+
+# Doorman as the queued jobs runner
+CWP\Core\Config\QueuedJobsConfig:
+  enabled: true
+
+# Text extraction from uploaded files
+CWP\Core\Config\TextExtractionConfig:
+  enabled: true
+
+# Word document import on pages
+CWP\Core\Config\DocumentConverterConfig:
+  enabled: true

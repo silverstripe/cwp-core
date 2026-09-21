@@ -2,6 +2,7 @@
 
 namespace CWP\Core\Extension;
 
+use CWP\Core\Config\FeatureToggle;
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Assets\File;
@@ -19,6 +20,9 @@ use SilverStripe\ORM\FieldType\DBField;
  */
 class RichLinksExtension extends Extension
 {
+    use FeatureToggle;
+
+
     /**
      * @var array
      */
@@ -36,6 +40,10 @@ class RichLinksExtension extends Extension
         // in the same way coming from the CMS.
 
         $content = $this->owner->value;
+
+        if (!static::isEnabled()) {
+            return $content;
+        }
 
         // Find all file links for processing.
         preg_match_all('/<a.*href="\[file_link,id=([0-9]+)\].*".*>.*<\/a>/U', $content ?? '', $matches);

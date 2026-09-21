@@ -9,7 +9,3 @@ SilverStripe\ORM\FieldType\DBField:
 SilverStripe\Security\Group:
   extensions:
     - CWP\Core\Extension\CwpHtmlEditorConfig
-
-HtmlEditorField_Toolbar:
-  extensions:
-   - CWP\Core\Extension\CustomHtmlEditorFieldToolbar

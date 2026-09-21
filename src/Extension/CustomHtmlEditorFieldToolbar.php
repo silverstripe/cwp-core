@@ -7,6 +7,10 @@ use SilverStripe\Forms\Form;
 use SilverStripe\View\Requirements;
 
 /**
+ * Adds the CWP JavaScript to the CMS insert media form.
+ *
+ * Not applied anywhere: `HtmlEditorField_Toolbar` does not exist in CMS 6.
+ *
  * @extends Extension<\HtmlEditorField_Toolbar>
  */
 class CustomHtmlEditorFieldToolbar extends Extension

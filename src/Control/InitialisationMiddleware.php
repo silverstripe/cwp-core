@@ -2,9 +2,9 @@
 
 namespace CWP\Core\Control;
 
+use CWP\Core\Config\FeatureToggle;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\Middleware\HTTPMiddleware;
-use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Environment;
 
 /**
@@ -12,7 +12,8 @@ use SilverStripe\Core\Environment;
  */
 class InitialisationMiddleware implements HTTPMiddleware
 {
-    use Configurable;
+    use FeatureToggle;
+
 
     /**
      * Disable the automatically added 'X-XSS-Protection' header that is added to all responses. This should be left
@@ -80,6 +81,10 @@ class InitialisationMiddleware implements HTTPMiddleware
 
     public function process(HTTPRequest $request, callable $delegate)
     {
+        if (!static::isEnabled()) {
+            return $delegate($request);
+        }
+
         if ($this->config()->get('egress_proxy_default_enabled')) {
             $this->configureEgressProxy();
         }

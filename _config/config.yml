@@ -1,9 +1,6 @@
 ---
 Name: cwpcoreconfig
 ---
-CWP\Core\Config\CwpInitialisationFilter:
-  egress_proxy_default_enabled: true
-
 SilverStripe\Admin\LeftAndMain:
   extra_requirements_css:
     - 'cwp/cwp-core:css/custom.css'
@@ -29,12 +26,8 @@ SilverStripe\Core\Injector\Injector:
       Middlewares:
         CwpInitialisationMiddleware: '%$CWP\Core\Control\InitialisationMiddleware'
 
-GDBackend:
-  default_quality: 90
-
 # Set the system locale to en_GB. This also means locale dropdowns
-# and date formatting etc will default to this locale. Note there is no
-# English (New Zealand) option
+# and date formatting etc will default to this locale.
 ---
 Name: cwplocaleconfig
 ---

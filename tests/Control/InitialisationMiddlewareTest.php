@@ -32,6 +32,10 @@ class InitialisationMiddlewareTest extends FunctionalTest
         Environment::setEnv('SS_OUTBOUND_PROXY', '');
         Environment::setEnv('SS_OUTBOUND_PROXY_PORT', '');
         putenv('NO_PROXY=');
+
+        // The middleware sets these with putenv(), which outlives a test, so start each one clean
+        putenv('http_proxy');
+        putenv('https_proxy');
     }
 
     public function testDoNotConfigureProxyIfNoEnvironmentVarsAreSet()
@@ -115,6 +119,24 @@ class InitialisationMiddlewareTest extends FunctionalTest
         Config::modify()->set(InitialisationMiddleware::class, 'strict_transport_security', 'max-age=1');
         $response = $this->get('Security/login');
         $this->assertArrayHasKey('strict-transport-security', $response->getHeaders());
+    }
+
+    public function testDisablingTheMiddlewareSkipsEveryHeaderAndTheProxy()
+    {
+        Config::modify()->set(InitialisationMiddleware::class, 'enabled', false);
+        Config::modify()->set(InitialisationMiddleware::class, 'strict_transport_security', 'max-age=1');
+        Environment::setEnv('SS_OUTBOUND_PROXY', 'http://example.com');
+        Environment::setEnv('SS_OUTBOUND_PROXY_PORT', '8024');
+
+        $this->runMiddleware();
+
+        // The middleware sets the proxy with putenv(), so read it back the same way. Environment
+        // keeps its own store, and reading through that would answer with whatever this test set.
+        $this->assertEmpty(getenv('http_proxy'), 'Proxy is left alone when disabled');
+
+        $response = $this->get('Security/login');
+        $this->assertArrayNotHasKey('x-xss-protection', $response->getHeaders());
+        $this->assertArrayNotHasKey('strict-transport-security', $response->getHeaders());
     }
 
     /**

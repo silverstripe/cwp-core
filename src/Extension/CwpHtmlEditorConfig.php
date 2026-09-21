@@ -2,6 +2,7 @@
 
 namespace CWP\Core\Extension;
 
+use CWP\Core\Config\FeatureToggle;
 use SilverStripe\Core\Extension;
 use SilverStripe\Security\Group;
 
@@ -10,8 +11,11 @@ use SilverStripe\Security\Group;
  */
 class CwpHtmlEditorConfig extends Extension
 {
+    use FeatureToggle;
+
+
     /**
-     * @return string
+     * @return string|null
      *
      * Override the default HtmlEditorConfig from 'cms' to 'cwp' defined in cwp-core/_config.php
      * However if the group has a custom editor configuration set, use that instead.
@@ -22,6 +26,10 @@ class CwpHtmlEditorConfig extends Extension
 
         if ($originalConfig) {
             return $originalConfig;
+        }
+
+        if (!static::isEnabled()) {
+            return null;
         }
 
         return 'cwp';
